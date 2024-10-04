@@ -1,9 +1,3 @@
-from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.vectorstores import FAISS
-from langchain.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.llms import OpenAI
-from langchain.chains import RetrievalQA
 
 # Load the PDF and split it into chunks
 loader = PyPDFLoader("path/to/your/400-page.pdf")
