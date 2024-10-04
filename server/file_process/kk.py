@@ -52,7 +52,7 @@ def get_conversational_chain():
     prompt = PromptTemplate(template = prompt_template, input_variables = ["context", "question"])
     chain = load_qa_chain(model, chain_type="stuff", prompt=prompt)
 
-    return chain
+    return chai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n
 
 
 
@@ -92,8 +92,6 @@ def main():
                 text_chunks = get_text_chunks(raw_text)
                 get_vector_store(text_chunks)
                 st.success("Done")
-
-
 
 if __name__ == "__main__":
     main()
