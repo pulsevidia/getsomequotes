@@ -13,6 +13,7 @@ def allowed_file(filename):
 
 upload = Blueprint('upload', __name__)
 
+# Route saves PDF file to ./uploads directory
 @upload.route('/upload_pdf', methods=['POST'])
 def upload_pdf():
     if request.method == 'POST':

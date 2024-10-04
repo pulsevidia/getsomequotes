@@ -6,7 +6,7 @@ import time
 
 genai.configure(api_key='AIzaSyDD8bqJ_3y_G1N1b2I9oKZ7ZLJt5yWnxNQ')
 
-path_to_video_file = 'Sherlock_Jr_FullMovie.mp4'
+path_to_video_file = '../uploads/infinity.pdf'
 
 # Upload the video using the Files API
 video_file = genai.d_file(path=path_to_video_file)
@@ -22,10 +22,9 @@ print(f'Video processing complete: {video_file.uri}')
 # Create a cache with a 5 minute TTL
 cache = caching.CachedContent.create(
     model='models/gemini-1.5-flash-001',
-    display_name='sherlock jr movie', # used to identify the cache
+    display_name='The Beginning of Infinity', # used to identify the cache
     system_instruction=(
-        'You are an expert video analyzer, and your job is to answer '
-        'the user\'s query based on the video file you have access to.'
+        'You job is the take book pdf and randomly pick section topic and make short form blog as if it was written by the author which most involves the exact sentences and paragraphs from it.'
     ),
     contents=[video_file],
     ttl=datetime.timedelta(minutes=5),
@@ -36,9 +35,7 @@ model = genai.GenerativeModel.from_cached_content(cached_content=cache)
 
 # Query the model
 response = model.generate_content([(
-    'Introduce different characters in the movie by describing '
-    'their personality, looks, and names. Also list the timestamps '
-    'they were introduced for the first time.')])
+'Randomly pick up a section from a books which can be read in solitude with need for context')])
 
 print(response.usage_metadata)
 

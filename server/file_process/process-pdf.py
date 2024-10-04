@@ -1,82 +1,32 @@
-import os
-import json
-import PyPDF2
-import pytesseract
-from pdfminer.high_level import extract_text
-from pdf2image import convert_from_path
-from PIL import Image
-import io
+from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.vectorstores import FAISS
+from langchain.document_loaders import PyPDFLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.llms import OpenAI
+from langchain.chains import RetrievalQA
 
+# Load the PDF and split it into chunks
+loader = PyPDFLoader("path/to/your/400-page.pdf")
+documents = loader.load()
 
-def list_pdf_files(directory):
-    pdf_files = []
-    for file in os.listdir(directory):
-        if file.endswith('.pdf'):
-            pdf_files.append(os.path.join(directory, file))
-    return pdf_files
+# Split the text into smaller chunks to manage the context size
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+chunks = text_splitter.split_documents(documents)
 
+# Generate embeddings for the chunks using OpenAI embeddings
+embeddings = OpenAIEmbeddings()
+vector_store = FAISS.from_documents(chunks, embeddings)
 
-def extract_text_pdfminer(file_path):
-    try:
-        text = extract_text(file_path)
-        return {"text": text}
-    except Exception as e:
-        print(f"Error extracting text with pdfminer from {file_path}: {e}")
-        return {"error": str(e)}
+# Set up a retriever for finding relevant chunks
+retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 5})
 
+# Set up the LLM for generating the blog
+llm = OpenAI(model_name="text-davinci-003")
+qa_chain = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
 
-def extract_text_pypdf2(file_path):
-    try:
-        reader = PyPDF2.PdfReader(file_path)
-        text = ''
-        for page in reader.pages:
-            text += page.extract_text()
-        return {"text": text}
-    except Exception as e:
-        print(f"Error extracting text with PyPDF2 from {file_path}: {e}")
-        return {"error": str(e)}
+# Example query to generate a blog section
+query = "Generate a blog post based on the most important sections of the document related to X topic"
+response = qa_chain.run(query)
 
-
-def extract_text_ocr(file_path):
-    try:
-        images = convert_from_path(file_path)
-        text = ''
-        for image in images:
-            text += pytesseract.image_to_string(image)
-        return {"text": text}
-    except Exception as e:
-        print(f"Error extracting text with OCR from {file_path}: {e}")
-        return {"error": str(e)}
-
-
-def convert_pdf_to_json(pdf_path):
-    data = {
-        "pdfminer": extract_text_pdfminer(pdf_path),
-        "pypdf2": extract_text_pypdf2(pdf_path),
-        "ocr": extract_text_ocr(pdf_path)
-    }
-    return data
-
-
-def save_json(data, output_path):
-    with open(output_path, 'w', encoding='utf-8') as json_file:
-        json.dump(data, json_file, ensure_ascii=False, indent=4)
-
-
-def main(input_dir, output_dir):
-    pdf_files = list_pdf_files(input_dir)
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    for pdf_path in pdf_files:
-        file_name = os.path.basename(pdf_path).replace('.pdf', '.json')
-        output_path = os.path.join(output_dir, file_name)
-        data = convert_pdf_to_json(pdf_path)
-        save_json(data, output_path)
-        print(f"Processed {pdf_path} and saved to {output_path}")
-
-
-if __name__ == "__main__":
-    input_directory = "./"  # Replace with your PDF directory path
-    output_directory = "./"  # Replace with your JSON output directory path
-    main(input_directory, output_directory)
+# Output the generated blog
+print(response)
