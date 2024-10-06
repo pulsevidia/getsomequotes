@@ -1,6 +1,7 @@
 from flask import Flask, request, Blueprint
 from werkzeug.utils import secure_filename
 import os
+import file_process from file_process
 
 UPLOAD_FOLDER = 'uploads/'
 ALLOWED_EXTENSIONS = {'pdf'}
@@ -25,4 +26,5 @@ def upload_pdf():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file_process() 
             return 'File successfully uploaded'
