@@ -10,8 +10,8 @@ from .chunk_pdf import chunk_pdf
 from .ai_blog_processing import generate_10_blogs
 import PyPDF2
 
-project_id = '66dbf6d3002ec04e3664'
-bucket_id = '6700e87a00391724d5a6'
+project_id = os.getenv('APPWRITE_PROJECT_ID') 
+bucket_id = os.getenv('APPWRITE_BUCKET_ID') 
 
 def get_pdf_title(pdf_path):
     try:

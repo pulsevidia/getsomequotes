@@ -4,9 +4,10 @@ import uuid
 import datetime
 import time
 import asyncio
+import os
 
 # Configure the API key
-genai.configure(api_key='AIzaSyDD8bqJ_3y_G1N1b2I9oKZ7ZLJt5yWnxNQ')
+genai.configure(api_key=os.getenv('GOOGLE_API_KEY'))
 
 # Queries for blog and quote generation
 BLOG_QUERY = (
