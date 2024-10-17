@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import styles from "./BottomBar.module.css"; // Import the module CSS
 import { House, Quotes as Quote, FileArrowUp, UploadSimple } from "@phosphor-icons/react";
 import { useLocation, useNavigate } from "react-router-dom";

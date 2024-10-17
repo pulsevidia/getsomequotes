@@ -120,7 +120,7 @@ export default function Uploaded() {
         </Button>
       </Group>
       <Group>
-        {isBooksLoading && <LoadingOverlay visible={true} zIndex={1000} color='violet' overlayProps={{ radius: "sm", blur: 2 }} />}
+        {isBooksLoading && <LoadingOverlay visible={true} zIndex={1000} color='blue' overlayProps={{ radius: "sm", blur: 2 }} />}
         {isBooksSuccess && <BookList data={books} />}
       </Group>
     </>
