@@ -2,15 +2,14 @@ import { Center, Loader, Title, Text, Group, Image, Blockquote } from "@mantine/
 import { useQuery } from "@tanstack/react-query";
 import { getBlogById } from "../appwrite/getBlogById";
 import { useParams } from "react-router-dom";
-import QuoteCard from "../components/QuoteCard";
 import Markdown from 'markdown-to-jsx';
 import { Quotes } from "@phosphor-icons/react";
 
 const icon = <Quotes size={30} />;
 // Custom components
-const Title1 = ({ children }) => <Title style={{ fontFamily: "Circular" }} order={1} my={'md'}>{children}</Title>;
+const Title1 = ({ children }) => <Title style={{ fontFamily: "Afacad Flux" }} fw={500} order={1} my={'md'}>{children}</Title>;
 
-const Title2 = ({ children }) => <Title style={{ fontFamily: "Circular" }} order={1} my={'md'}>{children}</Title>;
+const Title2 = ({ children }) => <Title style={{ fontFamily: "Afacad Flux" }} fw={500} order={1} my={'md'}>{children}</Title>;
 
 const Title3 = ({ children }) => <Title style={{ fontFamily: "Circular" }} order={3} my={'md'}>{children}</Title>;
 

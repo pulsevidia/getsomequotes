@@ -51,8 +51,8 @@ function Quotes() {
                 <QuoteStack quote={quotesData[randomQuoteIndex].quote_text} />
             </Stack>}
             {isQuotesLoading && <Loader type='bars' />}
-            <ActionIcon pos={'absolute'} bottom={'5%'} right={'05%'} variant="transparent" color="gray" radius="xl" aria-label="Settings" onClick={randomQuote}>
-                <Spiral size={rem(100)} />
+            <ActionIcon size={50} pos={'absolute'} bottom={'20%'} right={'10%'} variant="transparent" color="gray" radius="xl" aria-label="Settings" onClick={randomQuote}>
+                <Spiral size={200} color='rgb(115, 87, 217)' />
             </ActionIcon>
         </Group>
     )

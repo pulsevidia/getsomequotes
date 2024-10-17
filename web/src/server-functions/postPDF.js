@@ -9,7 +9,7 @@ export async function postPDF(files) {
       const formData = new FormData();
       formData.append('pdf', files[0]); // Ensure the field name matches what the server expects ('pdf')
 
-      const response = await fetch('http://localhost:3000/upload', {
+      const response = await fetch('https://quotes-server-z2fk.onrender.com/upload', {
         method: 'POST',
         body: formData,
       });
@@ -19,6 +19,7 @@ export async function postPDF(files) {
       }
 
       const result = await response.json();
+      console.log(result)
     } catch (error) {
     }
   }

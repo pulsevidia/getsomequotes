@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import BasicAppShell from "./pages/AppShell";
 import Home from "./pages/Home";
 import UploadBook from "./pages/UploadBook";
-import Uploaded from "./pages/Uploaded";
+import Uploaded from "./pages/Uploaded/Uploaded";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Quotes from "./pages/Quotes";
 import ReadBlog from "./pages/ReadBlog";

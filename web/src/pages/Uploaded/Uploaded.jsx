@@ -2,14 +2,15 @@
 import "./Uploaded.css";
 // Mantine components and hooks
 import { useDisclosure } from "@mantine/hooks";
-import { Group, Text, rem, Modal, Button, Card, Badge } from "@mantine/core";
+import { Group, Text, rem, Modal, Button, Card, Badge, Loader, LoadingOverlay } from "@mantine/core";
 import { Dropzone, PDF_MIME_TYPE } from "@mantine/dropzone";
-import { fetchBook } from "../appwrite/fetchBook";
+import { fetchBook } from "../../appwrite/fetchBook";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { postPDF } from "../server-functions/postPDF";
+import { postPDF } from "../../server-functions/postPDF";
 import { Book, XCircle, UploadSimple } from "@phosphor-icons/react";
+import BookList from "./BookList";
 
-function BookAndOperations({ bookName, blogCount, quoteCount }) {
+function BookAndOperations({  blogCount, quoteCount }) {
   return (
     <Card miw={300} maw={300} shadow="sm" padding="lg" radius="md" withBorder>
       <Group justify="space-between" mt="md" mb="xs">
@@ -34,16 +35,20 @@ export default function Uploaded() {
   const { data: books, isSuccess: isBooksSuccess, isLoading: isBooksLoading } = useQuery({
     queryKey: ["book"],
     queryFn: fetchBook,
-    staleTime: Infinity
+    cacheTime: Infinity,
   })
 
-  const { mutateAsync: postThePDF } = useMutation({
+  const { mutateAsync: postThePDF, status} = useMutation({
     mutationFn: postPDF
   })
+  // status can be idle, pending, success, error
+  console.log(status)
 
   return (
     <>
+      <LoadingOverlay  Index={19000} overlayProps={{ radius: "sm", blur: 2 }} visible={status == 'pending'} />
       <Modal
+        radius={'xl'}
         centered
         styles={{
           body: {
@@ -58,6 +63,11 @@ export default function Uploaded() {
         title="upload"
       >
         <Dropzone
+          styles={{
+            root: {
+              border: 'none'
+            }
+          }}
           onDrop={async (files) => {
             try {
               await postThePDF(files, close)
@@ -66,7 +76,7 @@ export default function Uploaded() {
               console.error(e)
             }
           }}
-          onReject={(files) => console.log("rejected files", files)}
+          onReject={(files) => console.error("rejected files", files)}
           maxSize={5 * 1024 ** 2}
           accept={PDF_MIME_TYPE}
         >
@@ -77,42 +87,41 @@ export default function Uploaded() {
             style={{ pointerEvents: "none" }}
           >
             <Dropzone.Accept>
-              <UploadSimple size={rem(52)} weight="duotone" />
+              <UploadSimple size={rem(52)} />
             </Dropzone.Accept>
             <Dropzone.Reject>
-              <XCircle size={rem(52)} weight="duotone" />
+              <XCircle size={rem(52)} />
             </Dropzone.Reject>
             <Dropzone.Idle>
-              <Book size={rem(52)} weight="duotone" />
+              <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-book-upload" width="60" height="60" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M14 20h-8a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12v5" />
+                <path d="M11 16h-5a2 2 0 0 0 -2 2" />
+                <path d="M15 16l3 -3l3 3" />
+                <path d="M18 13v9" />
+              </svg>
             </Dropzone.Idle>
 
-            <div>
-              <Text size="xl" inline>
-                Click here to upload PDF, books
-              </Text>
-              <Text size="sm" c="dimmed" inline mt={7}>
-                Attach as many files as you like, each file should not exceed
-                5mb
-              </Text>
-            </div>
           </Group>
         </Dropzone>
       </Modal>
       <Group>
         <Button
-          variant="outline"
+          style={{ boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)" }}
+          variant=""
           leftSection={<Book size={16} />}
-          color="dark"
           onClick={open}
-          mb={"md"}
+          color="black"
+          fullWidth
+          m={"md"}
         >
           Add more books
 
         </Button>
       </Group>
       <Group>
-        {isBooksLoading && <h1>Loading...</h1>}
-        {isBooksSuccess && books.map(book => <BookAndOperations blogCount={book.blogs.length} quoteCount={book.quotes.length} />)}
+        {isBooksLoading && <LoadingOverlay visible={true} zIndex={1000} color='violet' overlayProps={{ radius: "sm", blur: 2 }} />}
+        {isBooksSuccess && <BookList data={books} />}
       </Group>
     </>
   );
