@@ -3,16 +3,25 @@ import { useMediaQuery } from '@mantine/hooks';
 import { useQuery } from '@tanstack/react-query';
 import { fetchQuotes } from '../appwrite/fetchQuotes';
 import { useState } from 'react';
-import { Spiral } from '@phosphor-icons/react';
+import { DiceOne, DiceTwo, DiceThree, DiceFour, DiceFive, DiceSix } from '@phosphor-icons/react';
+
 function Quotes() {
     const { data: quotesData, isLoading: isQuotesLoading, isSuccess: isQuotesSuccess } = useQuery({
         queryFn: () => fetchQuotes(),
         queryKey: ["quotes"]
     })
+
+ 
+
     const [randomQuoteIndex, setRandomQuoteIndex] = useState(0)
+    const [DiceIcon, setDiceIcon] = useState(DiceOne)
 
     function randomQuote() {
         setRandomQuoteIndex(Math.floor(Math.random() * quotesData.length))
+    }
+       function getRandomIcon() {
+        const icons = [DiceOne, DiceTwo, DiceThree, DiceFour, DiceFive, DiceSix]
+        setDiceIcon(icons[Math.floor(Math.random() * icons.length)])
     }
 
     const sizeMatch = useMediaQuery('(max-width:600px)')
@@ -51,8 +60,8 @@ function Quotes() {
                 <QuoteStack quote={quotesData[randomQuoteIndex].quote_text} />
             </Stack>}
             {isQuotesLoading && <Loader type='bars' />}
-            <ActionIcon size={50} pos={'absolute'} bottom={'20%'} right={'10%'} variant="transparent" color="gray" radius="xl" aria-label="Settings" onClick={randomQuote}>
-                <Spiral size={200} color='rgb(115, 87, 217)' />
+            <ActionIcon size={50} pos={'absolute'} bottom={'20%'} right={'10%'} variant="transparent" color="gray" radius="xl" aria-label="Settings" onClick={() => { randomQuote(); getRandomIcon() }}>
+                <DiceIcon size={200} color='rgb(115, 87, 217)' weight='duotone' />
             </ActionIcon>
         </Group>
     )
