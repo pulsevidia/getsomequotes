@@ -9,26 +9,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { postPDF } from "../../server-functions/postPDF";
 import { Book, XCircle, UploadSimple } from "@phosphor-icons/react";
 import BookList from "./BookList";
-
-function BookAndOperations({  blogCount, quoteCount }) {
-  return (
-    <Card miw={300} maw={300} shadow="sm" padding="lg" radius="md" withBorder>
-      <Group justify="space-between" mt="md" mb="xs">
-        <Text fw={500}>The Beginning Of Infinity</Text>
-        <Text>Blogs: {blogCount}</Text>
-        <Text>Quotes: {quoteCount}</Text>
-      </Group>
-
-      <Button color="blue" fullWidth mt="md" radius="md">
-        Generate More Blogs
-      </Button>
-
-      <Button color="blue" fullWidth mt="md" radius="md">
-        Generate More Quotes
-      </Button>
-    </Card>
-  );
-}
+import BookListSkeleton from "./BookListSkeleton";
 
 export default function Uploaded() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -42,7 +23,6 @@ export default function Uploaded() {
     mutationFn: postPDF
   })
   // status can be idle, pending, success, error
-  console.log(status)
 
   return (
     <>
@@ -120,7 +100,7 @@ export default function Uploaded() {
         </Button>
       </Group>
       <Group>
-        {isBooksLoading && <LoadingOverlay visible={true} zIndex={1000} color='blue' overlayProps={{ radius: "sm", blur: 2 }} />}
+        {isBooksLoading && <BookListSkeleton />}
         {isBooksSuccess && <BookList data={books} />}
       </Group>
     </>

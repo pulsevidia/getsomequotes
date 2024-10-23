@@ -3,9 +3,8 @@ import { databases } from "./appwrite"
 
 async function fetchBook() {
   try {
-
     const { documents } = await databases.listDocuments(import.meta.env.VITE_DATABASE_ID, import.meta.env.VITE_BOOKS_COLLECTION_ID)
-
+    
     for (let i = 0; i < documents.length; i++) {
 
       const current_document = documents[i];
