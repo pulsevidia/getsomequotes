@@ -18,10 +18,10 @@ export default function Uploaded() {
     queryFn: fetchBook,
     cacheTime: Infinity,
   })
-
   const { mutateAsync: postThePDF, status } = useMutation({
     mutationFn: postPDF
   })
+
   // status can be idle, pending, success, error
 
   return (

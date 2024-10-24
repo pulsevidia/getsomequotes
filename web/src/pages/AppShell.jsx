@@ -1,11 +1,12 @@
-import { AppShell, Burger, Group, Image, NavLink, Title, useComputedColorScheme, useMantineColorScheme } from "@mantine/core";
+import { AppShell, Burger, Group, Image, NavLink, useComputedColorScheme, useMantineColorScheme } from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import { House, Quotes, UploadSimple, Sun, Moon, FilePlus, Compass } from "@phosphor-icons/react";
+import { House, Quotes, UploadSimple, Sun, Moon, FilePlus } from "@phosphor-icons/react";
 import { useEffect } from "react";
-import logo from "/public/logo.svg"
+import logo from '/public/logo.svg'
 
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import BottomBar from "../components/BottomBar";
+import Logo from "./Logo";
 
 function BasicAppShell() {
   const navigate = useNavigate()
@@ -29,9 +30,9 @@ function BasicAppShell() {
       padding="md"
     >
       <AppShell.Header>
-        <Group h="100%" px="md">
+        <Group h="100%" px="md" gap={'xs'}>
           <Burger lineSize={1} opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Image src={logo} alt="logo" width={100} />
+          <Logo />
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">

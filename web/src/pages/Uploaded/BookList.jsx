@@ -4,7 +4,6 @@ import CopyButton from './CopyButton';
 
 export default function BookList({data}) {
   async function handleGenerateMoreContent(){
-    
   }
   const rows = data.map((item) => (
     <Table.Tr key={item.name}>
@@ -17,7 +16,6 @@ export default function BookList({data}) {
       </Table.Td>
       <Table.Td>
         <Badge color={'blue'} px={'0'} py={'sm'} styles={{label:{textTransform:'none', display:'flex', alignItems:'center'}}}  maw={100} variant="light">
-
             <CopyButton value={item.pdf_link} />
             <Text fz="xs" truncate={'end'}>
             {item.pdf_link}
