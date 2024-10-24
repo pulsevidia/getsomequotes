@@ -1,7 +1,8 @@
-import { AppShell, Burger, Group, NavLink, Title, useComputedColorScheme, useMantineColorScheme } from "@mantine/core";
+import { AppShell, Burger, Group, Image, NavLink, Title, useComputedColorScheme, useMantineColorScheme } from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { House, Quotes, UploadSimple, Sun, Moon, FilePlus, Compass } from "@phosphor-icons/react";
 import { useEffect } from "react";
+import logo from "/public/logo.svg"
 
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import BottomBar from "../components/BottomBar";
@@ -30,7 +31,7 @@ function BasicAppShell() {
       <AppShell.Header>
         <Group h="100%" px="md">
           <Burger lineSize={1} opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Title styles={{ fontFamily: "Afacad Flux" }} order={3}>GetMyQuotes</Title>
+          <Image src={logo} alt="logo" width={100} />
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">
