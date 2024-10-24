@@ -13,7 +13,7 @@ const Title2 = ({ children }) => <Title style={{ fontFamily: "Afacad Flux" }} fw
 
 const Title3 = ({ children }) => <Title style={{ fontFamily: "Circular" }} order={3} my={'md'}>{children}</Title>;
 
-const TextMarkdown = ({ children }) => <Text py={'xs'} size="lg" style={{ fontFamily: "Cirular medium" }}>{children}</Text>;
+const TextMarkdown = ({ children }) => <Text py={'xs'} ta={'justify'} size="lg" style={{ fontFamily: "Cirular medium" }}>{children}</Text>;
 
 const forEm = ({ children }) => <Text style={{ fontFamily: "Cirular medium" }} fs={'italic'}>{children}</Text>;
 

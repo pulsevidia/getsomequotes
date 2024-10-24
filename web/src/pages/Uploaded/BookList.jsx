@@ -1,8 +1,11 @@
-import { Avatar, Badge, Table, Group, Text, ActionIcon,   } from '@mantine/core';
-import { Pencil as IconPencil, Trash as IconTrash } from '@phosphor-icons/react';
+import {  Badge, Table, Group, Text, ActionIcon,   } from '@mantine/core';
+import { CircleWavy, Trash as IconTrash } from '@phosphor-icons/react';
 import CopyButton from './CopyButton';
 
 export default function BookList({data}) {
+  async function handleGenerateMoreContent(){
+    
+  }
   const rows = data.map((item) => (
     <Table.Tr key={item.name}>
       <Table.Td>
@@ -29,8 +32,8 @@ export default function BookList({data}) {
       </Table.Td>
       <Table.Td>
         <Group gap={0} justify="flex-end">
-          <ActionIcon variant="subtle" color="gray">
-            <IconPencil size={16} />
+          <ActionIcon onClick={handleGenerateMoreContent} variant="subtle" color="gray">
+            <CircleWavy size={16} />
           </ActionIcon>
           <ActionIcon variant="subtle" color="red">
             <IconTrash size={16}  />

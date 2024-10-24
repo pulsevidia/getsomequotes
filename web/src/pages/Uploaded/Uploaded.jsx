@@ -2,33 +2,13 @@
 import "./Uploaded.css";
 // Mantine components and hooks
 import { useDisclosure } from "@mantine/hooks";
-import { Group, Text, rem, Modal, Button, Card, Badge, Loader, LoadingOverlay } from "@mantine/core";
+import { Group, rem, Modal, Button, LoadingOverlay } from "@mantine/core";
 import { Dropzone, PDF_MIME_TYPE } from "@mantine/dropzone";
 import { fetchBook } from "../../appwrite/fetchBook";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { postPDF } from "../../server-functions/postPDF";
 import { Book, XCircle, UploadSimple } from "@phosphor-icons/react";
 import BookList from "./BookList";
-
-function BookAndOperations({  blogCount, quoteCount }) {
-  return (
-    <Card miw={300} maw={300} shadow="sm" padding="lg" radius="md" withBorder>
-      <Group justify="space-between" mt="md" mb="xs">
-        <Text fw={500}>The Beginning Of Infinity</Text>
-        <Text>Blogs: {blogCount}</Text>
-        <Text>Quotes: {quoteCount}</Text>
-      </Group>
-
-      <Button color="blue" fullWidth mt="md" radius="md">
-        Generate More Blogs
-      </Button>
-
-      <Button color="blue" fullWidth mt="md" radius="md">
-        Generate More Quotes
-      </Button>
-    </Card>
-  );
-}
 
 export default function Uploaded() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -38,7 +18,7 @@ export default function Uploaded() {
     cacheTime: Infinity,
   })
 
-  const { mutateAsync: postThePDF, status} = useMutation({
+  const { mutateAsync: postThePDF, status } = useMutation({
     mutationFn: postPDF
   })
   // status can be idle, pending, success, error
@@ -46,7 +26,7 @@ export default function Uploaded() {
 
   return (
     <>
-      <LoadingOverlay  Index={19000} overlayProps={{ radius: "sm", blur: 2 }} visible={status == 'pending'} />
+      <LoadingOverlay Index={19000} overlayProps={{ radius: "sm", blur: 2 }} visible={status == 'pending'} />
       <Modal
         radius={'xl'}
         centered
