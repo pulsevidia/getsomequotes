@@ -11,13 +11,6 @@ function BookListDeleteModal({ isOpened, close, bookId }) {
   const { mutateAsync: deleteBook, status } = useMutation({
     mutationFn: deleteBookAndDataCompletely,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["book"] });
-    },
-  });
-
-  const handleDelete = async () => {
-    try {
-      await deleteBook(bookId);
       close();
       toast.success("Deleted Successfully", {
         style: {
@@ -25,7 +18,9 @@ function BookListDeleteModal({ isOpened, close, bookId }) {
           color: "white",
         },
       });
-    } catch (error) {
+      queryClient.invalidateQueries({ queryKey: ["book"] });
+    },
+    onError: () => {
       close();
       toast.error("Rate limit exceeded", {
         style: {
@@ -33,9 +28,8 @@ function BookListDeleteModal({ isOpened, close, bookId }) {
           color: "white",
         },
       });
-      console.error(error);
-    }
-  };
+    },
+  });
 
   return (
     <Modal
@@ -80,7 +74,7 @@ function BookListDeleteModal({ isOpened, close, bookId }) {
           variant="light"
           loading={status == "pending"}
           loaderProps={{ type: "oval" }}
-          onClick={handleDelete}
+          onClick={async () => await deleteBook(bookId)}
           color="rgba(0, 0, 0, 1)"
           size="sm"
         >
