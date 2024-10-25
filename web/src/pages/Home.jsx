@@ -7,30 +7,34 @@ export default function Home() {
   function BlogSkeleton() {
     return (
       <>
-        {
-          Array.from({ length: 10 }).map((_, i) => <Group wrap="nowrap" p={'lg'}>
+        {Array.from({ length: 10 }).map((_, i) => (
+          <Group wrap="nowrap" p={"lg"}>
             <Skeleton height={80} width={80} />
-            <Stack gap={'xs'}>
-              <Skeleton mb={'xs'} height={13} radius={'xl'} width={100} />
-              <Skeleton height={13} radius={'xl'} width={200} />
-              <Skeleton height={13} radius={'xl'} width={200} />
+            <Stack gap={"xs"}>
+              <Skeleton mb={"xs"} height={13} radius={"xl"} width={100} />
+              <Skeleton height={13} radius={"xl"} width={200} />
+              <Skeleton height={13} radius={"xl"} width={200} />
             </Stack>
           </Group>
-          )
-        }
+        ))}
       </>
-    )
+    );
   }
 
-  const { data: blogsData, isLoading: isBlogsLoading, isSuccess: isBlogsSuccess } = useQuery({
+  const {
+    data: blogsData,
+    isLoading: isBlogsLoading,
+    isSuccess: isBlogsSuccess,
+  } = useQuery({
     queryFn: () => fetchBlogs(),
-    queryKey: ["blogs"]
-  })
+    queryKey: ["blogs"],
+  });
 
   return (
-    <Stack>
+    <Stack pb={"100"}>
       {isBlogsLoading && <BlogSkeleton />}
-      {isBlogsSuccess && blogsData.map(blog => <BlogCard blog={blog} key={blog.$id} />)}
+      {isBlogsSuccess &&
+        blogsData.map((blog) => <BlogCard blog={blog} key={blog.$id} />)}
     </Stack>
   );
 }

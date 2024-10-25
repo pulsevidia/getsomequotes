@@ -135,7 +135,7 @@ export default function Uploaded() {
           </Group>
         </Dropzone>
       </Modal>
-      <Group>
+      <Group >
         <Button
           style={{
             boxShadow:

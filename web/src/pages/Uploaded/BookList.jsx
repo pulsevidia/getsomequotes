@@ -8,7 +8,6 @@ export default function BookList({
   setGenerateBookId,
   setDeleteBookId,
   isGeneratingBook,
-  setIsGeneratingBook,
 }) {
   const rows = data.map((item) => (
     <Table.Tr key={item.$id}>
@@ -80,7 +79,7 @@ export default function BookList({
   ));
 
   return (
-    <Table.ScrollContainer mx={"md"} minWidth={800}>
+    <Table.ScrollContainer mb mx={"md"} minWidth={800}>
       <Table verticalSpacing="sm">
         <Table.Thead>
           <Table.Tr>
