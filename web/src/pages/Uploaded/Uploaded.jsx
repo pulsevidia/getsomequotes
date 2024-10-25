@@ -10,14 +10,23 @@ import { postPDF } from "../../server-functions/postPDF";
 import { Book, XCircle, UploadSimple } from "@phosphor-icons/react";
 import BookList from "./BookList";
 import BookListSkeleton from "./BookListSkeleton";
+import BookListDeleteModal from "./BookListDeleteModal";
+import BookListGenerateModal from "./BookListGenerateModal";
+import { useState } from "react";
 
 export default function Uploaded() {
   const [opened, { open, close }] = useDisclosure(false);
+  const [isDeleteBookModalOpened, { open: openDeleteBookModal, close: closeDeleteBookModal }] = useDisclosure();
+  const [isGenerateBookModalOpened, { open: openGenerateBookModal, close: closeGenerateBookModal }] = useDisclosure();
+  const [deleteBookId, setDeleteBookId] = useState(null);
+  const [generateBookId, setGenerateBookId] = useState(null);
+
   const { data: books, isSuccess: isBooksSuccess, isLoading: isBooksLoading } = useQuery({
     queryKey: ["book"],
     queryFn: fetchBook,
     cacheTime: Infinity,
   })
+
   const { mutateAsync: postThePDF, status } = useMutation({
     mutationFn: postPDF
   })
@@ -27,6 +36,10 @@ export default function Uploaded() {
   return (
     <>
       <LoadingOverlay Index={19000} overlayProps={{ radius: "sm", blur: 2 }} visible={status == 'pending'} />
+
+      <BookListDeleteModal isOpened={isDeleteBookModalOpened} close={closeDeleteBookModal} bookId={deleteBookId} />
+      <BookListGenerateModal isOpened={isGenerateBookModalOpened} close={closeGenerateBookModal} bookId={generateBookId} />
+
       <Modal
         radius={'xl'}
         centered
@@ -101,7 +114,7 @@ export default function Uploaded() {
       </Group>
       <Group>
         {isBooksLoading && <BookListSkeleton />}
-        {isBooksSuccess && <BookList data={books} />}
+        {isBooksSuccess && <BookList data={books} openGenerateBookModal={openGenerateBookModal} openDeleteBookModal={openDeleteBookModal} setDeleteBookId={setDeleteBookId} setGenerateBookId={setGenerateBookId} />}
       </Group>
     </>
   );

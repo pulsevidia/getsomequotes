@@ -19,16 +19,27 @@ function BookListDeleteModal({ isOpened, close, bookId }) {
         try {
             await deleteBook(bookId)
             close()
-            toast.success('Deleted Successfully')
+            toast.success('Deleted Successfully', {
+
+                style: {
+                    backgroundColor: 'rgba(0, 0, 0, 1)',
+                    color: 'white'
+                }
+            })
         } catch (error) {
             close()
-            toast.error(error.message)
+            toast.error('Rate limit exceeded', {
+                style: {
+                    backgroundColor: 'rgba(0, 0, 0, 1)',
+                    color: 'white'
+                }
+            })
             console.error(error)
         }
     }
 
     return (
-        <Modal radius={'xl'} styles={{
+        <Modal radius={'md'} styles={{
             header: {
                 display: 'none'
             }
@@ -44,8 +55,8 @@ function BookListDeleteModal({ isOpened, close, bookId }) {
             <Divider my={'sm'} />
             <Text fz={'sm'} color="dimmed">Are you sure you want to delete this content?</Text>
             <Group gap={'sm'} justify="flex-end" mt="md" mb="xs">
-                <Button onClick={close} disabled={status == 'pending'} variant="transparent" color="rgba(0, 0, 0, 1)" size="xs">Cancel</Button>
-                <Button variant="light" loading={status == 'pending'} loaderProps={{ type: 'oval' }} onClick={handleDelete} color="rgba(0, 0, 0, 1)" size="xs">Delete</Button>
+                <Button onClick={close} disabled={status == 'pending'} variant="transparent" color="rgba(0, 0, 0, 1)" size="sm">Cancel</Button>
+                <Button variant="light" loading={status == 'pending'} loaderProps={{ type: 'oval' }} onClick={handleDelete} color="rgba(0, 0, 0, 1)" size="sm">Delete</Button>
             </Group>
         </Modal>
     )

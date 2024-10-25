@@ -7,6 +7,7 @@ import logo from '/public/logo.svg'
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import BottomBar from "../components/BottomBar";
 import Logo from "./Logo";
+import { Toaster } from "react-hot-toast";
 
 function BasicAppShell() {
   const navigate = useNavigate()
@@ -29,6 +30,11 @@ function BasicAppShell() {
       navbar={{ width: 300, breakpoint: "sm", collapsed: { mobile: !opened } }}
       padding="md"
     >
+      <Toaster
+        position="bottom-center"
+        reverseOrder={false}
+      />
+
       <AppShell.Header>
         <Group h="100%" px="md" gap={'xs'}>
           <Burger lineSize={1} opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />

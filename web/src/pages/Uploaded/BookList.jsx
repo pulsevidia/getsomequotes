@@ -1,48 +1,80 @@
-import {  Badge, Table, Group, Text, ActionIcon,   } from '@mantine/core';
-import { CircleWavy, Trash as IconTrash } from '@phosphor-icons/react';
-import CopyButton from './CopyButton';
+import { Badge, Table, Group, Text, Button } from "@mantine/core";
+import CopyButton from "./CopyButton";
 
-export default function BookList({data}) {
-  async function handleGenerateMoreContent(){
-  }
+export default function BookList({
+  data,
+  openGenerateBookModal,
+  openDeleteBookModal,
+  setGenerateBookId,
+  setDeleteBookId,
+}) {
   const rows = data.map((item) => (
-    <Table.Tr key={item.name}>
+    <Table.Tr key={item.$id}>
       <Table.Td>
         <Group gap="sm">
           <Text fz="sm" fw={500}>
-          The Fabric Of Reality
+            The Fabric Of Reality
           </Text>
         </Group>
       </Table.Td>
       <Table.Td>
-        <Badge color={'blue'} px={'0'} py={'sm'} styles={{label:{textTransform:'none', display:'flex', alignItems:'center'}}}  maw={100} variant="light">
-            <CopyButton value={item.pdf_link} />
-            <Text fz="xs" truncate={'end'}>
+        <Badge
+          color={"blue"}
+          px={"0"}
+          py={"sm"}
+          styles={{
+            label: {
+              textTransform: "none",
+              display: "flex",
+              alignItems: "center",
+            },
+          }}
+          maw={100}
+          variant="light"
+        >
+          <CopyButton value={item.pdf_link} />
+          <Text fz="xs" truncate={"end"}>
             {item.pdf_link}
-            </Text>
+          </Text>
         </Badge>
       </Table.Td>
       <Table.Td>
         <Text fz="sm">{item.blogs.length}</Text>
       </Table.Td>
-       <Table.Td>
+      <Table.Td>
         <Text fz="sm">{item.quotes.length}</Text>
       </Table.Td>
       <Table.Td>
-        <Group gap={0} justify="flex-end">
-          <ActionIcon onClick={handleGenerateMoreContent} variant="subtle" color="gray">
-            <CircleWavy size={16} />
-          </ActionIcon>
-          <ActionIcon variant="subtle" color="red">
-            <IconTrash size={16}  />
-          </ActionIcon>
+        <Group gap={"xs"} justify="flex-end">
+          <Button
+            onClick={() => {
+              setGenerateBookId(item.$id);
+              openGenerateBookModal();
+            }}
+            variant="filled"
+            color="rgba(0, 0, 0, 1)"
+            size="xs"
+          >
+            Generate
+          </Button>
+          <Button
+            onClick={() => {
+              setDeleteBookId(item.$id);
+              openDeleteBookModal();
+            }}
+            variant="outline"
+            color="rgba(0, 0, 0, 1)"
+            size="xs"
+          >
+            Delete
+          </Button>
         </Group>
       </Table.Td>
     </Table.Tr>
   ));
 
   return (
-    <Table.ScrollContainer mx={'md'} minWidth={800}>
+    <Table.ScrollContainer mx={"md"} minWidth={800}>
       <Table verticalSpacing="sm">
         <Table.Thead>
           <Table.Tr>
