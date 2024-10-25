@@ -1,6 +1,6 @@
 // Styles
 import "./Uploaded.css";
-// Mantine components and hooks
+
 import { useDisclosure } from "@mantine/hooks";
 import { Group, rem, Modal, Button, LoadingOverlay } from "@mantine/core";
 import { Dropzone, PDF_MIME_TYPE } from "@mantine/dropzone";
@@ -10,23 +10,35 @@ import { postPDF } from "../../server-functions/postPDF";
 import { Book, XCircle, UploadSimple } from "@phosphor-icons/react";
 import BookList from "./BookList";
 import BookListSkeleton from "./BookListSkeleton";
+import BookListDeleteModal from "./BookListDeleteModal";
+import BookListGenerateModal from "./BookListGenerateModal";
 
 export default function Uploaded() {
   const [opened, { open, close }] = useDisclosure(false);
+  const [isDeleteBookModalOpened, { open: openDeleteBookModal, close: closeDeleteBookModal }] = useDisclosure();
+  const [isGenerateBookModalOpened, { open: openGenerateBookModal, close: closeGenerateBookModal }] = useDisclosure();
+  const [deleteBookId, setDeleteBookId] = useState(null);
+  const [generateBookId, setGenerateBookId] = useState(null);
+
+
   const { data: books, isSuccess: isBooksSuccess, isLoading: isBooksLoading } = useQuery({
     queryKey: ["book"],
     queryFn: fetchBook,
     cacheTime: Infinity,
   })
+
   const { mutateAsync: postThePDF, status } = useMutation({
     mutationFn: postPDF
   })
-
   // status can be idle, pending, success, error
 
   return (
     <>
       <LoadingOverlay Index={19000} overlayProps={{ radius: "sm", blur: 2 }} visible={status == 'pending'} />
+
+      <BookListDeleteModal isOpened={isDeleteBookModalOpened} close={closeDeleteBookModal} />
+      <BookListGenerateModal isOpened={isGenerateBookModalOpened} close={closeGenerateBookModal} />
+
       <Modal
         radius={'xl'}
         centered
@@ -96,12 +108,11 @@ export default function Uploaded() {
           m={"md"}
         >
           Add more books
-
         </Button>
       </Group>
       <Group>
         {isBooksLoading && <BookListSkeleton />}
-        {isBooksSuccess && <BookList data={books} />}
+        {isBooksSuccess && <BookList data={books} openDeleteBookModal={openDeleteBookModal} openGenerateBookModal={openGenerateBookModal} setDeleteBookId={setDeleteBookId} setGenerateBookId={setGenerateBookId} />}
       </Group>
     </>
   );

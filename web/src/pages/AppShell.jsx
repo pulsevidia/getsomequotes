@@ -1,8 +1,8 @@
-import { AppShell, Burger, Group, Image, NavLink, useComputedColorScheme, useMantineColorScheme } from "@mantine/core";
+import { AppShell, Burger, Group, NavLink, useComputedColorScheme, useMantineColorScheme } from "@mantine/core";
+import { Toaster } from 'react-hot-toast'
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { House, Quotes, UploadSimple, Sun, Moon, FilePlus } from "@phosphor-icons/react";
 import { useEffect } from "react";
-import logo from '/public/logo.svg'
 
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import BottomBar from "../components/BottomBar";
@@ -23,12 +23,18 @@ function BasicAppShell() {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
   const smallScreen = useMediaQuery('(max-width: 450px)');
+
   return (
     <AppShell
       header={{ height: 60 }}
       navbar={{ width: 300, breakpoint: "sm", collapsed: { mobile: !opened } }}
       padding="md"
     >
+      <Toaster
+        position="bottom-center"
+        reverseOrder={false}
+      />
+
       <AppShell.Header>
         <Group h="100%" px="md" gap={'xs'}>
           <Burger lineSize={1} opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />

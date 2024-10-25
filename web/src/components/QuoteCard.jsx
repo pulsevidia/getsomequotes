@@ -4,12 +4,12 @@ function QuoteCard({ quote }) {
   return (
     <Stack miw={300} maw={600} gap={0}>
       {/* <Group pl={"xl"} py={"md"}  style={{ borderLeft: "8px solid rgb(115, 87, 217)" }}> */}
-      <Group pl={"xl"} py={"md"} style={{ borderLeft: "8px solid rgb(115, 87, 217)" }}>
+      <Group pl={"xl"} py={"md"} style={{ borderLeft: "5px solid #868e96" }}>
         <Text
-          size="xl"
+          size="lg"
           c={"dark"}
           style={{
-            fontFamily: "Circular, sans-serif",
+            fontFamily: "Cirular medium, sans-serif",
             lineHeight: "1.5",
           }}
           fw={500}
@@ -19,7 +19,7 @@ function QuoteCard({ quote }) {
           }
         </Text>
       </Group>
-      <Text
+      {/* <Text
         w={"100%"}
         c={"black"}
         style={{
@@ -28,7 +28,7 @@ function QuoteCard({ quote }) {
         ta={"right"}
       >
         —The Beginning of Infinity
-      </Text>
+      </Text> */}
     </Stack>
   );
 }
