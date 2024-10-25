@@ -82,7 +82,7 @@ function BasicAppShell() {
             toggle()
           }}
         />
-        <NavLink
+        {/* <NavLink
           color="violet"
           label="Theme"
           onClick={() => {
@@ -90,7 +90,7 @@ function BasicAppShell() {
             toggle()
           }}
           leftSection={computedColorScheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-        />
+        /> */}
       </AppShell.Navbar>
       <AppShell.Main styles={{
         main: {
