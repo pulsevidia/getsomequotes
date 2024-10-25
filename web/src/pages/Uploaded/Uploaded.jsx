@@ -16,32 +16,59 @@ import { useState } from "react";
 
 export default function Uploaded() {
   const [opened, { open, close }] = useDisclosure(false);
-  const [isDeleteBookModalOpened, { open: openDeleteBookModal, close: closeDeleteBookModal }] = useDisclosure();
-  const [isGenerateBookModalOpened, { open: openGenerateBookModal, close: closeGenerateBookModal }] = useDisclosure();
+  const [
+    isDeleteBookModalOpened,
+    { open: openDeleteBookModal, close: closeDeleteBookModal },
+  ] = useDisclosure();
+  const [
+    isGenerateBookModalOpened,
+    { open: openGenerateBookModal, close: closeGenerateBookModal },
+  ] = useDisclosure();
   const [deleteBookId, setDeleteBookId] = useState(null);
   const [generateBookId, setGenerateBookId] = useState(null);
+  const [isGeneratingBook, setIsGeneratingBook] = useState({
+    isGenerating: false,
+    bookId: null,
+  });
 
-  const { data: books, isSuccess: isBooksSuccess, isLoading: isBooksLoading } = useQuery({
+  const {
+    data: books,
+    isSuccess: isBooksSuccess,
+    isLoading: isBooksLoading,
+  } = useQuery({
     queryKey: ["book"],
     queryFn: fetchBook,
     cacheTime: Infinity,
-  })
+  });
 
   const { mutateAsync: postThePDF, status } = useMutation({
-    mutationFn: postPDF
-  })
+    mutationFn: postPDF,
+  });
 
   // status can be idle, pending, success, error
 
   return (
     <>
-      <LoadingOverlay Index={19000} overlayProps={{ radius: "sm", blur: 2 }} visible={status == 'pending'} />
+      <LoadingOverlay
+        Index={19000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+        visible={status == "pending"}
+      />
 
-      <BookListDeleteModal isOpened={isDeleteBookModalOpened} close={closeDeleteBookModal} bookId={deleteBookId} />
-      <BookListGenerateModal isOpened={isGenerateBookModalOpened} close={closeGenerateBookModal} bookId={generateBookId} />
+      <BookListDeleteModal
+        isOpened={isDeleteBookModalOpened}
+        close={closeDeleteBookModal}
+        bookId={deleteBookId}
+      />
+      <BookListGenerateModal
+        setIsGeneratingBook={setIsGeneratingBook}
+        isOpened={isGenerateBookModalOpened}
+        close={closeGenerateBookModal}
+        bookId={generateBookId}
+      />
 
       <Modal
-        radius={'xl'}
+        radius={"xl"}
         centered
         styles={{
           body: {
@@ -58,15 +85,15 @@ export default function Uploaded() {
         <Dropzone
           styles={{
             root: {
-              border: 'none'
-            }
+              border: "none",
+            },
           }}
           onDrop={async (files) => {
             try {
-              await postThePDF(files, close)
-              close()
+              await postThePDF(files, close);
+              close();
             } catch (e) {
-              console.error(e)
+              console.error(e);
             }
           }}
           onReject={(files) => console.error("rejected files", files)}
@@ -86,7 +113,18 @@ export default function Uploaded() {
               <XCircle size={rem(52)} />
             </Dropzone.Reject>
             <Dropzone.Idle>
-              <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-book-upload" width="60" height="60" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-book-upload"
+                width="60"
+                height="60"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="#2c3e50"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <path d="M14 20h-8a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12v5" />
                 <path d="M11 16h-5a2 2 0 0 0 -2 2" />
@@ -94,13 +132,15 @@ export default function Uploaded() {
                 <path d="M18 13v9" />
               </svg>
             </Dropzone.Idle>
-
           </Group>
         </Dropzone>
       </Modal>
       <Group>
         <Button
-          style={{ boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)" }}
+          style={{
+            boxShadow:
+              "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
+          }}
           variant=""
           leftSection={<Book size={16} />}
           onClick={open}
@@ -109,12 +149,21 @@ export default function Uploaded() {
           m={"md"}
         >
           Add more books
-
         </Button>
       </Group>
       <Group>
         {isBooksLoading && <BookListSkeleton />}
-        {isBooksSuccess && <BookList data={books} openGenerateBookModal={openGenerateBookModal} openDeleteBookModal={openDeleteBookModal} setDeleteBookId={setDeleteBookId} setGenerateBookId={setGenerateBookId} />}
+        {isBooksSuccess && (
+          <BookList
+            data={books}
+            isGeneratingBook={isGeneratingBook}
+            setIsGeneratingBook={setIsGeneratingBook}
+            openGenerateBookModal={openGenerateBookModal}
+            openDeleteBookModal={openDeleteBookModal}
+            setDeleteBookId={setDeleteBookId}
+            setGenerateBookId={setGenerateBookId}
+          />
+        )}
       </Group>
     </>
   );

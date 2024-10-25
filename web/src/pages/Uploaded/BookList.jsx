@@ -7,6 +7,8 @@ export default function BookList({
   openDeleteBookModal,
   setGenerateBookId,
   setDeleteBookId,
+  isGeneratingBook,
+  setIsGeneratingBook,
 }) {
   const rows = data.map((item) => (
     <Table.Tr key={item.$id}>
@@ -47,6 +49,10 @@ export default function BookList({
       <Table.Td>
         <Group gap={"xs"} justify="flex-end">
           <Button
+            loading={
+              isGeneratingBook.isGenerating &&
+              isGeneratingBook.bookId === item.$id
+            }
             onClick={() => {
               setGenerateBookId(item.$id);
               openGenerateBookModal();
