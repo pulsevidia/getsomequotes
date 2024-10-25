@@ -5,3 +5,4 @@ server/file_process/__pycache__
 server/_appwrite/__pycache__
 web/node_modules
 .env
+node_modules
