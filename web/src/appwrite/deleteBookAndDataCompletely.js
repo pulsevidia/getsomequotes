@@ -8,23 +8,6 @@ function extractFileId(url) {
 
 export async function deleteBookAndDataCompletely(bookId) {
   try {
-    // Delete all chunks for the book
-    const { documents: chunks } = await databases.listDocuments(
-      import.meta.env.VITE_DATABASE_ID,
-      import.meta.env.VITE_CHUNKS_COLLECTION_ID,
-      [Query.equal("books", bookId), Query.select(["$id"]), Query.limit(170)]
-    );
-
-    if (chunks.length > 0) {
-      for (const chunk of chunks) {
-        await databases.deleteDocument(
-          import.meta.env.VITE_DATABASE_ID,
-          import.meta.env.VITE_CHUNKS_COLLECTION_ID,
-          chunk.$id
-        );
-      }
-    }
-
     // Delete the blogs
     const { documents: blogs } = await databases.listDocuments(
       import.meta.env.VITE_DATABASE_ID,
@@ -71,6 +54,22 @@ export async function deleteBookAndDataCompletely(bookId) {
     // Delete the pdf file
     await storage.deleteFile(import.meta.env.VITE_BUCKET_ID, pdfId);
 
+    // Delete all chunks for the book
+    const { documents: chunks } = await databases.listDocuments(
+      import.meta.env.VITE_DATABASE_ID,
+      import.meta.env.VITE_CHUNKS_COLLECTION_ID,
+      [Query.equal("books", bookId), Query.select(["$id"]), Query.limit(170)]
+    );
+
+    if (chunks.length > 0) {
+      for (const chunk of chunks) {
+        await databases.deleteDocument(
+          import.meta.env.VITE_DATABASE_ID,
+          import.meta.env.VITE_CHUNKS_COLLECTION_ID,
+          chunk.$id
+        );
+      }
+    }
     // Delete the book
     await databases.deleteDocument(
       import.meta.env.VITE_DATABASE_ID,
