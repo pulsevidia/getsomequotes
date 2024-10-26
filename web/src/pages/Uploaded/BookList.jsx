@@ -13,8 +13,8 @@ export default function BookList({
     <Table.Tr key={item.$id}>
       <Table.Td>
         <Group gap="sm">
-          <Text fz="sm" fw={500}>
-            The Fabric Of Reality
+          <Text fz="sm" w={200} truncate={"end"} fw={500}>
+            {item?.book_name || "Untitled"}
           </Text>
         </Group>
       </Table.Td>
