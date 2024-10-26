@@ -33,6 +33,7 @@ export async function deleteBookAndDataCompletely(bookId) {
 
     if (quotes.length > 0) {
       for (const quote of quotes) {
+        await new Promise((resolve) => setTimeout(resolve, 50));
         await databases.deleteDocument(
           import.meta.env.VITE_DATABASE_ID,
           import.meta.env.VITE_QUOTE_COLLECTION_ID,
@@ -52,7 +53,11 @@ export async function deleteBookAndDataCompletely(bookId) {
     const pdfId = extractFileId(pdf_link);
 
     // Delete the pdf file
-    await storage.deleteFile(import.meta.env.VITE_BUCKET_ID, pdfId);
+    try {
+      await storage.deleteFile(import.meta.env.VITE_BUCKET_ID, pdfId);
+    } catch (error) {
+      console.error("Error deleting PDF file:", error);
+    }
 
     // Delete all chunks for the book
     const { documents: chunks } = await databases.listDocuments(
@@ -63,6 +68,7 @@ export async function deleteBookAndDataCompletely(bookId) {
 
     if (chunks.length > 0) {
       for (const chunk of chunks) {
+        await new Promise((resolve) => setTimeout(resolve, 50));
         await databases.deleteDocument(
           import.meta.env.VITE_DATABASE_ID,
           import.meta.env.VITE_CHUNKS_COLLECTION_ID,
