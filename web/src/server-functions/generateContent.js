@@ -16,7 +16,6 @@ export async function generateContent(bookId) {
     }
 
     const data = await response.json();
-    console.log("Data received:", data);
     return data;
   } catch (error) {
     console.error("Error fetching content:", error.message);

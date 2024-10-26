@@ -8,7 +8,7 @@ export default function Home() {
     return (
       <>
         {Array.from({ length: 10 }).map((_, i) => (
-          <Group wrap="nowrap" p={"lg"}>
+          <Group key={i} wrap="nowrap" p={"lg"}>
             <Skeleton height={80} width={80} />
             <Stack gap={"xs"}>
               <Skeleton mb={"xs"} height={13} radius={"xl"} width={100} />

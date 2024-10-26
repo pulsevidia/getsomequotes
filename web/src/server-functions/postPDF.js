@@ -21,6 +21,8 @@ export async function postPDF(files) {
     }
 
     const result = await response.json();
-    console.log(result);
-  } catch (error) {}
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
 }
