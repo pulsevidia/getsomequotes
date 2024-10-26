@@ -13,6 +13,7 @@ import BookListSkeleton from "./BookListSkeleton";
 import BookListDeleteModal from "./BookListDeleteModal";
 import BookListGenerateModal from "./BookListGenerateModal";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Uploaded() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -43,6 +44,14 @@ export default function Uploaded() {
 
   const { mutateAsync: postThePDF, status } = useMutation({
     mutationFn: postPDF,
+    onSuccess: () => {
+      toast.success("Book sent successfully");
+      close();
+    },
+    onError: () => {
+      close();
+      toast.error("Something went wrong");
+    },
   });
 
   // status can be idle, pending, success, error
@@ -90,8 +99,7 @@ export default function Uploaded() {
           }}
           onDrop={async (files) => {
             try {
-              await postThePDF(files, close);
-              close();
+              await postThePDF(files);
             } catch (e) {
               console.error(e);
             }
@@ -135,7 +143,7 @@ export default function Uploaded() {
           </Group>
         </Dropzone>
       </Modal>
-      <Group >
+      <Group>
         <Button
           style={{
             boxShadow:
