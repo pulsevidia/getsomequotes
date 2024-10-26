@@ -104,8 +104,10 @@ export default function Uploaded() {
               console.error(e);
             }
           }}
-          onReject={(files) => console.error("rejected files", files)}
-          maxSize={5 * 1024 ** 2}
+          onReject={() => {
+            toast.error("Should not exceed 5MB");
+          }}
+          maxSize={6* 1024 ** 2}
           accept={PDF_MIME_TYPE}
         >
           <Group
