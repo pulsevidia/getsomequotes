@@ -89,9 +89,9 @@ function BlogCard({ blog }) {
           </Group>
           <Title
             lineClamp={smallSizeMath ? 3 : 1}
-            fw={600}
+            fw={900}
             style={{
-              fontFamily: "Afacad Flux",
+              fontFamily: "DM Sans, sans-serif",
               lineHeight: 1.1,
             }}
             mb={"xs"}
