@@ -41,24 +41,6 @@ export async function deleteBookAndDataCompletely(bookId) {
         );
       }
     }
-
-    // Get the pdf file link
-    const { pdf_link } = await databases.getDocument(
-      import.meta.env.VITE_DATABASE_ID,
-      import.meta.env.VITE_BOOKS_COLLECTION_ID,
-      bookId,
-      [Query.select("pdf_link")]
-    );
-
-    const pdfId = extractFileId(pdf_link);
-
-    // Delete the pdf file
-    try {
-      await storage.deleteFile(import.meta.env.VITE_BUCKET_ID, pdfId);
-    } catch (error) {
-      console.error("Error deleting PDF file:", error);
-    }
-
     // Delete all chunks for the book
     const { documents: chunks } = await databases.listDocuments(
       import.meta.env.VITE_DATABASE_ID,
@@ -76,6 +58,22 @@ export async function deleteBookAndDataCompletely(bookId) {
         );
       }
     }
+    
+    // Get the pdf file link
+    const { pdf_link } = await databases.getDocument(
+      import.meta.env.VITE_DATABASE_ID,
+      import.meta.env.VITE_BOOKS_COLLECTION_ID,
+      bookId,
+      [Query.select("pdf_link")]
+    );
+
+    const pdfId = extractFileId(pdf_link);
+
+    // Delete the pdf file
+      await storage.deleteFile(import.meta.env.VITE_BUCKET_ID, pdfId);
+      console.error("Error deleting PDF file:", error);
+
+
     // Delete the book
     await databases.deleteDocument(
       import.meta.env.VITE_DATABASE_ID,
