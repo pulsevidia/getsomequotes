@@ -24,6 +24,7 @@ export default function Home() {
 
   const { data: blogsData, isLoading: isBlogsLoading, isSuccess: isBlogsSuccess } = useQuery({
     queryFn: () => fetchBlogs(),
+
     queryKey: ["blogs"]
   })
 
