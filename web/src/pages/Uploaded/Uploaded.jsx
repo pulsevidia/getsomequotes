@@ -161,7 +161,7 @@ export default function Uploaded() {
           Add more books
         </Button>
       </Group>
-      <Group>
+      <Group pb={'100'}>
         {isBooksLoading && <BookListSkeleton />}
         {isBooksSuccess && (
           <BookList
