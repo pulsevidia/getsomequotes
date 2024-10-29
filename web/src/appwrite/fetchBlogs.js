@@ -7,7 +7,7 @@ export async function fetchBlogs() {
       import.meta.env.VITE_DATABASE_ID,
 
       import.meta.env.VITE_BLOGS_COLLECTION_ID
-      , [Query.limit(2833)]
+      , [Query.limit()]
     );
     return documents;
   } catch (error) {
