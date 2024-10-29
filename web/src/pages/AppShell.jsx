@@ -50,12 +50,15 @@ function BasicAppShell() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const isBlogPage = pathname.includes("/blog/");
+<<<<<<< HEAD
   const smallSizeMath = useMediaQuery("(max-width:480px)");
 
   const smallScreenShell = {
     paddingInlineEnd: 0,
     paddingInlineStart: 0,
   };
+=======
+>>>>>>> 28e26da95 (REMOVE: removed feature completely)
 
   useEffect(() => {
     if (pathname === "/") {
@@ -66,6 +69,7 @@ function BasicAppShell() {
   const [opened, { toggle }] = useDisclosure();
   const smallScreen = useMediaQuery("(max-width: 450px)");
   return (
+<<<<<<< HEAD
     <>
       <SignedOut>
         <NotSignedIn />
@@ -143,6 +147,71 @@ function BasicAppShell() {
         </AppShell>
       </SignedIn>
     </>
+=======
+    <AppShell
+      header={{ height: 60 }}
+      navbar={{ width: 300, breakpoint: "sm", collapsed: { mobile: !opened } }}
+      padding="md"
+    >
+      <Toaster position="bottom-center" reverseOrder={false} />
+
+      <AppShell.Header>
+        <Group h="100%" px="md" gap={"xs"}>
+          <Burger
+            lineSize={1}
+            opened={opened}
+            onClick={toggle}
+            hiddenFrom="sm"
+            size="sm"
+          />
+          <Logo />
+        </Group>
+      </AppShell.Header>
+      <AppShell.Navbar p="md">
+        <NavLink
+          color="violet"
+          active={pathname === "/home"}
+          label="Home"
+          leftSection={<House size={16} />}
+          onClick={() => {
+            navigate("/home");
+            toggle();
+          }}
+        />
+        <NavLink
+          color="violet"
+          active={pathname === "uploaded"}
+          label="Uploaded"
+          onClick={() => {
+            navigate("uploaded");
+            toggle();
+          }}
+          leftSection={<UploadSimple size={16} />}
+        />
+        <NavLink
+          color="violet"
+          active={pathname === "upload_book"}
+          label="Upload Book"
+          leftSection={<FilePlus size={16} />}
+          onClick={() => {
+            navigate("upload_book");
+            toggle();
+          }}
+        />
+      </AppShell.Navbar>
+      <AppShell.Main
+        styles={{
+          main: {
+            paddingInlineStart: 0,
+            paddingInlineEnd: 0,
+          },
+        }}
+      >
+        <Outlet />
+      </AppShell.Main>
+      {smallScreen && !isBlogPage && <BottomBar />}
+    </AppShell>
+>>>>>>> 28e26da95 (REMOVE: removed feature completely)
   );
 }
 export default BasicAppShell;
