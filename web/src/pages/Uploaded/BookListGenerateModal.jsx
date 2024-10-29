@@ -17,7 +17,7 @@ function BookListGenerateModal({
     onSuccess: () => {
       setIsGeneratingBook({ isGenerating: false, bookId: null });
       close();
-      toast.success("6 blogs & 20 quotes generated", {
+      toast.success("6 blogs generated", {
         style: {
           backgroundColor: "rgba(0, 0, 0, 1)",
           color: "white",
@@ -64,7 +64,7 @@ function BookListGenerateModal({
       </Group>
       <Divider my={"sm"} />
       <Text fz={"sm"} color="dark">
-        ──Generate 5 blogs and 20 quotes from this book?
+        ──Generate 5 blogs from this book?
       </Text>
       <Text fz={"sm"} color="dark">
         ──Takes upto 5-10 minutes based on the size of the book

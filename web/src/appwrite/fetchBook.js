@@ -17,13 +17,7 @@ async function fetchBook() {
         [Query.equal("books", current_document.$id), Query.select(["$id"])]
       );
 
-      const { documents: quotes } = await databases.listDocuments(
-        import.meta.env.VITE_DATABASE_ID,
-        import.meta.env.VITE_QUOTE_COLLECTION_ID,
-        [Query.equal("books", current_document.$id), Query.select(["$id"])]
-      );
-
-      documents[i] = { ...current_document, blogs, quotes };
+      documents[i] = { ...current_document, blogs };
     }
     return documents;
   } catch (e) {

@@ -43,9 +43,6 @@ export default function BookList({
         <Text fz="sm">{item.blogs.length}</Text>
       </Table.Td>
       <Table.Td>
-        <Text fz="sm">{item.quotes.length}</Text>
-      </Table.Td>
-      <Table.Td>
         <Group gap={"xs"} justify="flex-end">
           <Button
             loading={
@@ -86,7 +83,6 @@ export default function BookList({
             <Table.Th>Book</Table.Th>
             <Table.Th>PDF</Table.Th>
             <Table.Th>Blogs</Table.Th>
-            <Table.Th>Quotes</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>

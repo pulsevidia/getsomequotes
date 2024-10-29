@@ -3,9 +3,7 @@ import {
   Loader,
   Title,
   Text,
-  Group,
   Image,
-  Blockquote,
   Badge,
   Stack,
 } from "@mantine/core";

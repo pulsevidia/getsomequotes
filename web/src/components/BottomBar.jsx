@@ -1,11 +1,10 @@
 import React, {useEffect, useState } from "react";
 import styles from "./BottomBar.module.css"; // Import the module CSS
-import { House, Quotes as Quote, FileArrowUp, UploadSimple } from "@phosphor-icons/react";
+import { House, FileArrowUp, UploadSimple } from "@phosphor-icons/react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const navigationOptions = [
   { name: "/home", color: "#5B37B7" },
-  { name: "/quotes", color: "#5B37B7" },
   { name: "/upload_book", color: "#5B37B7" },
   { name: "/uploaded", color: "#5B37B7" },
 ];
@@ -54,9 +53,6 @@ function BottomBar() {
           >
             {item.name === "/home" && (
               <House size={80} />
-            )}
-            {item.name === "/quotes" && (
-              <Quote size={80} />
             )}
             {item.name === "/upload_book" && (
               <UploadSimple size={80} />

@@ -1,8 +1,7 @@
-import { AppShell, Burger, Group, Image, NavLink, useComputedColorScheme, useMantineColorScheme } from "@mantine/core";
+import { AppShell, Burger, Group, NavLink } from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import { House, Quotes, UploadSimple, Sun, Moon, FilePlus } from "@phosphor-icons/react";
+import { House, UploadSimple, FilePlus } from "@phosphor-icons/react";
 import { useEffect } from "react";
-import logo from '/public/logo.svg'
 
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import BottomBar from "../components/BottomBar";
@@ -10,34 +9,35 @@ import Logo from "./Logo";
 import { Toaster } from "react-hot-toast";
 
 function BasicAppShell() {
-  const navigate = useNavigate()
-  const { pathname } = useLocation()
-  const isBlogPage = pathname.includes('/blog/')
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const isBlogPage = pathname.includes("/blog/");
 
   useEffect(() => {
-    if (pathname === '/') {
-      navigate('/home');
+    if (pathname === "/") {
+      navigate("/home");
     }
   }, [pathname, navigate]);
 
   const [opened, { toggle }] = useDisclosure();
-  const { setColorScheme } = useMantineColorScheme();
-  const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
-  const smallScreen = useMediaQuery('(max-width: 450px)');
+  const smallScreen = useMediaQuery("(max-width: 450px)");
   return (
     <AppShell
       header={{ height: 60 }}
       navbar={{ width: 300, breakpoint: "sm", collapsed: { mobile: !opened } }}
       padding="md"
     >
-      <Toaster
-        position="bottom-center"
-        reverseOrder={false}
-      />
+      <Toaster position="bottom-center" reverseOrder={false} />
 
       <AppShell.Header>
-        <Group h="100%" px="md" gap={'xs'}>
-          <Burger lineSize={1} opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+        <Group h="100%" px="md" gap={"xs"}>
+          <Burger
+            lineSize={1}
+            opened={opened}
+            onClick={toggle}
+            hiddenFrom="sm"
+            size="sm"
+          />
           <Logo />
         </Group>
       </AppShell.Header>
@@ -48,27 +48,17 @@ function BasicAppShell() {
           label="Home"
           leftSection={<House size={16} />}
           onClick={() => {
-            navigate("/home")
-            toggle()
+            navigate("/home");
+            toggle();
           }}
-        />
-        <NavLink
-          color="violet"
-          active={pathname === "/quotes"}
-          label="Quotes"
-          onClick={() => {
-            navigate("/quotes")
-            toggle()
-          }}
-          leftSection={<Quotes size={16} />}
         />
         <NavLink
           color="violet"
           active={pathname === "uploaded"}
           label="Uploaded"
           onClick={() => {
-            navigate("uploaded")
-            toggle()
+            navigate("uploaded");
+            toggle();
           }}
           leftSection={<UploadSimple size={16} />}
         />
@@ -78,27 +68,19 @@ function BasicAppShell() {
           label="Upload Book"
           leftSection={<FilePlus size={16} />}
           onClick={() => {
-            navigate("upload_book")
-            toggle()
+            navigate("upload_book");
+            toggle();
           }}
         />
-        {/* <NavLink
-          color="violet"
-          label="Theme"
-          onClick={() => {
-            setColorScheme(computedColorScheme === 'dark' ? 'light' : 'dark')
-            toggle()
-          }}
-          leftSection={computedColorScheme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-        /> */}
       </AppShell.Navbar>
-      <AppShell.Main styles={{
-        main: {
-          paddingInlineStart: 0,
-          paddingInlineEnd: 0,
-        }
-      }} >
-
+      <AppShell.Main
+        styles={{
+          main: {
+            paddingInlineStart: 0,
+            paddingInlineEnd: 0,
+          },
+        }}
+      >
         <Outlet />
       </AppShell.Main>
       {smallScreen && !isBlogPage && <BottomBar />}

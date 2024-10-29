@@ -24,23 +24,6 @@ export async function deleteBookAndDataCompletely(bookId) {
       }
     }
 
-    // Delete the quotes
-    const { documents: quotes } = await databases.listDocuments(
-      import.meta.env.VITE_DATABASE_ID,
-      import.meta.env.VITE_QUOTE_COLLECTION_ID,
-      [Query.equal("books", bookId), Query.select(["$id"]), Query.limit(20)]
-    );
-
-    if (quotes.length > 0) {
-      for (const quote of quotes) {
-        await new Promise((resolve) => setTimeout(resolve, 50));
-        await databases.deleteDocument(
-          import.meta.env.VITE_DATABASE_ID,
-          import.meta.env.VITE_QUOTE_COLLECTION_ID,
-          quote.$id
-        );
-      }
-    }
     // Delete all chunks for the book
     const { documents: chunks } = await databases.listDocuments(
       import.meta.env.VITE_DATABASE_ID,

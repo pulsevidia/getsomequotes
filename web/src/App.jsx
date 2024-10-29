@@ -8,7 +8,6 @@ import Home from "./pages/Home";
 import UploadBook from "./pages/UploadBook";
 import Uploaded from "./pages/Uploaded/Uploaded";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Quotes from "./pages/Quotes";
 import ReadBlog from "./pages/ReadBlog";
 
 const theme = createTheme({
@@ -20,7 +19,7 @@ const theme = createTheme({
 export default function App() {
   const queryClient = new QueryClient()
   return (
-    <QueryClientProvider client={queryClient} defaultColorScheme="dark">
+    <QueryClientProvider client={queryClient} defaultColorScheme="light">
       <MantineProvider theme={theme}>
         <BrowserRouter>
           <Routes>
@@ -28,7 +27,6 @@ export default function App() {
               <Route path="home" element={<Home />} />
               <Route path="upload_book" element={<UploadBook />} />
               <Route path="uploaded" element={<Uploaded />} />
-              <Route path="quotes" element={<Quotes />} />
               <Route path="blog/:id" element={<ReadBlog />} />
             </Route>
           </Routes>
