@@ -1,69 +1,30 @@
-import { Query } from "appwrite";
-import { databases, storage } from "./appwrite";
-
-function extractFileId(url) {
-  const match = url.match(/files\/([^/]+)/);
-  return match ? match[1] : null;
-}
-
-export async function deleteBookAndDataCompletely(bookId) {
+export async function deleteBookAndDataCompletely(id) {
   try {
-    // Delete the blogs
-    const { documents: blogs } = await databases.listDocuments(
-      import.meta.env.VITE_DATABASE_ID,
-      import.meta.env.VITE_BLOGS_COLLECTION_ID,
-      [Query.equal("books", bookId), Query.select(["$id"]), Query.limit(20)]
-    );
-    if (blogs.length > 0) {
-      for (const blog of blogs) {
-        await databases.deleteDocument(
-          import.meta.env.VITE_DATABASE_ID,
-          import.meta.env.VITE_BLOGS_COLLECTION_ID,
-          blog.$id
-        );
-      }
+    if (!id) {
+      throw new Error("Invalid ID provided.");
     }
 
-    // Delete all chunks for the book
-    const { documents: chunks } = await databases.listDocuments(
-      import.meta.env.VITE_DATABASE_ID,
-      import.meta.env.VITE_CHUNKS_COLLECTION_ID,
-      [Query.equal("books", bookId), Query.select(["$id"]), Query.limit(170)]
-    );
-
-    if (chunks.length > 0) {
-      for (const chunk of chunks) {
-        await new Promise((resolve) => setTimeout(resolve, 50));
-        await databases.deleteDocument(
-          import.meta.env.VITE_DATABASE_ID,
-          import.meta.env.VITE_CHUNKS_COLLECTION_ID,
-          chunk.$id
-        );
+    // Send POST request to backend
+    const response = await fetch(
+      `${import.meta.env.VITE_NODE_SERVER_URL}delete-content`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
       }
+    );
+
+    // Handle response
+    if (response.ok) {
+      const result = await response.json();
+      console.log("Response from server:", result.message);
+    } else {
+      throw new Error(`Failed to delete content: ${response.statusText}`);
     }
-    
-    // Get the pdf file link
-    const { pdf_link } = await databases.getDocument(
-      import.meta.env.VITE_DATABASE_ID,
-      import.meta.env.VITE_BOOKS_COLLECTION_ID,
-      bookId,
-      [Query.select("pdf_link")]
-    );
-
-    const pdfId = extractFileId(pdf_link);
-
-    // Delete the pdf file
-      await storage.deleteFile(import.meta.env.VITE_BUCKET_ID, pdfId);
-      console.error("Error deleting PDF file:", error);
-
-
-    // Delete the book
-    await databases.deleteDocument(
-      import.meta.env.VITE_DATABASE_ID,
-      import.meta.env.VITE_BOOKS_COLLECTION_ID,
-      bookId
-    );
   } catch (error) {
-    throw error;
+    console.error("Error:", error);
+    throw error; // Throwing the error for further handling if needed
   }
 }
