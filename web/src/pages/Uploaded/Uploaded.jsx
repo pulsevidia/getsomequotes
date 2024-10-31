@@ -2,12 +2,22 @@
 import "./Uploaded.css";
 // Mantine components and hooks
 import { useDisclosure } from "@mantine/hooks";
-import { Group, rem, Modal, Button, LoadingOverlay } from "@mantine/core";
+import {
+  Group,
+  Modal,
+  Button,
+  Stack,
+  Input,
+  Card,
+  BackgroundImage,
+  Text,
+  ActionIcon,
+} from "@mantine/core";
 import { Dropzone, PDF_MIME_TYPE } from "@mantine/dropzone";
 import { fetchBook } from "../../appwrite/fetchBook";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { postPDF } from "../../server-functions/postPDF";
-import { Book, XCircle, UploadSimple } from "@phosphor-icons/react";
+import { Book, FileArrowUp, Sparkle, Trash } from "@phosphor-icons/react";
 import BookList from "./BookList";
 import BookListSkeleton from "./BookListSkeleton";
 import BookListDeleteModal from "./BookListDeleteModal";
@@ -32,6 +42,37 @@ export default function Uploaded() {
     bookId: null,
   });
 
+  const [currentImage, setCurrentImage] = useState(null);
+  const imageArray = [
+    "1-5Z7BuzVnrVbWrXx9ZA2bhkUEhIgRb9",
+    "10-zSeaqglQsBG354rs0uFQtV3CDhCclz",
+    "11-KXmnPrBxCX3GBE9piYRzpHgP1qht0l",
+    "12-5FVmKTerKVfPVyrLYO0QaSDMC0rh4I",
+    "13-ra4FdCQGIEo2bZ5twJ2xKyS7grQiG7",
+    "14-EAVsS2CfniRJYv5RJL3Cbkyh7Zorgi",
+    "15-ZT2pSfX2IL59OKMeYa6AmdroV2jqMx.",
+    "2-oxt9IKmB1AdyDpkLs1itkBiKFs27nn",
+    "3-gMcdEKOQCRZ9bg8kSezvTxEZQPOQ2v",
+    "4-Uro718UPbvu7GYyv8T6uDqPpIFkh8j",
+    "5-lTIYYlQpguMZKCA2yF49l3oCnAcWhn",
+    "6-pZNOgN4gAJxJX5QZvTdRrYZxz5AHh9",
+    "7-eZLEPTNLv6bFLUDdY6ykH9MuAk6Qau",
+    "8-nShlQLtti1gelaByNwASMi3jU96te2",
+    "9-AkBiHFTUPyViVMy1pKyUjfyG5Capoa",
+  ];
+
+  function chooseRandomImage() {
+    setCurrentImage(
+      `https://viqwjhprxs3j5sad.public.blob.vercel-storage.com/image_4_books/${
+        imageArray[Math.floor(Math.random() * imageArray.length)]
+      }.png`
+    );
+  }
+
+  const [book, setBook] = useState(null);
+  const [authorName, setAuthorName] = useState(null);
+  const [bookTitle, setBookTitle] = useState(null);
+
   const {
     data: books,
     isSuccess: isBooksSuccess,
@@ -47,10 +88,16 @@ export default function Uploaded() {
     onSuccess: () => {
       toast.success("Book sent successfully");
       close();
+      setBook(null);
+      setAuthorName(null);
+      setBookTitle(null);
     },
     onError: () => {
       close();
-      toast.error("Something went wrong");
+      setBook(null);
+      setAuthorName(null);
+      setBookTitle(null);
+      toast.error("Your book is too short, try bigger one!");
     },
   });
 
@@ -58,12 +105,6 @@ export default function Uploaded() {
 
   return (
     <>
-      <LoadingOverlay
-        Index={19000}
-        overlayProps={{ radius: "sm", blur: 2 }}
-        visible={status == "pending"}
-      />
-
       <BookListDeleteModal
         isOpened={isDeleteBookModalOpened}
         close={closeDeleteBookModal}
@@ -80,88 +121,165 @@ export default function Uploaded() {
         radius={"xl"}
         centered
         styles={{
+          content: {
+            maxWidth: "310px",
+          },
           body: {
-            paddingTop: "16px",
+            paddingTop: "2rem",
+            paddingLeft: "1.5rem",
+            paddingRight: "1.5rem",
+            paddingBottom: "2rem",
           },
           header: {
             display: "none",
           },
         }}
         opened={opened}
-        onClose={close}
+        onClose={status !== "pending" && close}
         title="upload"
       >
-        <Dropzone
-          styles={{
-            root: {
-              border: "none",
-            },
-          }}
-          onDrop={async (files) => {
-            try {
-              await postThePDF(files);
-            } catch (e) {
-              console.error(e);
-            }
-          }}
-          onReject={() => {
-            toast.error("Should not exceed 5MB");
-          }}
-          maxSize={6* 1024 ** 2}
-          accept={PDF_MIME_TYPE}
-        >
-          <Group
-            justify="center"
-            gap="xl"
-            mih={220}
-            style={{ pointerEvents: "none" }}
-          >
-            <Dropzone.Accept>
-              <UploadSimple size={rem(52)} />
-            </Dropzone.Accept>
-            <Dropzone.Reject>
-              <XCircle size={rem(52)} />
-            </Dropzone.Reject>
-            <Dropzone.Idle>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-book-upload"
-                width="60"
-                height="60"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="#2c3e50"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+        <Stack gap={"0"} miw={230}>
+          <Input.Wrapper label="Author Name">
+            <Input
+              disabled={status === "pending"}
+              radius={"md"}
+              variant="filled"
+              size="sm"
+              value={authorName}
+              onChange={(e) => setAuthorName(e.target.value)}
+              placeholder="Ex: Richard Dawkins"
+            />
+          </Input.Wrapper>
+
+          <Input.Wrapper label="Book Title">
+            <Input
+              disabled={status === "pending"}
+              radius={"md"}
+              variant="filled"
+              value={bookTitle}
+              onChange={(e) => setBookTitle(e.target.value)}
+              size="sm"
+              placeholder="The Selfish Gene"
+            />
+          </Input.Wrapper>
+        </Stack>
+
+        {book && (
+          <Card bg={"#f1f3f5"} mt={"sm"} padding="xs" radius="xl">
+            <Group justify="space-between">
+              <Group>
+                <BackgroundImage
+                  onClick={chooseRandomImage}
+                  w={32}
+                  h={32}
+                  src={currentImage}
+                  radius="xl"
+                />
+                <Stack gap={0}>
+                  <Text
+                    maw={134}
+                    truncate={"end"}
+                    style={{ lineHeight: 1.1, fontFamily: "Afacad Flux" }}
+                  >
+                    {bookTitle}
+                  </Text>
+                  <Text
+                    maw={134}
+                    truncate={"end"}
+                    style={{ lineHeight: 1.1 }}
+                    size="xs"
+                    c={"gray"}
+                  >
+                    {authorName && "By: "}
+                    {authorName}
+                  </Text>
+                  {/* <Text mt={'5'} style={{ lineHeight: 1.1 }} size="xs" c={"gray"}>
+                  PDF &nbsp; 2.2MB
+                </Text> */}
+                </Stack>
+              </Group>
+              <ActionIcon
+                disabled={status === "pending"}
+                onClick={() => setBook(null)}
+                mr={"xs"}
+                variant="transparent"
+                color="red"
+                aria-label="Settings"
               >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M14 20h-8a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12v5" />
-                <path d="M11 16h-5a2 2 0 0 0 -2 2" />
-                <path d="M15 16l3 -3l3 3" />
-                <path d="M18 13v9" />
-              </svg>
-            </Dropzone.Idle>
-          </Group>
-        </Dropzone>
+                <Trash size={18} color="#ed333b" />
+              </ActionIcon>
+            </Group>
+          </Card>
+        )}
+        {authorName && bookTitle && !book ? (
+          <Dropzone
+            styles={{
+              root: {
+                border: "none",
+                padding: 0,
+              },
+            }}
+            onDrop={async (file) => {
+              setBook(file);
+              chooseRandomImage();
+            }}
+            onReject={() => {
+              toast.error("Should not exceed 5MB");
+            }}
+            maxSize={6 * 1024 ** 2}
+            accept={PDF_MIME_TYPE}
+          >
+            <Group justify="center" gap="xl" style={{ pointerEvents: "none" }}>
+              <Dropzone.Idle>
+                <Button
+                  variant="light"
+                  mt={"md"}
+                  leftSection={<FileArrowUp size={18} />}
+                  size="sm"
+                  fullWidth
+                  color="black"
+                  radius="md"
+                >
+                  Upload
+                </Button>
+              </Dropzone.Idle>
+            </Group>
+          </Dropzone>
+        ) : null}
+        {book && (
+          <Button
+            variant="filled"
+            mt={"md"}
+            styles={{ section: { marginInlineEnd: "5px" } }}
+            leftSection={<Sparkle size={18} color="#f6f5f4" weight="fill" />}
+            size="sm"
+            fullWidth
+            color="black"
+            radius="md"
+            loaderProps={{ type: "dots" }}
+            loading={status === "pending"}
+            onClick={() =>
+              postThePDF({ file: book, authorName, bookTitle, currentImage })
+            }
+          >
+            Generate
+          </Button>
+        )}
       </Modal>
       <Group>
         <Button
-          style={{
-            boxShadow:
-              "0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08)",
-          }}
-          variant=""
+          variant="light"
           leftSection={<Book size={16} />}
           onClick={open}
-          color="black"
+          color="dark"
+          radius={"md"}
           fullWidth
           m={"md"}
         >
           Add more books
         </Button>
       </Group>
-      <Group pb={'100'}>
+      <Group pb={"100"}>
         {isBooksLoading && <BookListSkeleton />}
         {isBooksSuccess && (
           <BookList

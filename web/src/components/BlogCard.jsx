@@ -76,7 +76,7 @@ function BlogCard({ blog }) {
               color={"gray"}
               style={{ fontFamily: "Afacad Flux" }}
             >
-              {blog.books.book_name}
+              {blog?.books?.book_name}
             </Badge>
             <Text
               size="xs"

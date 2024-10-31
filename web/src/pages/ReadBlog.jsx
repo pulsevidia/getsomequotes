@@ -6,6 +6,7 @@ import {
   Image,
   Badge,
   Stack,
+  Code,
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { getBlogById } from "../appwrite/getBlogById";
@@ -33,6 +34,10 @@ const Title3 = ({ children }) => (
   </Title>
 );
 
+const CodeBlock = ({ children }) => {
+  <Code block>{children}</Code>;
+};
+
 const TextMarkdown = ({ children }) => (
   <Text
     py={"xs"}
@@ -55,6 +60,7 @@ const MarkdownToCustom = ({ markdown }) => {
     <Markdown
       options={{
         overrides: {
+          code: { component: CodeBlock },
           h1: { component: Title1 },
           h2: { component: Title2 },
           h3: { component: Title3 },
