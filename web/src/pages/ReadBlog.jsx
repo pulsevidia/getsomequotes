@@ -41,7 +41,7 @@ const CodeBlock = ({ children }) => {
 const TextMarkdown = ({ children }) => (
   <Text
     py={"xs"}
-    ta={"justify"}
+    ta={"left"}
     size="lg"
     style={{ fontFamily: "Cirular medium" }}
   >
