@@ -9,6 +9,8 @@ import UploadBook from "./pages/UploadBook";
 import Uploaded from "./pages/Uploaded/Uploaded";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReadBlog from "./pages/ReadBlog";
+import Auth from "./pages/Auth";
+import { SignedIn } from "@clerk/clerk-react";
 
 const theme = createTheme({
   fontFamily: "Verdana, sans-serif",
@@ -17,7 +19,7 @@ const theme = createTheme({
 });
 
 export default function App() {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient} defaultColorScheme="light">
       <MantineProvider theme={theme}>
@@ -25,6 +27,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<BasicAppShell />}>
               <Route path="home" element={<Home />} />
+              <Route path="auth" element={<Auth />} />
               <Route path="upload_book" element={<UploadBook />} />
               <Route path="uploaded" element={<Uploaded />} />
               <Route path="blog/:id" element={<ReadBlog />} />

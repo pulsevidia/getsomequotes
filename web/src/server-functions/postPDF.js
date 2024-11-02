@@ -1,14 +1,21 @@
-export async function postPDF({ file, authorName, bookTitle, currentImage }) {
-  if (!file || file.length === 0) {
-    throw new Error("No file provided.");
-  }
-
+export async function postPDF({
+  id,
+  file,
+  authorName,
+  bookTitle,
+  currentImage,
+}) {
   try {
+    if (!file || file.length === 0) {
+      throw new Error("No file provided.");
+    }
+
     const formData = new FormData();
     formData.append("pdf", file[0]); // Attach the file with the key "pdf"
     formData.append("authorName", authorName); // Add authorName
     formData.append("bookTitle", bookTitle); // Add bookTitle
     formData.append("imageUrl", currentImage);
+    formData.append("user_id", id);
 
     const response = await fetch(
       `${import.meta.env.VITE_NODE_SERVER_URL}upload`,
@@ -23,8 +30,7 @@ export async function postPDF({ file, authorName, bookTitle, currentImage }) {
       throw new Error(`Error ${response.status}: ${errorResponse.message}`);
     }
 
-    const result = await response.json();
-    return result;
+    return null;
   } catch (error) {
     console.error("Error in postPDF:", error.message);
     throw new Error(`postPDF failed: ${error.message}`);

@@ -119,7 +119,7 @@ function BlogCard({ blog }) {
           <BackgroundImage
             p={40}
             src={`/images_4_blogs/${randomImage}`}
-            radius="sm"
+            radius="md"
           ></BackgroundImage>
         </Box>
       </Group>

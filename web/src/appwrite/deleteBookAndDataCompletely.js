@@ -19,7 +19,6 @@ export async function deleteBookAndDataCompletely(id) {
     // Handle response
     if (response.ok) {
       const result = await response.json();
-      console.log("Response from server:", result.message);
     } else {
       throw new Error(`Failed to delete content: ${response.statusText}`);
     }

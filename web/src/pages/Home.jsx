@@ -2,8 +2,13 @@ import BlogCard from "../components/BlogCard";
 import { Group, Skeleton, Stack } from "@mantine/core";
 import { fetchBlogs } from "../appwrite/fetchBlogs";
 import { useQuery } from "@tanstack/react-query";
+import { useUser } from "@clerk/clerk-react";
 
 export default function Home() {
+  const {
+    user: { id },
+  } = useUser();
+
   function BlogSkeleton() {
     return (
       <>
@@ -26,7 +31,7 @@ export default function Home() {
     isLoading: isBlogsLoading,
     isSuccess: isBlogsSuccess,
   } = useQuery({
-    queryFn: () => fetchBlogs(),
+    queryFn: () => fetchBlogs(id),
     queryKey: ["blogs"],
   });
 

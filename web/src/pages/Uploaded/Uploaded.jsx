@@ -24,8 +24,13 @@ import BookListDeleteModal from "./BookListDeleteModal";
 import BookListGenerateModal from "./BookListGenerateModal";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useUser } from "@clerk/clerk-react";
 
 export default function Uploaded() {
+  const {
+    user: { id },
+  } = useUser();
+
   const [opened, { open, close }] = useDisclosure(false);
   const [
     isDeleteBookModalOpened,
@@ -44,28 +49,28 @@ export default function Uploaded() {
 
   const [currentImage, setCurrentImage] = useState(null);
   const imageArray = [
-    "1-5Z7BuzVnrVbWrXx9ZA2bhkUEhIgRb9",
-    "10-zSeaqglQsBG354rs0uFQtV3CDhCclz",
-    "11-KXmnPrBxCX3GBE9piYRzpHgP1qht0l",
-    "12-5FVmKTerKVfPVyrLYO0QaSDMC0rh4I",
-    "13-ra4FdCQGIEo2bZ5twJ2xKyS7grQiG7",
-    "14-EAVsS2CfniRJYv5RJL3Cbkyh7Zorgi",
-    "15-ZT2pSfX2IL59OKMeYa6AmdroV2jqMx.",
-    "2-oxt9IKmB1AdyDpkLs1itkBiKFs27nn",
-    "3-gMcdEKOQCRZ9bg8kSezvTxEZQPOQ2v",
-    "4-Uro718UPbvu7GYyv8T6uDqPpIFkh8j",
-    "5-lTIYYlQpguMZKCA2yF49l3oCnAcWhn",
-    "6-pZNOgN4gAJxJX5QZvTdRrYZxz5AHh9",
-    "7-eZLEPTNLv6bFLUDdY6ykH9MuAk6Qau",
-    "8-nShlQLtti1gelaByNwASMi3jU96te2",
-    "9-AkBiHFTUPyViVMy1pKyUjfyG5Capoa",
+    "1-5Z7BuzVnrVbWrXx9ZA2bhkUEhIgRb9.jpg",
+    "10-zSeaqglQsBG354rs0uFQtV3CDhCclz.png",
+    "11-KXmnPrBxCX3GBE9piYRzpHgP1qht0l.png",
+    "12-5FVmKTerKVfPVyrLYO0QaSDMC0rh4I.png",
+    "13-ra4FdCQGIEo2bZ5twJ2xKyS7grQiG7.jpg",
+    "14-EAVsS2CfniRJYv5RJL3Cbkyh7Zorgi.png",
+    "15-ZT2pSfX2IL59OKMeYa6AmdroV2jqMx.jpg",
+    "2-oxt9IKmB1AdyDpkLs1itkBiKFs27nn.png",
+    "3-gMcdEKOQCRZ9bg8kSezvTxEZQPOQ2v.jpg",
+    "4-Uro718UPbvu7GYyv8T6uDqPpIFkh8j.jpg",
+    "5-lTIYYlQpguMZKCA2yF49l3oCnAcWhn.png",
+    "6-pZNOgN4gAJxJX5QZvTdRrYZxz5AHh9.png",
+    "7-eZLEPTNLv6bFLUDdY6ykH9MuAk6Qau.png",
+    "8-nShlQLtti1gelaByNwASMi3jU96te2.png",
+    "9-AkBiHFTUPyViVMy1pKyUjfyG5Capoa.png",
   ];
 
   function chooseRandomImage() {
     setCurrentImage(
       `https://viqwjhprxs3j5sad.public.blob.vercel-storage.com/image_4_books/${
         imageArray[Math.floor(Math.random() * imageArray.length)]
-      }.png`
+      }`
     );
   }
 
@@ -79,7 +84,7 @@ export default function Uploaded() {
     isLoading: isBooksLoading,
   } = useQuery({
     queryKey: ["book"],
-    queryFn: fetchBook,
+    queryFn: () => fetchBook(id),
     cacheTime: Infinity,
   });
 
@@ -100,7 +105,6 @@ export default function Uploaded() {
       toast.error("Your book is too short, try bigger one!");
     },
   });
-
   // status can be idle, pending, success, error
 
   return (
@@ -254,12 +258,19 @@ export default function Uploaded() {
             leftSection={<Sparkle size={18} color="#f6f5f4" weight="fill" />}
             size="sm"
             fullWidth
+            fw={400}
             color="black"
             radius="md"
             loaderProps={{ type: "dots" }}
             loading={status === "pending"}
-            onClick={() =>
-              postThePDF({ file: book, authorName, bookTitle, currentImage })
+            onClick={async () =>
+              await postThePDF({
+                id,
+                file: book,
+                authorName,
+                bookTitle,
+                currentImage,
+              })
             }
           >
             Generate

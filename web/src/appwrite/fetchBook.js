@@ -1,11 +1,12 @@
 import { Query } from "appwrite";
 import { databases } from "./appwrite";
 
-async function fetchBook() {
+async function fetchBook(id) {
   try {
     const { documents } = await databases.listDocuments(
       import.meta.env.VITE_DATABASE_ID,
-      import.meta.env.VITE_BOOKS_COLLECTION_ID
+      import.meta.env.VITE_BOOKS_COLLECTION_ID,
+      [Query.equal("user_id", [id])]
     );
 
     for (let i = 0; i < documents.length; i++) {
@@ -14,7 +15,11 @@ async function fetchBook() {
       const { documents: blogs } = await databases.listDocuments(
         import.meta.env.VITE_DATABASE_ID,
         import.meta.env.VITE_BLOGS_COLLECTION_ID,
-        [Query.equal("books", current_document.$id), Query.select(["$id"])]
+        [
+          Query.equal("books", current_document.$id),
+          Query.equal("user_id", [id]),
+          Query.select(["$id"]),
+        ]
       );
 
       documents[i] = { ...current_document, blogs };
