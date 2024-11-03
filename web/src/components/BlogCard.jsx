@@ -14,18 +14,20 @@ import removeMarkdown from "markdown-to-text";
 import { useNavigate } from "react-router-dom";
 
 function BlogCard({ blog }) {
-  function extractFirstLine(inputString) {
-    const start = inputString.indexOf("##");
+  function extractFirstLine(blog) {
+    const start = blog.blog_markdown.indexOf("##");
     if (start === -1) return null;
-    const end = inputString.indexOf("\n", start);
+
+    const end = blog.blog_markdown.indexOf("\n", start);
     if (end === -1) return null;
-    return [
-      inputString.slice(start + 2, end).trim(),
-      inputString.slice(end + 1).trim(),
-    ];
+    console.log();
+
+    const what = [blog.blog_markdown.slice(start + 2, end).trim()];
+    console.log(what);
+    return what;
   }
 
-  const title = extractFirstLine(blog.blog_markdown);
+  const title = extractFirstLine(blog);
   const content = removeMarkdown(blog.blog_markdown);
   const smallSizeMath = useMediaQuery("(max-width:480px)");
 
@@ -89,13 +91,13 @@ function BlogCard({ blog }) {
           </Group>
           <Title
             lineClamp={smallSizeMath ? 3 : 1}
-            fw={900}
+            fw={600}
             style={{
               fontFamily: "DM Sans, sans-serif",
               lineHeight: 1.1,
             }}
             mb={"xs"}
-            order={smallSizeMath ? 3 : 3}
+            order={3 }
           >
             {title}
           </Title>
