@@ -8,7 +8,6 @@ export async function fetchBlogs(id) {
       import.meta.env.VITE_BLOGS_COLLECTION_ID,
       [Query.limit(2000), Query.equal("user_id", [id])]
     );
-    console.log(documents);
     const refined_documents = [];
     documents.forEach((doc) => {
       doc.books ? refined_documents.push(doc) : null;
