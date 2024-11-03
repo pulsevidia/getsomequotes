@@ -4,7 +4,7 @@
   font-family: "Open Sans", sans-serif;
   display: flex;
   justify-content: space-evenly;
-  background: #ffffff;
+  background: transparent;
   border-radius: 30px 30px 30px 30px;
   width: 100%;
   box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1);
