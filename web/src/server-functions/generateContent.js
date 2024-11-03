@@ -1,11 +1,14 @@
-export async function generateContent(bookId) {
+export async function generateContent({ book_id, user_id }) {
   try {
     const response = await fetch(
-      `${import.meta.env.VITE_NODE_SERVER_URL}generate-content?id=${bookId}`,
+      `${
+        import.meta.env.VITE_NODE_SERVER_URL
+      }generate-content?id=${book_id}&user_id=${user_id}`,
       {
         method: "POST",
       }
     );
+    const res = await response.json();
 
     if (!response.ok) {
       if (response.status === 404) {
@@ -14,9 +17,8 @@ export async function generateContent(bookId) {
         throw new Error(`Request failed with status ${response.status}`);
       }
     }
-
-    const data = await response.json();
-    return data;
+    // const data = await response.json();
+    return null;
   } catch (error) {
     console.error("Error fetching content:", error.message);
     throw error; // Optionally rethrow the error if it needs to be handled further up

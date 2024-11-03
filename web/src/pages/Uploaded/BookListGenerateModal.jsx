@@ -3,6 +3,7 @@ import { ArrowCircleUp } from "@phosphor-icons/react";
 import { generateContent } from "../../server-functions/generateContent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { useUser } from "@clerk/clerk-react";
 
 function BookListGenerateModal({
   isOpened,
@@ -11,6 +12,9 @@ function BookListGenerateModal({
   setIsGeneratingBook,
 }) {
   const queryClient = useQueryClient();
+  const {
+    user: { id },
+  } = useUser();
 
   const { mutateAsync: generateMoreBookContent } = useMutation({
     mutationFn: generateContent,
@@ -82,7 +86,7 @@ function BookListGenerateModal({
           onClick={async () => {
             close();
             setIsGeneratingBook({ isGenerating: true, bookId });
-            await generateMoreBookContent(bookId);
+            await generateMoreBookContent({ book_id: bookId, user_id: id });
           }}
           variant="light"
           color="rgba(0, 0, 0, 1)"
