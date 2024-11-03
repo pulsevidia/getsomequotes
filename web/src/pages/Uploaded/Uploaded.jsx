@@ -1,7 +1,7 @@
 // Styles
 import "./Uploaded.css";
 // Mantine components and hooks
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import {
   Group,
   Modal,
@@ -27,6 +27,7 @@ import toast from "react-hot-toast";
 import { useUser } from "@clerk/clerk-react";
 
 export default function Uploaded() {
+  const smallSizeMath = useMediaQuery("(max-width:480px)");
   const {
     user: { id },
   } = useUser();
@@ -284,7 +285,7 @@ export default function Uploaded() {
           onClick={open}
           color="dark"
           radius={"md"}
-          fullWidth
+          fullWidth={smallSizeMath}
           m={"md"}
         >
           Add more books

@@ -50,6 +50,12 @@ function BasicAppShell() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const isBlogPage = pathname.includes("/blog/");
+  const smallSizeMath = useMediaQuery("(max-width:480px)");
+
+  const smallScreenShell = {
+    paddingInlineEnd: 0,
+    paddingInlineStart: 0,
+  };
 
   useEffect(() => {
     if (pathname === "/") {
@@ -128,10 +134,7 @@ function BasicAppShell() {
           </AppShell.Navbar>
           <AppShell.Main
             styles={{
-              main: {
-                paddingInlineStart: 0,
-                paddingInlineEnd: 0,
-              },
+              main: smallSizeMath && smallScreenShell,
             }}
           >
             <Outlet />
