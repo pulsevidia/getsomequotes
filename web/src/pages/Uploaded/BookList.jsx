@@ -1,17 +1,5 @@
-import {
-  Image,
-  Group,
-  Text,
-  Card,
-  Stack,
-  Menu,
-  Loader,
-} from "@mantine/core";
-import {
-  DotsThreeVertical,
-  Sparkle,
-  Trash,
-} from "@phosphor-icons/react";
+import { Image, Group, Text, Card, Stack, Menu, Loader } from "@mantine/core";
+import { DotsThreeVertical, Sparkle, Trash } from "@phosphor-icons/react";
 import { useMediaQuery } from "@mantine/hooks";
 
 export default function BookList({
@@ -42,7 +30,7 @@ export default function BookList({
               h={38}
               w="auto"
               fit="contain"
-              src={data[0].book_image}
+              src={item.book_image}
             />
             <Stack gap={0}>
               <Text

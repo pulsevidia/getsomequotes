@@ -10,7 +10,7 @@ function BookListSkeleton() {
           key={index}
           height={78}
           p={"sm"}
-          style={{borderRadius: '10px'}}
+          style={{ borderRadius: "10px" }}
           wrap="nowrap"
           align="flex-start"
         >

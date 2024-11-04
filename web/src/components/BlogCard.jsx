@@ -20,10 +20,8 @@ function BlogCard({ blog }) {
 
     const end = blog.blog_markdown.indexOf("\n", start);
     if (end === -1) return null;
-    console.log();
 
     const what = [blog.blog_markdown.slice(start + 2, end).trim()];
-    console.log(what);
     return what;
   }
 
@@ -97,7 +95,7 @@ function BlogCard({ blog }) {
               lineHeight: 1.1,
             }}
             mb={"xs"}
-            order={3 }
+            order={3}
           >
             {title}
           </Title>
