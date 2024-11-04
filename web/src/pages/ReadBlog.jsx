@@ -17,19 +17,19 @@ import { Quotes } from "@phosphor-icons/react";
 const icon = <Quotes size={30} />;
 // Custom components
 const Title1 = ({ children }) => (
-  <Title style={{ fontFamily: "Afacad Flux" }} fw={500} order={1} my={"md"}>
+  <Title style={{ fontFamily: "Spectral, serif" }} fw={500} order={1} my={"md"}>
     {children}
   </Title>
 );
 
 const Title2 = ({ children }) => (
-  <Title style={{ fontFamily: "Afacad Flux" }} fw={500} order={1} my={"md"}>
+  <Title style={{ fontFamily: "Speactral, serif" }} fw={500} order={1} my={"md"}>
     {children}
   </Title>
 );
 
 const Title3 = ({ children }) => (
-  <Title style={{ fontFamily: "Circular" }} order={3} my={"md"}>
+  <Title style={{ fontFamily: "Spectral, serif" }} order={3} my={"md"}>
     {children}
   </Title>
 );
@@ -43,7 +43,7 @@ const TextMarkdown = ({ children }) => (
     py={"xs"}
     ta={"left"}
     size="lg"
-    style={{ fontFamily: "Cirular medium" }}
+    style={{ fontFamily: "Spectral, serif" }}
   >
     {children}
   </Text>
@@ -127,7 +127,7 @@ function ReadBlog() {
   }
 
   return (
-    <Stack miw={300} gap={"xs"} align="start" maw={600} px={"md"} mx={"auto"}>
+    <Stack miw={300} gap={"xs"} align="start" maw={800} px={"md"} mx={"auto"}>
       <Image
         w={"100%"}
         miw={300}
