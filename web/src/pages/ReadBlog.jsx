@@ -13,6 +13,7 @@ import { getBlogById } from "../appwrite/getBlogById";
 import { useParams } from "react-router-dom";
 import Markdown from "markdown-to-jsx";
 import { Quotes } from "@phosphor-icons/react";
+import QuoteCard from "../components/QuoteCard";
 
 const icon = <Quotes size={30} />;
 // Custom components
@@ -23,7 +24,12 @@ const Title1 = ({ children }) => (
 );
 
 const Title2 = ({ children }) => (
-  <Title style={{ fontFamily: "Speactral, serif" }} fw={500} order={1} my={"md"}>
+  <Title
+    style={{ fontFamily: "Speactral, serif" }}
+    fw={500}
+    order={1}
+    my={"md"}
+  >
     {children}
   </Title>
 );
@@ -55,6 +61,8 @@ const forEm = ({ children }) => (
   </Text>
 );
 
+const ForBlockquote = ({ children }) => <QuoteCard quote={children} />;
+
 const MarkdownToCustom = ({ markdown }) => {
   return (
     <Markdown
@@ -66,6 +74,7 @@ const MarkdownToCustom = ({ markdown }) => {
           h3: { component: Title3 },
           p: { component: TextMarkdown },
           em: { component: forEm },
+          blockquote: { component: ForBlockquote },
         },
       }}
     >
