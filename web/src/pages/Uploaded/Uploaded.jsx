@@ -12,6 +12,7 @@ import {
   BackgroundImage,
   Text,
   ActionIcon,
+  Divider,
 } from "@mantine/core";
 import { Dropzone, PDF_MIME_TYPE } from "@mantine/dropzone";
 import { fetchBook } from "../../appwrite/fetchBook";
@@ -286,12 +287,13 @@ export default function Uploaded() {
           color="dark"
           radius={"md"}
           fullWidth={smallSizeMath}
-          m={"md"}
+          mx={"md"}
         >
           Add more books
         </Button>
       </Group>
-      <Group pb={"100"}>
+      <Divider m={"md"} />
+      <Group pb={"100"} gap={"xs"}>
         {isBooksLoading && <BookListSkeleton />}
         {isBooksSuccess && (
           <BookList
