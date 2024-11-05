@@ -10,7 +10,6 @@ function QuoteCard({ quote }) {
       >
         <Text
           size="xl"
-          c={"dark"}
           style={{
             fontFamily: "Circular, sans-serif",
             lineHeight: "1.5",

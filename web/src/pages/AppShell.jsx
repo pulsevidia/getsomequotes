@@ -7,8 +7,9 @@ import {
   Group,
   NavLink,
   Stack,
+  useMantineTheme,
 } from "@mantine/core";
-import { useDisclosure, useMediaQuery } from "@mantine/hooks";
+import { useColorScheme, useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { House, UploadSimple, FilePlus, SignOut } from "@phosphor-icons/react";
 import { useEffect } from "react";
 
@@ -24,10 +25,18 @@ import {
 } from "@clerk/clerk-react";
 import NotSignedIn from "../components/NotSignedIn";
 
-function UserCard() {
+function UserCard({ color }) {
   const { user } = useUser();
   return (
-    <Card withBorder radius={"md"} py="xs" pr={"md"} pl={"xs"} mb={"md"}>
+    <Card
+      bg={color}
+      withBorder
+      radius={"md"}
+      py="xs"
+      pr={"md"}
+      pl={"xs"}
+      mb={"md"}
+    >
       <Group justify="space-between">
         <Group gap={"md"} align="center">
           <Avatar src={user.imageUrl} alt="it's me" />
@@ -63,6 +72,8 @@ function BasicAppShell() {
     }
   }, [pathname, navigate]);
 
+  const theme = useMantineTheme();
+  const colorScheme = useColorScheme();
   const [opened, { toggle }] = useDisclosure();
   const smallScreen = useMediaQuery("(max-width: 450px)");
   return (
@@ -74,6 +85,7 @@ function BasicAppShell() {
       <SignedIn>
         {" "}
         <AppShell
+          bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}
           header={{ height: 60 }}
           navbar={{
             width: 300,
@@ -84,9 +96,12 @@ function BasicAppShell() {
         >
           <Toaster position="bottom-center" reverseOrder={false} />
 
-          <AppShell.Header>
+          <AppShell.Header
+            bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}
+          >
             <Group h="100%" px="md" gap={"xs"}>
               <Burger
+                color={colorScheme == "dark" && "#f1beb5"}
                 lineSize={1}
                 opened={opened}
                 onClick={toggle}
@@ -96,11 +111,18 @@ function BasicAppShell() {
               <Logo />
             </Group>
           </AppShell.Header>
-          <AppShell.Navbar p="md">
-            <UserCard />
+          <AppShell.Navbar
+            bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}
+            header={{ height: 60 }}
+            p="md"
+          >
+            <UserCard
+              color={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}
+            />
+
             <NavLink
               style={{ borderRadius: "8px" }}
-              color="violet"
+              color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[9]}
               active={pathname === "/home"}
               label="Home"
               leftSection={<House size={16} />}
@@ -111,7 +133,7 @@ function BasicAppShell() {
             />
             <NavLink
               style={{ borderRadius: "8px" }}
-              color="violet"
+              color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[9]}
               active={pathname === "/uploaded"}
               label="Uploaded"
               onClick={() => {
@@ -122,7 +144,7 @@ function BasicAppShell() {
             />
             <NavLink
               style={{ borderRadius: "8px" }}
-              color="violet"
+              color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[9]}
               active={pathname === "/upload_book"}
               label="Upload Book"
               leftSection={<FilePlus size={16} />}

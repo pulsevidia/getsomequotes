@@ -7,9 +7,10 @@ import {
   BackgroundImage,
   Stack,
   Title,
+  useMantineTheme,
 } from "@mantine/core";
 
-import { useMediaQuery } from "@mantine/hooks";
+import { useColorScheme, useMediaQuery } from "@mantine/hooks";
 import removeMarkdown from "markdown-to-text";
 import { useNavigate } from "react-router-dom";
 
@@ -59,11 +60,13 @@ function BlogCard({ blog }) {
   const randomImage = allImage[Math.floor(Math.random() * allImage.length)];
 
   const navigate = useNavigate();
-
+  const theme = useMantineTheme();
+  const colorScheme = useColorScheme();
   return (
     <Card
       maw={600}
       style={{ cursor: "pointer" }}
+      bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}
       padding="lg"
       radius="md"
       onClick={() => navigate(`/blog/${blog.$id}`)}
@@ -73,7 +76,7 @@ function BlogCard({ blog }) {
           <Group mb={"xs"} gap={"xs"} align="center">
             <Badge
               variant="light"
-              color={"gray"}
+              color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
               style={{ fontFamily: "Afacad Flux" }}
             >
               {blog?.books?.book_name}
@@ -81,7 +84,7 @@ function BlogCard({ blog }) {
             <Text
               size="xs"
               fw={600}
-              c={"gray"}
+              c={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
               style={{ fontFamily: "Cirular medium" }}
             >
               {blog.books?.author || "Unknown"}
@@ -95,6 +98,7 @@ function BlogCard({ blog }) {
               lineHeight: 1.1,
             }}
             mb={"xs"}
+            c={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[9]}
             order={3}
           >
             {title}
@@ -102,6 +106,8 @@ function BlogCard({ blog }) {
           {smallSizeMath && (
             <Text
               lineClamp={2}
+              c={colorScheme === "dark" ? "rgb(182, 141, 133)" : theme.colors.gray[5]}
+              order={3}
               size="md"
               style={{ fontFamily: "Cirular medium" }}
             >
@@ -110,7 +116,11 @@ function BlogCard({ blog }) {
           )}
 
           {!smallSizeMath && (
-            <Text lineClamp={4} style={{ fontFamily: "Cirular medium" }}>
+            <Text
+              c={colorScheme === "dark" ? "rgb(182, 141, 133)" : theme.colors.gray[5]}
+              lineClamp={4}
+              style={{ fontFamily: "Cirular medium" }}
+            >
               {content}
             </Text>
           )}

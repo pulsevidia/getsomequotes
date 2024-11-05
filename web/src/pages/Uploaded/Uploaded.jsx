@@ -1,7 +1,7 @@
 // Styles
 import "./Uploaded.css";
 // Mantine components and hooks
-import { useDisclosure, useMediaQuery } from "@mantine/hooks";
+import { useColorScheme, useDisclosure, useMediaQuery } from "@mantine/hooks";
 import {
   Group,
   Modal,
@@ -13,6 +13,7 @@ import {
   Text,
   ActionIcon,
   Divider,
+  useMantineTheme,
 } from "@mantine/core";
 import { Dropzone, PDF_MIME_TYPE } from "@mantine/dropzone";
 import { fetchBook } from "../../appwrite/fetchBook";
@@ -32,6 +33,9 @@ export default function Uploaded() {
   const {
     user: { id },
   } = useUser();
+
+  const theme = useMantineTheme();
+  const colorScheme = useColorScheme();
 
   const [opened, { open, close }] = useDisclosure(false);
   const [
@@ -281,10 +285,10 @@ export default function Uploaded() {
       </Modal>
       <Group>
         <Button
-          variant="light"
           leftSection={<Book size={16} />}
           onClick={open}
-          color="dark"
+          color={colorScheme === "dark" ? "#131b2e" : theme.colors.dark[9]}
+          c={colorScheme === "dark" ? "#febeb5" : theme.colors.dark[9]}
           radius={"md"}
           fullWidth={smallSizeMath}
           mx={"md"}

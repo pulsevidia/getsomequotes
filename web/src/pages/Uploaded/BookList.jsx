@@ -1,6 +1,15 @@
-import { Image, Group, Text, Card, Stack, Menu, Loader } from "@mantine/core";
+import {
+  Image,
+  Group,
+  Text,
+  Card,
+  Stack,
+  Menu,
+  Loader,
+  useMantineTheme,
+} from "@mantine/core";
 import { DotsThreeVertical, Sparkle, Trash } from "@phosphor-icons/react";
-import { useMediaQuery } from "@mantine/hooks";
+import { useColorScheme, useMediaQuery } from "@mantine/hooks";
 
 export default function BookList({
   data,
@@ -10,13 +19,15 @@ export default function BookList({
   setDeleteBookId,
   isGeneratingBook,
 }) {
+  const theme = useMantineTheme();
+  const colorScheme = useColorScheme();
   const smallSizeMath = useMediaQuery("(max-width:480px)");
   const rows = data.map((item) => (
     <>
       <Card
         key={item.$id}
         w={"100%"}
-        bg={"#77787a1c"}
+        bg={colorScheme === "dark" ? "rgb(19, 26, 41)" : theme.colors.gray[2]}
         mx={"md"}
         padding="sm"
         maw={480}
@@ -34,12 +45,12 @@ export default function BookList({
             />
             <Stack gap={0}>
               <Text
+                c={colorScheme ? "#f1beb5" : theme.colors.dark[9]}
                 w={smallSizeMath ? 200 : 300}
                 fw={400}
                 style={{ fontFamily: "Poppins", lineHeight: 1.1 }}
                 truncate={"end"}
                 size="md"
-                c={"dark"}
               >
                 {item.book_name || "Untitled"}
               </Text>
@@ -47,37 +58,69 @@ export default function BookList({
                 style={{ fontFamily: "Poppins" }}
                 fw={500}
                 size="sm"
-                color="gray"
+                c={
+                  colorScheme
+                    ? "rgba(241, 190, 181, 0.67)"
+                    : theme.colors.dark[2]
+                }
                 truncate={"end"}
               >
                 By: {item?.author || "unkown"}
               </Text>
               <Group gap={"xs"} align="center">
-                <Text size="xs" color="gray">
+                <Text
+                  size="xs"
+                  c={
+                    colorScheme
+                      ? "rgba(241, 190, 181, 0.67)"
+                      : theme.colors.dark[2]
+                  }
+                >
                   Oct 28, 2024,{" "}
                   {isGeneratingBook.bookId !== item.$id &&
                     `${item.blogs.length} Extracts`}
                 </Text>
                 {isGeneratingBook.isGenerating &&
                   isGeneratingBook.bookId === item.$id && (
-                    <Loader color={"gray"} type="dots" size={"xs"} />
+                    <Loader color={"#f1beb5"} type="dots" size={"xs"} />
                   )}
               </Group>
             </Stack>
           </Group>
           <Stack justify="space-between">
-            <Menu radius={"md"} width={150}>
+            <Menu
+              styles={{
+                dropdown: {
+                  background: `${colorScheme === "dark" && "#0f1523"}`,
+                },
+              }}
+              radius={"md"}
+              width={150}
+            >
               <Menu.Target>
-                <DotsThreeVertical size={22} />
+                <DotsThreeVertical
+                  color={colorScheme === "dark" && "#f1beb5"}
+                  size={22}
+                />
               </Menu.Target>
               <Menu.Dropdown>
-                <Menu.Label>Book Options</Menu.Label>
+                <Menu.Label c={colorScheme === "dark" && "#f1beb5"} size={22}>
+                  Book Options
+                </Menu.Label>
                 <Menu.Item
                   onClick={() => {
                     setGenerateBookId(item.$id);
                     openGenerateBookModal();
                   }}
-                  leftSection={<Sparkle size={16} weight="fill" />}
+
+                      c={colorScheme === "dark" && "#f1beb5"}
+                  leftSection={
+                    <Sparkle
+                      color={colorScheme === "dark" && "#f1beb5"}
+                      size={16}
+                      weight="fill"
+                    />
+                  }
                 >
                   Generate
                 </Menu.Item>
