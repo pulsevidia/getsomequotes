@@ -1,6 +1,10 @@
 import { Query } from "appwrite";
 import { databases } from "./appwrite";
-
+/**
+ * Fetches data about the book then fetches associated content number and return book
+ * @param {string} id
+ * @returns {Array}
+ */
 async function fetchBook(id) {
   try {
     const { documents } = await databases.listDocuments(

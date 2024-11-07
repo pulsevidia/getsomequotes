@@ -13,7 +13,7 @@ export async function fetchBlogs(id) {
       doc.books ? refined_documents.push(doc) : null;
     });
 
-    return refined_documents;
+    return refined_documents.reverse();
   } catch (error) {
     console.error(error);
   }
