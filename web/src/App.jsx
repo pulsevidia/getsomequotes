@@ -1,5 +1,5 @@
 import "@mantine/core/styles.css";
-import '@mantine/dropzone/styles.css';
+import "@mantine/dropzone/styles.css";
 
 import { createTheme, MantineProvider } from "@mantine/core";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -10,7 +10,6 @@ import Uploaded from "./pages/Uploaded/Uploaded";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReadBlog from "./pages/ReadBlog";
 import Auth from "./pages/Auth";
-import { SignedIn } from "@clerk/clerk-react";
 
 const theme = createTheme({
   fontFamily: "Verdana, sans-serif",
@@ -20,6 +19,7 @@ const theme = createTheme({
 
 export default function App() {
   const queryClient = new QueryClient();
+
   return (
     <QueryClientProvider client={queryClient} defaultColorScheme="light">
       <MantineProvider theme={theme}>
