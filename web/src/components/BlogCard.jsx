@@ -12,6 +12,7 @@ import {
 import { useMediaQuery } from "@mantine/hooks";
 import removeMarkdown from "markdown-to-text";
 import { useNavigate } from "react-router-dom";
+import { cardShadows } from "../utils/shadows";
 
 function BlogCard({ blog }) {
   function extractFirstLine(blog) {
@@ -62,9 +63,11 @@ function BlogCard({ blog }) {
 
   return (
     <Card
+      shadow={cardShadows.md}
       maw={600}
       style={{ cursor: "pointer" }}
       padding="lg"
+      mx={"xs"}
       radius="md"
       onClick={() => navigate(`/blog/${blog.$id}`)}
     >
@@ -74,7 +77,10 @@ function BlogCard({ blog }) {
             <Badge
               variant="light"
               color={"gray"}
-              style={{ fontFamily: "Afacad Flux" }}
+              style={{
+                boxShadow: cardShadows.xs,
+                fontFamily: "Afacad Flux",
+              }}
             >
               {blog?.books?.book_name}
             </Badge>
@@ -117,6 +123,9 @@ function BlogCard({ blog }) {
         </Stack>
         <Box maw={300}>
           <BackgroundImage
+            style={{
+              boxShadow: cardShadows.xs,
+            }}
             p={40}
             src={`/images_4_blogs/${randomImage}`}
             radius="md"

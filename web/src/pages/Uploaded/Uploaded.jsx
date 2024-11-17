@@ -25,6 +25,7 @@ import BookListGenerateModal from "./BookListGenerateModal";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useUser } from "@clerk/clerk-react";
+import { cardShadows } from "../../utils/shadows";
 
 export default function Uploaded() {
   const smallSizeMath = useMediaQuery("(max-width:480px)");
@@ -284,6 +285,9 @@ export default function Uploaded() {
           radius={"md"}
           fullWidth={smallSizeMath}
           mx={"md"}
+          style={{
+            boxShadow: `${cardShadows.xl}`,
+          }}
         >
           Add more books
         </Button>

@@ -10,6 +10,7 @@ import {
 } from "@mantine/core";
 import { DotsThreeVertical, Sparkle, Trash } from "@phosphor-icons/react";
 import { useMediaQuery } from "@mantine/hooks";
+import { cardShadows } from "../../utils/shadows";
 
 export default function BookList({
   data,
@@ -23,6 +24,7 @@ export default function BookList({
   const rows = data.map((item) => (
     <>
       <Card
+        shadow={cardShadows.md}
         key={item.$id}
         w={"100%"}
         bg={"#77787a1c"}
@@ -36,8 +38,7 @@ export default function BookList({
           <Group wrap="nowrap" align="flex-start">
             <BackgroundImage
               style={{
-                boxShadow:
-                  "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(19, 19, 22, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px",
+                boxShadow: cardShadows.xs,
               }}
               src={item.book_image}
               radius="md"

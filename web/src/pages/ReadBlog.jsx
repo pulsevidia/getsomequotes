@@ -14,15 +14,12 @@ import {
   ScrollArea,
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-import {
-  getAllBlogsWithBookId,
-  getBlogAndSuggestedBlogs,
-  getBlogById,
-} from "../appwrite/getBlogById";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { getBlogAndSuggestedBlogs } from "../appwrite/getBlogById";
+import { Link, useParams } from "react-router-dom";
 import Markdown from "markdown-to-jsx";
 import QuoteCard from "../components/QuoteCard";
 import { useMediaQuery } from "@mantine/hooks";
+import { cardShadows } from "../utils/shadows";
 
 const allImage = [
   "1.jpg",
@@ -59,12 +56,7 @@ const Title1 = ({ children }) => (
 );
 
 const Title2 = ({ children }) => (
-  <Title
-    style={{ fontFamily: "DM sans" }}
-    fw={500}
-    order={2}
-    my={"md"}
-  >
+  <Title style={{ fontFamily: "DM sans" }} fw={500} order={2} my={"md"}>
     {children}
   </Title>
 );
@@ -152,12 +144,18 @@ function ReadBlog() {
         w={"100%"}
         miw={300}
         maw={800}
+        style={{ boxShadow: cardShadows.xs }}
         src={`/images_4_blogs/${randomImage}`}
         radius={"md"}
         mih={300}
         mah={300}
       />
-      <Badge color="gray" mt={'md'} size="lg" style={{ fontFamily: "Afacad Flux" }}>
+      <Badge
+        color="gray"
+        mt={"md"}
+        size="lg"
+        style={{ fontFamily: "Afacad Flux", boxShadow: cardShadows.xs }}
+      >
         {data.blogData.books.book_name}
       </Badge>
 
@@ -166,7 +164,8 @@ function ReadBlog() {
       </Text>
 
       <MarkdownToCustom markdown={data.blogData.blog_markdown} />
-      <Text mt={'lg'}
+      <Text
+        mt={"lg"}
         c={"gray"}
         style={{ fontFamily: "Afacad Flux", textTransform: "uppercase" }}
       >
@@ -178,13 +177,14 @@ function ReadBlog() {
         order={4}
         style={{ fontFamily: "Afacad Flux", textTransform: "uppercase" }}
       >
-       {data.blogData.books.book_name} 
+        {data.blogData.books.book_name}
       </Title>
       <ScrollArea w={smallSizeMath ? 350 : 800} h={200}>
-        <Group style={{ overflow: "hidden" }} mt={"xs"} wrap="nowrap">
+        <Group style={{ overflow: "hidden" }} gap={'xs'} mt={"xs"} wrap="nowrap">
           {data.allBlogsWithBookId.map((blog) => (
             <Link style={{ textDecoration: "none" }} to={`/blog/${blog.$id}`}>
               <Card
+                shadow={cardShadows.xs}
                 miw={300}
                 mih={137}
                 maw={300}

@@ -7,10 +7,18 @@ import {
   Group,
   NavLink,
   Stack,
+  useMantineColorScheme,
+  useMantineTheme,
 } from "@mantine/core";
-import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import { House, UploadSimple, FilePlus, SignOut } from "@phosphor-icons/react";
-import { useEffect } from "react";
+import { useColorScheme, useDisclosure, useMediaQuery } from "@mantine/hooks";
+import {
+  House,
+  UploadSimple,
+  FilePlus,
+  SignOut,
+  Upload,
+} from "@phosphor-icons/react";
+import { useEffect, useState } from "react";
 
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import BottomBar from "../components/BottomBar";
@@ -23,11 +31,12 @@ import {
   useUser,
 } from "@clerk/clerk-react";
 import NotSignedIn from "../components/NotSignedIn";
+import { cardShadows } from "../utils/shadows";
 
 function UserCard() {
   const { user } = useUser();
   return (
-    <Card withBorder radius={"md"} py="xs" pr={"md"} pl={"xs"} mb={"md"}>
+    <Card shadow={cardShadows.xs} radius={"md"} py="xs" pr={"md"} pl={"xs"} mb={"md"}>
       <Group justify="space-between">
         <Group gap={"md"} align="center">
           <Avatar src={user.imageUrl} alt="it's me" />
@@ -51,6 +60,11 @@ function BasicAppShell() {
   const { pathname } = useLocation();
   const isBlogPage = pathname.includes("/blog/");
   const smallSizeMath = useMediaQuery("(max-width:480px)");
+  const theme = useMantineTheme();
+  const [whatHovered, setWhatHovered] = useState({
+    isHovered: false,
+    navLink: false,
+  });
 
   const smallScreenShell = {
     paddingInlineEnd: 0,
@@ -65,6 +79,12 @@ function BasicAppShell() {
 
   const [opened, { toggle }] = useDisclosure();
   const smallScreen = useMediaQuery("(max-width: 450px)");
+  const nav_routes = [
+    { path: "/home", label: "Home", Icon: House },
+    { path: "/uploaded", label: "Uploaded", Icon: UploadSimple },
+    { path: "/upload_book", label: "Upload Book", Icon: FilePlus },
+  ];
+
   return (
     <>
       <SignedOut>
@@ -98,39 +118,49 @@ function BasicAppShell() {
           </AppShell.Header>
           <AppShell.Navbar p="md">
             <UserCard />
-            <NavLink
-              style={{ borderRadius: "8px" }}
-              color="violet"
-              active={pathname === "/home"}
-              label="Home"
-              leftSection={<House size={16} />}
-              onClick={() => {
-                navigate("/home");
-                toggle();
-              }}
-            />
-            <NavLink
-              style={{ borderRadius: "8px" }}
-              color="violet"
-              active={pathname === "/uploaded"}
-              label="Uploaded"
-              onClick={() => {
-                navigate("uploaded");
-                toggle();
-              }}
-              leftSection={<UploadSimple size={16} />}
-            />
-            <NavLink
-              style={{ borderRadius: "8px" }}
-              color="violet"
-              active={pathname === "/upload_book"}
-              label="Upload Book"
-              leftSection={<FilePlus size={16} />}
-              onClick={() => {
-                navigate("upload_book");
-                toggle();
-              }}
-            />
+            <Stack gap={0}>
+              {nav_routes.map((Route) => (
+                <Group
+                  gap={"xs"}
+                  justify="flex-start"
+                  align="center"
+                  p={"sm"}
+                  onMouseEnter={() =>
+                    setWhatHovered((state) => ({
+                      ...state,
+                      isHovered: true,
+                      navLink: Route.path,
+                    }))
+                  }
+                  onMouseLeave={() =>
+                    setWhatHovered((state) => ({
+                      ...state,
+                      isHovered: true,
+                      navLink: Route.path,
+                    }))
+                  }
+                  onClick={() => {
+                    navigate(Route.path);
+                    toggle();
+                  }}
+                  bg={
+                    pathname !== Route.path &&
+                    whatHovered.isHovered &&
+                    whatHovered.navLink === Route.path
+                      ? theme.colors.gray[0]
+                      : "none"
+                  }
+                  style={{
+                    cursor: "pointer",
+                    boxShadow: pathname === Route.path && cardShadows.md,
+                    borderRadius: "8px",
+                  }}
+                >
+                  <Route.Icon size={16} />
+                  <Text size="xs">{Route.label}</Text>
+                </Group>
+              ))}
+            </Stack>
           </AppShell.Navbar>
           <AppShell.Main
             styles={{
