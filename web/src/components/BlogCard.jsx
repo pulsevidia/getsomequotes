@@ -3,7 +3,6 @@ import {
   Text,
   Badge,
   Group,
-  Box,
   BackgroundImage,
   Stack,
   Title,
@@ -14,6 +13,34 @@ import { useMediaQuery } from "@mantine/hooks";
 import removeMarkdown from "markdown-to-text";
 import { useNavigate } from "react-router-dom";
 import { cardShadows } from "../utils/shadows";
+import { useMemo } from "react";
+
+const allImage = [
+  "1.jpg",
+  "2.jpg",
+  "3.jpg",
+  "4.jpg",
+  "5.jpg",
+  "6.jpg",
+  "7.jpg",
+  "8.jpg",
+  "9.jpg",
+  "10.jpg",
+  "11.jpg",
+  "12.jpg",
+  "13.webp",
+  "14.jpg",
+  "15.jpg",
+  "16.jpg",
+  "17.webp",
+  "18.webp",
+  "19.webp",
+  "20.webp",
+  "21.webp",
+  "22.webp",
+  "23.webp",
+  "24.jpg",
+];
 
 function BlogCard({ blog }) {
   function extractFirstLine(blog) {
@@ -27,42 +54,16 @@ function BlogCard({ blog }) {
     return what;
   }
 
-  const title = extractFirstLine(blog);
-  const content = removeMarkdown(blog.blog_markdown);
+  const title = useMemo(() => extractFirstLine(blog), [blog]);
+  const content = useMemo(() => removeMarkdown(blog.blog_markdown), [blog]);
   const smallSizeMath = useMediaQuery("(max-width:480px)");
-
-  const allImage = [
-    "1.jpg",
-    "2.jpg",
-    "3.jpg",
-    "4.jpg",
-    "5.jpg",
-    "6.jpg",
-    "7.jpg",
-    "8.jpg",
-    "9.jpg",
-    "10.jpg",
-    "11.jpg",
-    "12.jpg",
-    "13.webp",
-    "14.jpg",
-    "15.jpg",
-    "16.jpg",
-    "17.webp",
-    "18.webp",
-    "19.webp",
-    "20.webp",
-    "21.webp",
-    "22.webp",
-    "23.webp",
-    "24.jpg",
-  ];
-
-  const randomImage = allImage[Math.floor(Math.random() * allImage.length)];
+  const randomImage = useMemo(
+    () => allImage[Math.floor(Math.random() * allImage.length)],
+    []
+  );
 
   const navigate = useNavigate();
   const theme = useMantineTheme();
-
   return (
     <Card
       shadow={cardShadows.md}
@@ -75,28 +76,22 @@ function BlogCard({ blog }) {
       onClick={() => navigate(`/blog/${blog.$id}`)}
     >
       <Group
-      gap={'xs'}
-        // gap={smallSizeMath && "32"}
+        gap={"xs"}
         style={{ flexWrap: "nowrap", alignItems: "flex-start" }}
       >
         <BackgroundImage
           style={{
             boxShadow: cardShadows.xs,
           }}
+          loading="lazy"
           miw={smallSizeMath ? 120 : 140}
           mih={smallSizeMath ? 167 : 150}
           p={40}
           src={`/images_4_blogs/${randomImage}`}
-          // radius="md"
         ></BackgroundImage>
 
         <Stack pr={"sm"} py={"sm"} gap={0}>
-          <Group
-            style={{ flexDirection: smallSizeMath && "column" }}
-            mb={"xs"}
-            gap={"xs"}
-            align="flex-start"
-          >
+          <Group mb={"xs"} gap={"xs"} align="flex-start">
             <Badge
               variant="light"
               color={"gray"}
@@ -120,14 +115,13 @@ function BlogCard({ blog }) {
           <Title
             lineClamp={2}
             c={"dark"}
-            fw={smallSizeMath ? 600 : 600}
+            fw={600}
             style={{
               fontFamily: "DM Sans, sans-serif",
               lineHeight: 1.1,
             }}
             mb={"xs"}
             size={smallSizeMath ? "18px" : "20px"}
-            // order={smallSizeMath ? "18px" : 3}
           >
             {title}
           </Title>
@@ -141,16 +135,6 @@ function BlogCard({ blog }) {
             {content}
           </Text>
         </Stack>
-        {/* <BackgroundImage
-          style={{
-            boxShadow: cardShadows.xs,
-          }}
-          miw={smallSizeMath ? 100 : 140}
-          mih={smallSizeMath ? 210 : 159}
-          p={40}
-          src={`/images_4_blogs/${randomImage}`}
-          // radius="md"
-        ></BackgroundImage> */}
       </Group>
     </Card>
   );
