@@ -28,7 +28,7 @@ async function fetchBook(id) {
 
       documents[i] = { ...current_document, blogs };
     }
-    return documents;
+    return documents.reverse();
   } catch (e) {
     console.error(e);
   }
