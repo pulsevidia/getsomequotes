@@ -1,6 +1,5 @@
 // Styles
 import "./Uploaded.css";
-// Mantine components and hooks
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import {
   Group,
@@ -89,7 +88,6 @@ export default function Uploaded() {
     queryFn: () => fetchBook(id),
     cacheTime: Infinity,
   });
-
   const { mutateAsync: postThePDF, status } = useMutation({
     mutationFn: postPDF,
     onSuccess: () => {
@@ -176,8 +174,6 @@ export default function Uploaded() {
               <Group>
                 <BackgroundImage
                   onClick={chooseRandomImage}
-                  w={32}
-                  h={32}
                   src={currentImage}
                   radius="xl"
                 />
