@@ -7,6 +7,7 @@ import {
   BackgroundImage,
   Stack,
   Title,
+  useMantineTheme,
 } from "@mantine/core";
 
 import { useMediaQuery } from "@mantine/hooks";
@@ -60,20 +61,42 @@ function BlogCard({ blog }) {
   const randomImage = allImage[Math.floor(Math.random() * allImage.length)];
 
   const navigate = useNavigate();
+  const theme = useMantineTheme();
 
   return (
     <Card
       shadow={cardShadows.md}
       maw={600}
+      // mih={150}
       style={{ cursor: "pointer" }}
-      padding="lg"
       mx={"xs"}
-      radius="md"
+      radius={"sm"}
+      styles={{ root: { padding: 0 } }}
       onClick={() => navigate(`/blog/${blog.$id}`)}
     >
-      <Group style={{ flexWrap: "nowrap", alignItems: "flex-start" }}>
-        <Stack gap={0}>
-          <Group mb={"xs"} gap={"xs"} align="center">
+      <Group
+      gap={'xs'}
+        // gap={smallSizeMath && "32"}
+        style={{ flexWrap: "nowrap", alignItems: "flex-start" }}
+      >
+        <BackgroundImage
+          style={{
+            boxShadow: cardShadows.xs,
+          }}
+          miw={smallSizeMath ? 120 : 140}
+          mih={smallSizeMath ? 167 : 150}
+          p={40}
+          src={`/images_4_blogs/${randomImage}`}
+          // radius="md"
+        ></BackgroundImage>
+
+        <Stack pr={"sm"} py={"sm"} gap={0}>
+          <Group
+            style={{ flexDirection: smallSizeMath && "column" }}
+            mb={"xs"}
+            gap={"xs"}
+            align="flex-start"
+          >
             <Badge
               variant="light"
               color={"gray"}
@@ -81,6 +104,7 @@ function BlogCard({ blog }) {
                 boxShadow: cardShadows.xs,
                 fontFamily: "Afacad Flux",
               }}
+              size={smallSizeMath ? "xs" : "sm"}
             >
               {blog?.books?.book_name}
             </Badge>
@@ -94,43 +118,39 @@ function BlogCard({ blog }) {
             </Text>
           </Group>
           <Title
-            lineClamp={smallSizeMath ? 3 : 1}
-            fw={600}
+            lineClamp={2}
+            c={"dark"}
+            fw={smallSizeMath ? 600 : 600}
             style={{
               fontFamily: "DM Sans, sans-serif",
               lineHeight: 1.1,
             }}
             mb={"xs"}
-            order={3}
+            size={smallSizeMath ? "18px" : "20px"}
+            // order={smallSizeMath ? "18px" : 3}
           >
             {title}
           </Title>
-          {smallSizeMath && (
-            <Text
-              lineClamp={2}
-              size="md"
-              style={{ fontFamily: "Cirular medium" }}
-            >
-              {content}
-            </Text>
-          )}
-
-          {!smallSizeMath && (
-            <Text lineClamp={4} style={{ fontFamily: "Cirular medium" }}>
-              {content}
-            </Text>
-          )}
+          <Text
+            c={theme.colors.gray[6]}
+            fw={900}
+            lineClamp={2}
+            size="sm"
+            style={{ fontFamily: "Cirular medium" }}
+          >
+            {content}
+          </Text>
         </Stack>
-        <Box maw={300}>
-          <BackgroundImage
-            style={{
-              boxShadow: cardShadows.xs,
-            }}
-            p={40}
-            src={`/images_4_blogs/${randomImage}`}
-            radius="md"
-          ></BackgroundImage>
-        </Box>
+        {/* <BackgroundImage
+          style={{
+            boxShadow: cardShadows.xs,
+          }}
+          miw={smallSizeMath ? 100 : 140}
+          mih={smallSizeMath ? 210 : 159}
+          p={40}
+          src={`/images_4_blogs/${randomImage}`}
+          // radius="md"
+        ></BackgroundImage> */}
       </Group>
     </Card>
   );
