@@ -9,6 +9,7 @@ export async function fetchBlogs(id) {
       [Query.limit(2000), Query.equal("user_id", [id])]
     );
     const refined_documents = [];
+    console.log(documents);
     documents.forEach((doc) => {
       doc.books ? refined_documents.push(doc) : null;
     });
