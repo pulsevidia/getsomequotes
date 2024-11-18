@@ -1,5 +1,11 @@
 import BlogCard from "../components/BlogCard";
-import { Group, Skeleton, Stack } from "@mantine/core";
+import {
+  Button,
+  Group,
+  Skeleton,
+  Stack,
+  useMantineColorScheme,
+} from "@mantine/core";
 import { fetchBlogs } from "../appwrite/fetchBlogs";
 import { useQuery } from "@tanstack/react-query";
 import { useUser } from "@clerk/clerk-react";
@@ -34,7 +40,6 @@ export default function Home() {
     queryFn: () => fetchBlogs(id),
     queryKey: ["blogs"],
   });
-
   return (
     <Stack pb={"100"}>
       {isBlogsLoading && <BlogSkeleton />}

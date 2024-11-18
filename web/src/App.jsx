@@ -13,58 +13,7 @@ import Auth from "./pages/Auth";
 import { useColorScheme } from "@mantine/hooks";
 
 export default function App() {
-  // const colorScheme = useColorScheme();
-  // const darkScheme = colorScheme === "dark" && {
-  //   gray: [
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#0f1523",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //   ],
-  //   dark: [
-
-  //     "#f1beb5",
-  //     "#0f1523",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#0f1523",
-  //     "#0f1523",
-  //     "#f1beb5",
-  //     "#0f1523",
-  //     "#0f1523",
-  //   ],
-  //   violet: [
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //     "#f1beb5",
-  //   ],
-  // };
   const theme = createTheme({
-    // colors: { ...darkScheme },
-
     fontFamily: "Verdana, sans-serif",
     fontFamilyMonospace: "Monaco, Courier, monospace",
     headings: { fontFamily: "Greycliff CF, sans-serif" },
@@ -73,7 +22,7 @@ export default function App() {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
-      <MantineProvider theme={theme} defaultColorScheme="dark">
+      <MantineProvider theme={theme} defaultColorScheme="light">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<BasicAppShell />}>

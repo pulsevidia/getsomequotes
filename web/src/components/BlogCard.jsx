@@ -8,6 +8,7 @@ import {
   Stack,
   Title,
   useMantineTheme,
+  useComputedColorScheme,
 } from "@mantine/core";
 
 import { useColorScheme, useMediaQuery } from "@mantine/hooks";
@@ -61,7 +62,7 @@ function BlogCard({ blog }) {
 
   const navigate = useNavigate();
   const theme = useMantineTheme();
-  const colorScheme = useColorScheme();
+  const colorScheme = useComputedColorScheme();
   return (
     <Card
       maw={600}

@@ -14,6 +14,7 @@ import {
   ActionIcon,
   Divider,
   useMantineTheme,
+  useComputedColorScheme,
 } from "@mantine/core";
 import { Dropzone, PDF_MIME_TYPE } from "@mantine/dropzone";
 import { fetchBook } from "../../appwrite/fetchBook";
@@ -35,7 +36,7 @@ export default function Uploaded() {
   } = useUser();
 
   const theme = useMantineTheme();
-  const colorScheme = useColorScheme();
+  const colorScheme = useComputedColorScheme();
 
   const [opened, { open, close }] = useDisclosure(false);
   const [

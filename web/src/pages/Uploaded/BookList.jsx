@@ -7,6 +7,7 @@ import {
   Menu,
   Loader,
   useMantineTheme,
+  useComputedColorScheme,
 } from "@mantine/core";
 import { DotsThreeVertical, Sparkle, Trash } from "@phosphor-icons/react";
 import { useColorScheme, useMediaQuery } from "@mantine/hooks";
@@ -20,7 +21,7 @@ export default function BookList({
   isGeneratingBook,
 }) {
   const theme = useMantineTheme();
-  const colorScheme = useColorScheme();
+  const colorScheme = useComputedColorScheme();
   const smallSizeMath = useMediaQuery("(max-width:480px)");
   const rows = data.map((item) => (
     <>

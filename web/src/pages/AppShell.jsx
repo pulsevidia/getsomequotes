@@ -8,6 +8,7 @@ import {
   NavLink,
   Stack,
   useMantineTheme,
+  useComputedColorScheme,
 } from "@mantine/core";
 import { useColorScheme, useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { House, UploadSimple, FilePlus, SignOut } from "@phosphor-icons/react";
@@ -73,17 +74,16 @@ function BasicAppShell() {
   }, [pathname, navigate]);
 
   const theme = useMantineTheme();
-  const colorScheme = useColorScheme();
+  const colorScheme = useComputedColorScheme();
   const [opened, { toggle }] = useDisclosure();
   const smallScreen = useMediaQuery("(max-width: 450px)");
+
   return (
     <>
       <SignedOut>
         <NotSignedIn />
       </SignedOut>
-
       <SignedIn>
-        {" "}
         <AppShell
           bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}
           header={{ height: 60 }}

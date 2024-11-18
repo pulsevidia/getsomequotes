@@ -8,6 +8,7 @@ import {
   Stack,
   Code,
   useMantineTheme,
+  useComputedColorScheme,
 } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { getBlogById } from "../appwrite/getBlogById";
@@ -45,7 +46,7 @@ const allImage = [
 ];
 
 function ReadBlog() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useComputedColorScheme();
   const { id } = useParams();
   const { data, isLoading, isError } = useQuery({
     queryKey: ["blog", id],
