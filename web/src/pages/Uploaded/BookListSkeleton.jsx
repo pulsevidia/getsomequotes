@@ -1,11 +1,19 @@
-import { Group, Skeleton, Stack } from "@mantine/core";
+import {
+  Group,
+  Skeleton,
+  Stack,
+  useComputedColorScheme,
+  useMantineTheme,
+} from "@mantine/core";
 
 function BookListSkeleton() {
+  const theme = useMantineTheme();
+  const colorScheme = useComputedColorScheme();
   return (
     <Group maw={480} miw={300} m={"md"} w={"100%"} gap={"xs"}>
       {Array.from({ length: 20 }).map((_, index) => (
         <Group
-          bg={"rgba(0,0,0,.03)"}
+          bg={colorScheme === "dark" ? "rgb(19, 27, 46)" : theme.colors.gray[1]}
           w={"100%"}
           key={index}
           height={78}

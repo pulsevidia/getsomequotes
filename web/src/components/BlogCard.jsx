@@ -7,6 +7,7 @@ import {
   Stack,
   Title,
   useMantineTheme,
+  useComputedColorScheme,
 } from "@mantine/core";
 
 import { useMediaQuery } from "@mantine/hooks";
@@ -64,6 +65,7 @@ function BlogCard({ blog }) {
 
   const navigate = useNavigate();
   const theme = useMantineTheme();
+  const colorScheme = useComputedColorScheme();
   return (
     <Card
       shadow={cardShadows.md}
@@ -73,6 +75,7 @@ function BlogCard({ blog }) {
       mx={"xs"}
       radius={"sm"}
       styles={{ root: { padding: 0 } }}
+      bg={colorScheme === "dark" ? "rgb(19, 27, 46)" : theme.colors.gray[0]}
       onClick={() => navigate(`/blog/${blog.$id}`)}
     >
       <Group
@@ -94,19 +97,19 @@ function BlogCard({ blog }) {
           <Group mb={"xs"} gap={"xs"} align="flex-start">
             <Badge
               variant="light"
-              color={"gray"}
               style={{
                 boxShadow: cardShadows.xs,
                 fontFamily: "Afacad Flux",
               }}
               size={smallSizeMath ? "xs" : "sm"}
+              color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
             >
               {blog?.books?.book_name}
             </Badge>
             <Text
               size="xs"
               fw={600}
-              c={"gray"}
+              c={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
               style={{ fontFamily: "Cirular medium" }}
             >
               {blog.books?.author || "Unknown"}
@@ -114,7 +117,6 @@ function BlogCard({ blog }) {
           </Group>
           <Title
             lineClamp={2}
-            c={"dark"}
             fw={600}
             style={{
               fontFamily: "DM Sans, sans-serif",
@@ -122,11 +124,16 @@ function BlogCard({ blog }) {
             }}
             mb={"xs"}
             size={smallSizeMath ? "18px" : "20px"}
+            c={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[9]}
           >
             {title}
           </Title>
           <Text
-            c={theme.colors.gray[6]}
+            c={
+              colorScheme === "dark"
+                ? "rgb(182, 141, 133)"
+                : theme.colors.gray[5]
+            }
             fw={900}
             lineClamp={2}
             size="sm"

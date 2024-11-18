@@ -1,4 +1,12 @@
-import { Button, Divider, Group, Modal, Text, Title } from "@mantine/core";
+import {
+  Button,
+  Divider,
+  Group,
+  Modal,
+  Text,
+  Title,
+  useMantineTheme,
+} from "@mantine/core";
 import { ArrowCircleUp } from "@phosphor-icons/react";
 import { generateContent } from "../../server-functions/generateContent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -40,7 +48,7 @@ function BookListGenerateModal({
       });
     },
   });
-
+  const theme = useMantineTheme();
   return (
     <Modal
       radius={"xl"}
@@ -57,27 +65,28 @@ function BookListGenerateModal({
       }}
       centered
       opened={isOpened}
+      bg={theme.colors.gray[0]}
       onClose={close}
       title="Authentication"
     >
       <Group gap={"xs"} wrap="nowrap">
         <ArrowCircleUp size={42} weight="fill" />
-        <Title order={4} fw={500}>
+        <Title order={4} c={theme.colors.dark[9]} fw={500}>
           Generate More Content?
         </Title>
       </Group>
       <Divider my={"sm"} />
-      <Text fz={"sm"} color="dark">
+      <Text fz={"sm"} c={theme.colors.dark[9]}>
         ──Generate 5 blogs from this book?
       </Text>
-      <Text fz={"sm"} color="dark">
+      <Text fz={"sm"} c={theme.colors.dark[9]}>
         ──Takes upto 5-10 minutes based on the size of the book
       </Text>
       <Group gap={"sm"} justify="flex-end" mt="md" mb="xs">
         <Button
+          c={theme.colors.dark[9]}
           onClick={close}
           variant="transparent"
-          color="rgba(0, 0, 0, 1)"
           size="xs"
         >
           Cancel
@@ -89,7 +98,7 @@ function BookListGenerateModal({
             await generateMoreBookContent({ book_id: bookId, user_id: id });
           }}
           variant="light"
-          color="rgba(0, 0, 0, 1)"
+          c={theme.colors.gray[9]}
           size="xs"
         >
           Generate

@@ -1,5 +1,13 @@
 import BlogCard from "../components/BlogCard";
-import { Group, Skeleton, Stack } from "@mantine/core";
+import {
+  Button,
+  Group,
+  Skeleton,
+  Stack,
+  useComputedColorScheme,
+  useMantineColorScheme,
+  useMantineTheme,
+} from "@mantine/core";
 import { fetchBlogs } from "../appwrite/fetchBlogs";
 import { useQuery } from "@tanstack/react-query";
 import { useUser } from "@clerk/clerk-react";
@@ -8,12 +16,20 @@ export default function Home() {
   const {
     user: { id },
   } = useUser();
-
+  const theme = useMantineTheme();
+  const colorScheme = useComputedColorScheme();
   function BlogSkeleton() {
     return (
       <>
         {Array.from({ length: 10 }).map((_, i) => (
-          <Group key={i} wrap="nowrap" p={"lg"}>
+          <Group
+            key={i}
+            wrap="nowrap"
+            bg={
+              colorScheme === "dark" ? "rgb(19, 27, 46)" : theme.colors.gray[0]
+            }
+            p={"lg"}
+          >
             <Skeleton height={80} width={80} />
             <Stack gap={"xs"}>
               <Skeleton mb={"xs"} height={13} radius={"xl"} width={100} />
@@ -34,7 +50,6 @@ export default function Home() {
     queryFn: () => fetchBlogs(id),
     queryKey: ["blogs"],
   });
-
   return (
     <Stack pb={"100"}>
       {isBlogsLoading && <BlogSkeleton />}

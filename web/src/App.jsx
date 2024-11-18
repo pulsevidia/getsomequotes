@@ -11,18 +11,18 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReadBlog from "./pages/ReadBlog";
 import Auth from "./pages/Auth";
 
-const theme = createTheme({
-  fontFamily: "Verdana, sans-serif",
-  fontFamilyMonospace: "Monaco, Courier, monospace",
-  headings: { fontFamily: "Greycliff CF, sans-serif" },
-});
-
 export default function App() {
+  const theme = createTheme({
+    fontFamily: "Verdana, sans-serif",
+    fontFamilyMonospace: "Monaco, Courier, monospace",
+    headings: { fontFamily: "Greycliff CF, sans-serif" },
+  });
+
   const queryClient = new QueryClient();
 
   return (
-    <QueryClientProvider client={queryClient} defaultColorScheme="light">
-      <MantineProvider theme={theme}>
+    <QueryClientProvider client={queryClient}>
+      <MantineProvider  theme={theme} defaultColorScheme="light">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<BasicAppShell />}>

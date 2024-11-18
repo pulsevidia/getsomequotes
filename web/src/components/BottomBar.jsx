@@ -17,9 +17,8 @@ function BottomBar() {
     setActive(pathname)
   }, [pathname]) 
 
-  const handleClick = (name, color) => {
+  const handleClick = (name) => {
     setActive(name);
-    // setBackgroundColor(color);
   };
   const navigate = useNavigate()
   return (
