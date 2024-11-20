@@ -33,8 +33,8 @@ function UserCard({ color }) {
 
   return (
     <Card bg={color} shadow={cardShadows.xs} radius="md" py="xs" px="md" mb="md">
-      <Group justify="space-between">
-        <Group gap="md" align="center">
+      <Group wrap="nowrap" justify="space-between">
+        <Group wrap="nowrap" gap="md" align="center">
           <Avatar src={user.imageUrl} alt="User Avatar" />
           <Stack gap={0}>
             <Text size="sm" c={colorScheme === "dark" ? "#f1beb5" : "dark"}>{user.fullName}</Text>

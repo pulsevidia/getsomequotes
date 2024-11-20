@@ -1,11 +1,9 @@
 import BlogCard from "../components/BlogCard";
 import {
-  Button,
   Group,
   Skeleton,
   Stack,
   useComputedColorScheme,
-  useMantineColorScheme,
   useMantineTheme,
 } from "@mantine/core";
 import { fetchBlogs } from "../appwrite/fetchBlogs";

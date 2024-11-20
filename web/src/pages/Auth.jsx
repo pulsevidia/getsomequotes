@@ -8,8 +8,9 @@ import {
 function Auth() {
   return (
     <>
+    <h1>Hell</h1>
       <SignedOut>
-        <SignInButton />
+        <SignInButton mode="modal" />
       </SignedOut>
       <SignedIn>
         <UserButton />

@@ -20,7 +20,7 @@ export default function NotSignedIn() {
         </h1>
 
         <Group className={classes.controls}>
-          <SignUpButton>
+          <SignUpButton mode="modal">
             <Button
               size="xl"
               className={classes.control}
@@ -31,7 +31,7 @@ export default function NotSignedIn() {
             </Button>
           </SignUpButton>
 
-          <SignInButton>
+          <SignInButton mode="modal">
             <Button
               component="a"
               size="xl"
