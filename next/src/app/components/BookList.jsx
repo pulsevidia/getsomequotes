@@ -1,4 +1,3 @@
-'use client'
 import {
   Group,
   Text,
@@ -10,7 +9,7 @@ import {
   useComputedColorScheme,
   BackgroundImage,
 } from "@mantine/core";
-import { cardShadows } from "../../utils/shadows";
+import { cardShadows } from "../utils/shadows";
 import { DotsThreeVertical, Sparkle, Trash } from "@phosphor-icons/react";
 import { useMediaQuery } from "@mantine/hooks";
 
@@ -52,7 +51,7 @@ export default function BookList({
             />
             <Stack gap={0}>
               <Text
-                c={colorScheme === 'dark' ? "#f1beb5" : theme.colors.dark[9]}
+                c={colorScheme === "dark" ? "#f1beb5" : theme.colors.dark[9]}
                 w={smallSizeMath ? 200 : 300}
                 fw={400}
                 style={{ fontFamily: "Poppins", lineHeight: 1.1 }}
@@ -66,7 +65,7 @@ export default function BookList({
                 fw={500}
                 size="sm"
                 c={
-                  colorScheme === 'dark'
+                  colorScheme === "dark"
                     ? "rgba(241, 190, 181, 0.67)"
                     : theme.colors.dark[2]
                 }
@@ -78,7 +77,7 @@ export default function BookList({
                 <Text
                   size="xs"
                   c={
-                    colorScheme === 'dark'
+                    colorScheme === "dark"
                       ? "rgba(241, 190, 181, 0.67)"
                       : theme.colors.dark[2]
                   }

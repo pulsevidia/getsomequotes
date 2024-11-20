@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Text,
   Card,
   AppShell,
   Burger,
@@ -9,9 +8,17 @@ import {
   useComputedColorScheme,
   useMantineTheme,
   useMantineColorScheme,
+  Text,
 } from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import { House, UploadSimple, FilePlus, SignOut, Sun, Flower } from "@phosphor-icons/react";
+import {
+  House,
+  UploadSimple,
+  FilePlus,
+  SignOut,
+  Sun,
+  Flower,
+} from "@phosphor-icons/react";
 import { useEffect } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
@@ -32,13 +39,24 @@ function UserCard({ color }) {
   const colorScheme = useComputedColorScheme();
 
   return (
-    <Card bg={color} shadow={cardShadows.xs} radius="md" py="xs" px="md" mb="md">
+    <Card
+      bg={color}
+      shadow={cardShadows.xs}
+      radius="md"
+      py="xs"
+      px="md"
+      mb="md"
+    >
       <Group wrap="nowrap" justify="space-between">
         <Group wrap="nowrap" gap="md" align="center">
           <Avatar src={user.imageUrl} alt="User Avatar" />
           <Stack gap={0}>
-            <Text size="sm" c={colorScheme === "dark" ? "#f1beb5" : "dark"}>{user.fullName}</Text>
-            <Text size="xs" color="dimmed">{user.primaryEmailAddress.emailAddress}</Text>
+            <Text size="sm" c={colorScheme === "dark" ? "#f1beb5" : "dark"}>
+              {user.fullName}
+            </Text>
+            <Text size="xs" c="dimmed">
+              {user.primaryEmailAddress.emailAddress}
+            </Text>
           </Stack>
         </Group>
         <SignOutButton>
@@ -73,11 +91,19 @@ const NavRoutes = ({ navigate, toggle, pathname, colorScheme }) => {
             cursor: "pointer",
             boxShadow: pathname === route.path ? cardShadows.md : "none",
             borderRadius: "8px",
-            background: pathname === route.path && colorScheme === "dark" ? "rgb(19, 27, 45)" : "none",
+            background:
+              pathname === route.path && colorScheme === "dark"
+                ? "rgb(19, 27, 45)"
+                : "none",
           }}
         >
-          <route.Icon color={colorScheme === "dark" ? "#f1beb5" : "black"} size={16} />
-          <Text size="xs" c={colorScheme === "dark" ? "#f1beb5" : "dark"}>{route.label}</Text>
+          <route.Icon
+            color={colorScheme === "dark" ? "#f1beb5" : "black"}
+            size={16}
+          />
+          <Text size="xs" c={colorScheme === "dark" ? "#f1beb5" : "dark"}>
+            {route.label}
+          </Text>
         </Group>
       ))}
     </Stack>
@@ -92,7 +118,11 @@ const ThemeToggleButton = ({ colorScheme, setColorScheme }) => (
     p="sm"
     w={170}
     onClick={() => setColorScheme(colorScheme === "dark" ? "light" : "dark")}
-    style={{ cursor: "pointer", boxShadow: cardShadows.md, borderRadius: "8px" }}
+    style={{
+      cursor: "pointer",
+      boxShadow: cardShadows.md,
+      borderRadius: "8px",
+    }}
     bg={colorScheme === "light" ? "rgb(19, 27, 46)" : "white"}
   >
     {colorScheme === "dark" ? (
@@ -141,26 +171,52 @@ function BasicAppShell() {
           <Toaster position="bottom-center" reverseOrder={false} />
 
           {/* Header */}
-          <AppShell.Header bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}>
+          <AppShell.Header
+            bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}
+          >
             <Group h="100%" px="md">
-              <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+              <Burger
+                opened={opened}
+                onClick={toggle}
+                hiddenFrom="sm"
+                size="sm"
+              />
               <Logo />
             </Group>
           </AppShell.Header>
 
           {/* Navbar */}
-          <AppShell.Navbar p="md" bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}>
+          <AppShell.Navbar
+            p="md"
+            bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}
+          >
             <Stack gap={0} h="100%" justify="space-between">
               <Stack gap={0}>
-                <UserCard color={colorScheme === "dark" ? "rgb(19, 27, 46)" : theme.colors.gray[0]} />
-                <NavRoutes navigate={navigate} toggle={toggle} pathname={pathname} colorScheme={colorScheme} />
-            </Stack>
-              <ThemeToggleButton colorScheme={colorScheme} setColorScheme={setColorScheme} />
+                <UserCard
+                  color={
+                    colorScheme === "dark"
+                      ? "rgb(19, 27, 46)"
+                      : theme.colors.gray[0]
+                  }
+                />
+                <NavRoutes
+                  navigate={navigate}
+                  toggle={toggle}
+                  pathname={pathname}
+                  colorScheme={colorScheme}
+                />
+              </Stack>
+              <ThemeToggleButton
+                colorScheme={colorScheme}
+                setColorScheme={setColorScheme}
+              />
             </Stack>
           </AppShell.Navbar>
 
           {/* Main Content */}
-          <AppShell.Main style={{ paddingInline: smallSizeMath ? 0 : undefined }}>
+          <AppShell.Main
+            style={{ paddingInline: smallSizeMath ? 0 : undefined }}
+          >
             <Outlet />
           </AppShell.Main>
 
