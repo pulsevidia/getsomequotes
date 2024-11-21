@@ -29,13 +29,13 @@ import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 import { cardShadows } from "../utils/shadows";
+import { dark_theme } from "../config/theme";
 
 export default function Uploaded() {
   const smallSizeMath = useMediaQuery("(max-width:480px)");
   const {
     user: { id },
   } = useUser();
-
   const theme = useMantineTheme();
   const colorScheme = useComputedColorScheme();
 
@@ -126,6 +126,7 @@ export default function Uploaded() {
             maxWidth: "310px",
           },
           body: {
+            background: colorScheme === "dark" ? dark_theme.app_bg_dark_color : "white",
             paddingTop: "2rem",
             paddingLeft: "1.5rem",
             paddingRight: "1.5rem",
@@ -140,7 +141,7 @@ export default function Uploaded() {
         title="upload"
       >
         <Stack gap={"0"} miw={230}>
-          <Input.Wrapper label="Author Name">
+          <Input.Wrapper c={colorScheme === "dark" ? dark_theme.secondary_text_color : "dark"} label="Author Name">
             <Input
               disabled={status === "pending"}
               radius={"md"}
@@ -152,7 +153,7 @@ export default function Uploaded() {
             />
           </Input.Wrapper>
 
-          <Input.Wrapper label="Book Title">
+          <Input.Wrapper c={colorScheme === "dark" ? dark_theme.secondary_text_color : "dark"} l label="Book Title">
             <Input
               disabled={status === "pending"}
               radius={"md"}
@@ -166,9 +167,15 @@ export default function Uploaded() {
         </Stack>
 
         {book && (
-          <Card bg={"#f1f3f5"} mt={"sm"} padding="xs" radius="xl">
-            <Group justify="space-between">
-              <Group gap={"xs"}>
+          <Card
+            shadow={cardShadows.md}
+            bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "#f1f3f5"}
+            mt={"sm"}
+            padding="xs"
+            radius="xl"
+          >
+            <Group wrap="nowrap" justify="space-between">
+              <Group wrap="nowrap" gap={"xs"}>
                 <BackgroundImage onClick={chooseRandomImage} src={currentImage} radius="xl" h={36} w={36} />
                 <Stack gap={0}>
                   <Text maw={140} truncate={"end"} style={{ lineHeight: 1.1, fontFamily: "Afacad Flux" }}>
@@ -184,13 +191,13 @@ export default function Uploaded() {
                 disabled={status === "pending"}
                 onClick={() => setBook(null)}
                 mr={"xs"}
-                size={'lg'}
+                size={"lg"}
                 radius={"xl"}
                 variant="light"
                 color="red"
                 aria-label="Settings"
               >
-                <Trash size={19} color="#ed333b"  />
+                <Trash size={19} color="#ed333b" />
               </ActionIcon>
             </Group>
           </Card>
@@ -201,6 +208,7 @@ export default function Uploaded() {
               root: {
                 border: "none",
                 padding: 0,
+                background: "none",
               },
             }}
             onDrop={async (file) => {
@@ -213,15 +221,16 @@ export default function Uploaded() {
             maxSize={6 * 1024 ** 2}
             accept={PDF_MIME_TYPE}
           >
-            <Group justify="center" gap="xl" style={{ pointerEvents: "none" }}>
+            <Group mt={"md"} justify="center" gap="xl" style={{ pointerEvents: "none" }}>
               <Dropzone.Idle>
                 <Button
+                  style={{ boxShadow: cardShadows.md }}
                   variant="light"
-                  mt={"md"}
                   leftSection={<FileArrowUp size={18} />}
                   size="sm"
+                  c={colorScheme === "dark" ? dark_theme.secondary_text_color : "black"}
+                  bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "black"}
                   fullWidth
-                  color="black"
                   radius="md"
                 >
                   Upload
@@ -235,23 +244,27 @@ export default function Uploaded() {
             variant="filled"
             mt={"md"}
             styles={{ section: { marginInlineEnd: "5px" } }}
-            leftSection={<Sparkle size={18} color="#f6f5f4" weight="fill" />}
+            style={{ boxShadow: cardShadows.md }}
+            leftSection={<Sparkle size={18} weight="fill" />}
             size="sm"
             fullWidth
             fw={400}
-            color="black"
+            c={colorScheme === "dark" ? dark_theme.main_text_color : "black"}
+            bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "black"}
             radius="md"
-            loaderProps={{ type: "dots" }}
+            loaderProps={{ type: "dots", color: colorScheme === "dark" ? dark_theme.secondary_text_color : "dark" }}
             loading={status === "pending"}
-            onClick={async () =>
+            onClick={async () => {
+              console.log(id, book, authorName, bookTitle, currentImage);
+
               await postThePDF({
                 id,
                 file: book,
                 authorName,
                 bookTitle,
                 currentImage,
-              })
-            }
+              });
+            }}
           >
             Generate
           </Button>

@@ -1,24 +1,13 @@
-import {
-  Button,
-  Divider,
-  Group,
-  Modal,
-  Text,
-  Title,
-  useMantineTheme,
-} from "@mantine/core";
+import { Button, Divider, Group, Modal, Text, Title, useComputedColorScheme, useMantineTheme } from "@mantine/core";
 import { ArrowCircleUp } from "@phosphor-icons/react";
 import { generateContent } from "../server-functions/generateContent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useUser } from "@clerk/clerk-react";
+import { dark_theme } from "../config/theme";
+import { cardShadows } from "../utils/shadows";
 
-function BookListGenerateModal({
-  isOpened,
-  close,
-  bookId,
-  setIsGeneratingBook,
-}) {
+function BookListGenerateModal({ isOpened, close, bookId, setIsGeneratingBook }) {
   const queryClient = useQueryClient();
   const {
     user: { id },
@@ -31,7 +20,7 @@ function BookListGenerateModal({
       close();
       toast.success("6 blogs generated", {
         style: {
-          backgroundColor: "rgba(0, 0, 0, 1)",
+          backgroundColor: "black",
           color: "white",
         },
       });
@@ -42,13 +31,14 @@ function BookListGenerateModal({
       setIsGeneratingBook({ isGenerating: false, bookId: null });
       toast.error("Something went wrong", {
         style: {
-          backgroundColor: "rgba(0, 0, 0, 1)",
+          backgroundColor: "black",
           color: "white",
         },
       });
     },
   });
   const theme = useMantineTheme();
+  const colorScheme = useComputedColorScheme();
   return (
     <Modal
       radius={"xl"}
@@ -59,6 +49,7 @@ function BookListGenerateModal({
         body: {
           padding: "1.5rem",
           paddingBottom: "1rem",
+          background: colorScheme === "dark" ? dark_theme.app_bg_dark_color : "white",
           paddingRight: "1.5rem",
           paddingLeft: "1.5rem",
         },
@@ -70,24 +61,30 @@ function BookListGenerateModal({
       title="Authentication"
     >
       <Group gap={"xs"} wrap="nowrap">
-        <ArrowCircleUp size={42} weight="fill" />
-        <Title order={4} c={theme.colors.dark[9]} fw={500}>
+        <ArrowCircleUp
+          fill={colorScheme === "dark" ? dark_theme.secondary_text_color : "black"}
+          size={42}
+          weight={colorScheme === "dark" ? "fill" : "light"}
+        />
+        <Title order={4} fw={500} c={colorScheme === "dark" ? dark_theme.main_text_color : "dimmed"}>
           Generate More Content?
         </Title>
       </Group>
       <Divider my={"sm"} />
-      <Text fz={"sm"} c={theme.colors.dark[9]}>
+
+      <Text fz={"sm"} c={colorScheme === "dark" ? dark_theme.secondary_text_color : "dimmed"}>
         ──Generate 5 blogs from this book?
       </Text>
-      <Text fz={"sm"} c={theme.colors.dark[9]}>
-        ──Takes upto 5-10 minutes based on the size of the book
+      <Text fz={"sm"} c={colorScheme === "dark" ? dark_theme.secondary_text_color : "dimmed"}>
+        ──Generate 5 blogs from this book? ──Takes upto 5-10 minutes based on the size of the book
       </Text>
       <Group gap={"sm"} justify="flex-end" mt="md" mb="xs">
         <Button
-          c={theme.colors.dark[9]}
           onClick={close}
           variant="transparent"
-          size="xs"
+          c={colorScheme === "dark" ? dark_theme.secondary_text_color : theme.colors.dark[9]}
+          color={colorScheme === "dark" ? dark_theme.card_bg_dark_color : "black"}
+          size="md"
         >
           Cancel
         </Button>
@@ -97,9 +94,11 @@ function BookListGenerateModal({
             setIsGeneratingBook({ isGenerating: true, bookId });
             await generateMoreBookContent({ book_id: bookId, user_id: id });
           }}
+          style={{ boxShadow: cardShadows.md }}
           variant="light"
-          c={theme.colors.gray[9]}
-          size="xs"
+          color={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "black"}
+          c={colorScheme === "dark" ? dark_theme.secondary_text_color : theme.colors.dark[9]}
+          size="sm"
         >
           Generate
         </Button>

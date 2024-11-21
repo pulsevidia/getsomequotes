@@ -1,11 +1,7 @@
-export async function postPDF({
-  id,
-  file,
-  authorName,
-  bookTitle,
-  currentImage,
-}) {
+export async function postPDF({ id, file, authorName, bookTitle, currentImage }) {
   try {
+    console.log({ id, file, authorName, bookTitle, currentImage });
+
     if (!file || file.length === 0) {
       throw new Error("No file provided.");
     }
@@ -17,13 +13,10 @@ export async function postPDF({
     formData.append("imageUrl", currentImage);
     formData.append("user_id", id);
 
-    const response = await fetch(
-      `${import.meta.env.VITE_NODE_SERVER_URL}upload`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NODE_SERVER_URL}upload`, {
+      method: "POST",
+      body: formData,
+    });
 
     if (!response.ok) {
       const errorResponse = await response.json();
