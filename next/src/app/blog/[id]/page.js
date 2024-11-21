@@ -151,6 +151,7 @@ function ReadBlog() {
         miw={300}
         maw={800}
         src={`/images_4_blogs/${randomImage}`}
+        alt="JUST a shthetic image"
         style={{ boxShadow: cardShadows.xs }}
         radius="md"
         mih={300}
