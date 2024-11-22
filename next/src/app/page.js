@@ -1,7 +1,5 @@
-import { Title } from "@mantine/core";
+import { Loader } from "@mantine/core";
 
-export default function HaiJind(){
-  return (
-    <Title>Bbablesh</Title>
-  )
+export default function HaiJind() {
+  return <Loader />;
 }
