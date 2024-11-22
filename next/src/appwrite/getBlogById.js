@@ -4,7 +4,6 @@ import removeMarkdown from "markdown-to-text";
 import { extractFirstLine } from "@/app/helpers/helper";
 
 async function getBlogById(id) {
-  console.log(id)
   try {
     const blog = await databases.getDocument(
       process.env.NEXT_PUBLIC_DATABASE_ID,
