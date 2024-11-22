@@ -21,8 +21,31 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import Markdown from "markdown-to-jsx";
 import QuoteCard from "../../components/QuoteCard";
-import { useMediaQuery } from "@mantine/hooks";
+import { useElementSize, useMediaQuery } from "@mantine/hooks";
 import { cardShadows } from "../../utils/shadows";
+
+import { DM_Sans, Afacad_Flux, Spectral } from "next/font/google";
+
+const dm_sans = DM_Sans({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const afacad_flux = Afacad_Flux({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  style: ["normal"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const spectral = Spectral({
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  style: ["normal"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 // List of images
 const allImages = Array.from({ length: 24 }, (_, i) => `${i + 1}${i >= 12 ? ".webp" : ".jpg"}`);
@@ -33,21 +56,21 @@ const TitleComponent = ({ children, order = 1, style = {} }) => {
   const colorScheme = useComputedColorScheme();
   const color = colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[9];
   return (
-    <Title c={color} style={{ fontFamily: "Spectral, serif", ...style }} fw={500} order={order}>
+    <Title c={color} style={{ ...style }} className={spectral.className} fw={500} order={order}>
       {children}
     </Title>
   );
 };
 
 const TextMarkdown = ({ children }) => (
-  <Text py="xs" ta="left" size="xl" style={{ fontFamily: "Spectral, serif" }}>
+  <Text py="xs" ta="left" size="lg" className={spectral.className}>
     {children}
   </Text>
 );
 
 const CodeBlock = ({ children }) => <Code block>{children}</Code>;
 const EmphasizedText = ({ children }) => (
-  <Text fs="italic" style={{ fontFamily: "Circular medium" }}>
+  <Text fs="italic" className={spectral.className}>
     {children}
   </Text>
 );
@@ -87,7 +110,8 @@ const BlogCard = ({ blog, colorScheme, theme, bookImage, author }) => (
         fw={500}
         order={4}
         c={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[9]}
-        style={{ lineHeight: 1.2, fontFamily: "Afacad Flux" }}
+        className={afacad_flux.className}
+        style={{ lineHeight: 1.2 }}
       >
         {blog.blogTitle || "Surprise Blog It Has No Title"}
       </Title>
@@ -97,7 +121,8 @@ const BlogCard = ({ blog, colorScheme, theme, bookImage, author }) => (
         mt={5}
         size="sm"
         lineClamp={2}
-        style={{ lineHeight: 1.1, fontFamily: "DM sans" }}
+        className={dm_sans.className}
+        style={{ lineHeight: 1.1 }}
       >
         {blog.blogContent}
       </Text>
@@ -112,6 +137,7 @@ const BlogCard = ({ blog, colorScheme, theme, bookImage, author }) => (
 );
 
 function ReadBlog() {
+  const { ref, width: thumbnailImageWidth } = useElementSize();
   const theme = useMantineTheme();
   const { id } = useParams();
 
@@ -142,9 +168,9 @@ function ReadBlog() {
   }
 
   const { blogData, allBlogsWithBookId } = data;
-
+  console.log(thumbnailImageWidth);
   return (
-    <Stack miw={300} align="start" maw={800} px="md" mx="auto" gap="lg">
+    <Stack ref={ref} miw={300} align="start" maw={800} px="md" mx="auto" gap="lg">
       {/* Blog Image */}
       <Image
         w="100%"
@@ -165,7 +191,8 @@ function ReadBlog() {
           mt="md"
           variant="light"
           size="lg"
-          style={{ fontFamily: "Afacad Flux", boxShadow: cardShadows.xs }}
+          className={afacad_flux.className}
+          style={{ boxShadow: cardShadows.xs }}
         >
           {blogData.books.book_name}
         </Badge>
@@ -175,7 +202,7 @@ function ReadBlog() {
           c={colorScheme === "dark" ? "#febeb5" : theme.colors.gray[6]}
           ta="left"
           size="md"
-          style={{ fontFamily: "Afacad Flux" }}
+          className={afacad_flux.className}
         >
           —{blogData.books?.author || "Unknown"}
         </Text>
@@ -186,14 +213,14 @@ function ReadBlog() {
 
       {/* Related Blogs */}
       <Stack gap={0}>
-        <Text mt="lg" c="gray" style={{ fontFamily: "Afacad Flux", textTransform: "uppercase" }}>
+        <Text className={afacad_flux.className} mt="lg" c="gray" style={{ textTransform: "uppercase" }}>
           more from
         </Text>
         <TitleComponent order={4} style={{ textTransform: "uppercase" }}>
           {blogData.books.book_name}
         </TitleComponent>
       </Stack>
-      <ScrollArea w={smallScreen ? 340 : 800} h={200}>
+      <ScrollArea w={thumbnailImageWidth} h={200}>
         <Group gap="xs" mt="xs" wrap="nowrap">
           {allBlogsWithBookId.map((blog) => (
             <BlogCard
