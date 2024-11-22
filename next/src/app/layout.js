@@ -178,7 +178,6 @@ function Shell({ children }) {
       </SignedOut>
       <SignedIn>
         <AppShell
-          styles={{ root: { maxWidth: "1500px", margin: "0 auto" } }}
           bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}
           padding="md"
           header={{ height: 60 }}
@@ -193,7 +192,7 @@ function Shell({ children }) {
           {/* Header */}
           <AppShell.Header bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}>
             <Group justify={"space-between"} h="100%" px="md">
-              {navSizeScreen && <Avatar src={user?.imageUrl} onClick={toggle} alt={user?.fullName} size={"sm"} />}
+              {navSizeScreen && <Avatar src={user?.imageUrl} onClick={toggle} alt={user?.fullName} size={"32"} />}
               <Logo />
               {navSizeScreen && <ThemeToggleButton />}
               {!navSizeScreen && <FeedBack />}
@@ -238,7 +237,7 @@ function Shell({ children }) {
           <AppShell.Main style={{ paddingInline: smallSizeMath ? 0 : undefined }}>{children}</AppShell.Main>
 
           {/* Bottom Navigation for SmaScreens */}
-          {smallScreen && !isBlogPage && !opened&& <BottomBar />}
+          {smallScreen && !isBlogPage && !opened && <BottomBar />}
         </AppShell>
       </SignedIn>
     </>
