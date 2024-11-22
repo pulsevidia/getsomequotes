@@ -1,10 +1,11 @@
 "use client";
 import "@mantine/core/styles.css";
 import "@mantine/dropzone/styles.css";
+import "./globals.css";
 
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import { House, UploadSimple, FilePlus, Sun, Flower } from "@phosphor-icons/react";
-import { useEffect } from "react";
+import { House, UploadSimple, FilePlus, SunDim, Moon, SignOut, Question, QuestionMark } from "@phosphor-icons/react";
+import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import BottomBar from "./components/BottomBar";
 import Logo from "./components/Logo";
@@ -15,11 +16,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   AppShell,
   Avatar,
-  Burger,
   Card,
+  Center,
   createTheme,
   Group,
   MantineProvider,
+  SegmentedControl,
   Stack,
   Text,
   useComputedColorScheme,
@@ -27,29 +29,28 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { ClerkProvider, SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/nextjs";
+import { dark_theme } from "./config/theme";
+import FeedBack from "./components/layout/FeedBack";
 
 // User Card Component
 function UserCard({ color }) {
-  const { user } = useUser();
   const colorScheme = useComputedColorScheme();
+  const { user } = useUser();
 
   return (
     <Card bg={color} shadow={cardShadows.xs} radius="md" py="xs" px="md" mb="md">
       <Group wrap="nowrap" justify="space-between">
         <Group wrap="nowrap" gap="md" align="center">
-          <Avatar src={user.imageUrl} alt="User Avatar" />
+          <Avatar src={user?.imageUrl} alt="User Avatar" />
           <Stack gap={0}>
             <Text size="sm" c={colorScheme === "dark" ? "#f1beb5" : "dark"}>
               {user.fullName}
             </Text>
-            <Text size="xs" color="dimmed">
+            <Text size="xs" c="dimmed">
               {user.primaryEmailAddress.emailAddress}
             </Text>
           </Stack>
         </Group>
-        <SignOutButton>
-          <SignedOut cursor="pointer" size={18} color="#3d3846" weight="bold" />
-        </SignOutButton>
       </Group>
     </Card>
   );
@@ -93,26 +94,69 @@ const NavRoutes = ({ router, toggle, pathname, colorScheme }) => {
 };
 
 // Theme Toggle Button
-const ThemeToggleButton = ({ colorScheme, setColorScheme }) => (
-  <Group
-    gap="xs"
-    mb={100}
-    p="sm"
-    w={170}
-    onClick={() => setColorScheme(colorScheme === "dark" ? "light" : "dark")}
-    style={{
-      cursor: "pointer",
-      boxShadow: cardShadows.md,
-      borderRadius: "8px",
-    }}
-    bg={colorScheme === "light" ? "rgb(19, 27, 46)" : "white"}
-  >
-    {colorScheme === "dark" ? <Sun color="black" size={16} /> : <Flower weight="duotone" color="#f1beb5" size={16} />}
-    <Text size="xs" c={colorScheme === "dark" ? "black" : "#febeb5"}>
-      {colorScheme === "dark" ? "Light" : "Wanna go Purple?"}
-    </Text>
-  </Group>
-);
+const ThemeToggleButton = () => {
+  const colorScheme = useComputedColorScheme();
+  const [value, setValue] = useState(colorScheme);
+  const { setColorScheme } = useMantineColorScheme();
+
+  return (
+    <SegmentedControl
+      radius={"xl"}
+      size="xs"
+      onChange={(val) => {
+        setValue(val);
+        setColorScheme(val);
+      }}
+      bg={colorScheme === "dark" ? "rgb(11,09, 28)" : undefined}
+      value={value}
+      withItemsBorders={false}
+      w={66}
+      styles={{
+        indicator: {
+          background: colorScheme === "dark" && "rgb(19, 27, 46)",
+          boxShadow: cardShadows.md,
+        },
+        label: { padding: "calc(0.375rem) calc(0.375rem)" },
+      }}
+      data={[
+        {
+          value: "light",
+          label: (
+            <Center>
+              <SunDim
+                color={
+                  colorScheme === "dark"
+                    ? value === "light"
+                      ? dark_theme.main_text_color
+                      : dark_theme.secondary_text_color
+                    : undefined
+                }
+                size={16}
+              />
+            </Center>
+          ),
+        },
+        {
+          value: "dark",
+          label: (
+            <Center p={0}>
+              <Moon
+                color={
+                  colorScheme === "dark"
+                    ? value === "dark"
+                      ? dark_theme.main_text_color
+                      : dark_theme.secondary_text_color
+                    : undefined
+                }
+                size={16}
+              />
+            </Center>
+          ),
+        },
+      ]}
+    />
+  );
+};
 
 function Shell({ children }) {
   const router = useRouter();
@@ -120,11 +164,12 @@ function Shell({ children }) {
   const isBlogPage = pathname.includes("/blog/");
   const smallScreen = useMediaQuery("(max-width: 450px)");
   const smallSizeMath = useMediaQuery("(max-width:480px)");
+  const navSizeScreen = useMediaQuery("(max-width:767px)");
 
   const theme = useMantineTheme();
-  const { setColorScheme } = useMantineColorScheme();
   const colorScheme = useComputedColorScheme();
   const [opened, { toggle }] = useDisclosure();
+  const { user } = useUser();
 
   return (
     <>
@@ -133,6 +178,7 @@ function Shell({ children }) {
       </SignedOut>
       <SignedIn>
         <AppShell
+          styles={{ root: { maxWidth: "1500px", margin: "0 auto" } }}
           bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}
           padding="md"
           header={{ height: 60 }}
@@ -146,9 +192,11 @@ function Shell({ children }) {
 
           {/* Header */}
           <AppShell.Header bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}>
-            <Group h="100%" px="md">
-              <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+            <Group justify={"space-between"} h="100%" px="md">
+              {navSizeScreen && <Avatar src={user?.imageUrl} onClick={toggle} alt={user?.fullName} size={"sm"} />}
               <Logo />
+              {navSizeScreen && <ThemeToggleButton />}
+              {!navSizeScreen && <FeedBack />}
             </Group>
           </AppShell.Header>
 
@@ -159,15 +207,38 @@ function Shell({ children }) {
                 <UserCard color={colorScheme === "dark" ? "rgb(19, 27, 46)" : theme.colors.gray[0]} />
                 <NavRoutes router={router} toggle={toggle} pathname={pathname} colorScheme={colorScheme} />
               </Stack>
-              <ThemeToggleButton colorScheme={colorScheme} setColorScheme={setColorScheme} />
+              <Group justify="space-between" gap={0}>
+                <SignOutButton>
+                  <Group
+                    gap="xs"
+                    align="center"
+                    p="sm"
+                    justify="center"
+                    style={{
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Text size="sm" c={colorScheme === "dark" ? dark_theme.main_text_color : "red"} fw={500}>
+                      Sign out
+                    </Text>
+                    <SignOut
+                      weight="bold"
+                      color={colorScheme === "dark" ? dark_theme.main_text_color : "#fa5252"}
+                      size={16}
+                    />
+                  </Group>
+                </SignOutButton>
+                {!navSizeScreen && <ThemeToggleButton />}
+                {navSizeScreen && <FeedBack />}
+              </Group>
             </Stack>
           </AppShell.Navbar>
 
           {/* Main Content */}
           <AppShell.Main style={{ paddingInline: smallSizeMath ? 0 : undefined }}>{children}</AppShell.Main>
 
-          {/* Bottom Navigation for Small Screens */}
-          {smallScreen && !isBlogPage && <BottomBar />}
+          {/* Bottom Navigation for SmaScreens */}
+          {smallScreen && !isBlogPage && !opened&& <BottomBar />}
         </AppShell>
       </SignedIn>
     </>
