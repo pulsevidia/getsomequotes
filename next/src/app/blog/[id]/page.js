@@ -21,9 +21,8 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import Markdown from "markdown-to-jsx";
 import QuoteCard from "../../components/QuoteCard";
-import { useElementSize, useMediaQuery } from "@mantine/hooks";
+import { useResizeObserver } from "@mantine/hooks";
 import { cardShadows } from "../../utils/shadows";
-
 import { DM_Sans, Afacad_Flux, Spectral } from "next/font/google";
 
 const dm_sans = DM_Sans({
@@ -137,12 +136,13 @@ const BlogCard = ({ blog, colorScheme, theme, bookImage, author }) => (
 );
 
 function ReadBlog() {
-  const { ref, width: thumbnailImageWidth } = useElementSize();
+  const [ref, rect] = useResizeObserver();
+  console.log(rect);
+
   const theme = useMantineTheme();
   const { id } = useParams();
 
   const colorScheme = useComputedColorScheme();
-  const smallScreen = useMediaQuery("(max-width:480px)");
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["blog", id],
@@ -153,24 +153,23 @@ function ReadBlog() {
 
   if (isLoading) {
     return (
-      <Center h="100%">
+      <Center maw={800} w={"100%"} ref={ref} h="100%">
         <Loader color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[9]} type="dots" />
       </Center>
     );
   }
-
   if (isError) {
     return (
-      <Center h="100%">
+      <Center maw={800} w={"100%"} ref={ref} h="100%">
         <Text>Error occurred while fetching the blog.</Text>
       </Center>
     );
   }
 
   const { blogData, allBlogsWithBookId } = data;
-  console.log(thumbnailImageWidth);
+
   return (
-    <Stack ref={ref} miw={300} align="start" maw={800} px="md" mx="auto" gap="lg">
+    <Stack ref={ref} w={"100%"} miw={300} align="start" maw={800} px="md" mx="auto" gap="lg">
       {/* Blog Image */}
       <Image
         w="100%"
@@ -220,7 +219,8 @@ function ReadBlog() {
           {blogData.books.book_name}
         </TitleComponent>
       </Stack>
-      <ScrollArea w={thumbnailImageWidth} h={200}>
+
+      <ScrollArea w={rect.width} h={200}>
         <Group gap="xs" mt="xs" wrap="nowrap">
           {allBlogsWithBookId.map((blog) => (
             <BlogCard
