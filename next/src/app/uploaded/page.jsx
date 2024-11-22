@@ -255,8 +255,6 @@ export default function Uploaded() {
             loaderProps={{ type: "dots", color: colorScheme === "dark" ? dark_theme.secondary_text_color : "dark" }}
             loading={status === "pending"}
             onClick={async () => {
-              console.log(id, book, authorName, bookTitle, currentImage);
-
               await postThePDF({
                 id,
                 file: book,

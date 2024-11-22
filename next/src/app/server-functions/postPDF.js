@@ -1,7 +1,5 @@
 export async function postPDF({ id, file, authorName, bookTitle, currentImage }) {
   try {
-    console.log({ id, file, authorName, bookTitle, currentImage });
-
     if (!file || file.length === 0) {
       throw new Error("No file provided.");
     }
