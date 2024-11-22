@@ -109,7 +109,7 @@ function BlogCard({ blog }) {
           ></BackgroundImage>
 
           <Stack pr={"sm"} py={"sm"} gap={0}>
-            <Group mb={"xs"} gap={"xs"} align="flex-start">
+            <Group style={{flexDirection:'column'}} mb={"xs"} gap={"xs"} align="flex-start">
               <Badge
                 variant="light"
                 className={afacad_flux.className}
@@ -145,7 +145,7 @@ function BlogCard({ blog }) {
             </Title>
             <Text
               c={colorScheme === "dark" ? "rgb(182, 141, 133)" : theme.colors.gray[5]}
-              fw={900}
+              fw={500}
               lineClamp={2}
               size="sm"
               className={noto_sans_javanese.className}
