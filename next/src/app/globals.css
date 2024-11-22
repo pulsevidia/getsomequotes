@@ -1,5 +1,5 @@
 body {
-  background: rgba(19, 27, 46);
+  background: rgba(19, 27, 46) !important;
 }
 @font-face {
   font-family: "Circular";
