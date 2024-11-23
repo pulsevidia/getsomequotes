@@ -263,55 +263,18 @@ function RootLayout({ children }) {
       <QueryClientProvider client={queryClient}>
         <html lang="en">
           <head>
-            {/* <meta charset="UTF-8" />
-            <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1.0"
-            />
-            <title>Purple Night</title>
-            <meta
-              name="description"
-              content="Turn your favorite books into short blogs without losing exact lines."
-            />
-            <link
-              rel="icon"
-              href="./purplenight-favicon.png"
-              type="image/png"
-            />
-            <link
-              rel="canonical"
-              href="https://purplenight.hyperingenious.tech"
-            />
-            <meta name="referrer" content="no-referrer-when-downgrade" />
+            <meta name="twitter:image" content="twitter-image.png" />
+            <meta name="twitter:image:type" content="image/png" />
+            <meta name="twitter:image:width" content="1200" />
+            <meta name="twitter:image:height" content="600" />
 
-            <meta property="og:site_name" content="Purple Night" />
-            <meta property="og:type" content="website" />
-            <meta property="og:title" content="Purple Night" />
-            <meta
-              property="og:description"
-              content="Turn your favorite books into short blogs without losing exact lines."
-            />
-            <meta
-              property="og:url"
-              content="https://purplenight.hyperingenious.tech"
-            />
-            <meta property="og:image" content="./purplenight-banner.png" />
+            <meta property="og:image" content="opengraph-image.png" />
+            <meta property="og:image:type" content="image/png" />
             <meta property="og:image:width" content="1200" />
             <meta property="og:image:height" content="600" />
 
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:title" content="Purple Night" />
-            <meta
-              name="twitter:description"
-              content="Turn your favorite books into short blogs without losing exact lines."
-            />
-            <meta
-              name="twitter:url"
-              content="https://purplenight.hyperingenious.tech"
-            />
-            <meta name="twitter:image" content="./purplenight-banner.png" />
- */}
+            <meta name="description" content="Turn your favorite books into short blogs without losing exact lines." />
+            <title>Purple Night</title>
           </head>
 
           <body>
