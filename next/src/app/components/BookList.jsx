@@ -12,6 +12,14 @@ import {
 import { cardShadows } from "../utils/shadows";
 import { DotsThreeVertical, Sparkle, Trash } from "@phosphor-icons/react";
 import { useMediaQuery } from "@mantine/hooks";
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  style: ["normal"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export default function BookList({
   data,
@@ -53,14 +61,15 @@ export default function BookList({
               c={colorScheme === "dark" ? "#f1beb5" : theme.colors.dark[9]}
               w={smallSizeMath ? 200 : 300}
               fw={400}
-              style={{ fontFamily: "Poppins", lineHeight: 1.1 }}
+              className={poppins.className}
+              style={{ lineHeight: 1.1 }}
               truncate={"end"}
               size="md"
             >
               {item.book_name || "Untitled"}
             </Text>
             <Text
-              style={{ fontFamily: "Poppins" }}
+              className={poppins.className}
               fw={500}
               size="sm"
               c={colorScheme === "dark" ? "rgba(241, 190, 181, 0.67)" : theme.colors.dark[2]}
@@ -82,17 +91,17 @@ export default function BookList({
           <Menu
             styles={{
               dropdown: {
-                background: `${colorScheme === "dark" ? "#0f1523":undefined}`,
+                background: `${colorScheme === "dark" ? "#0f1523" : undefined}`,
               },
             }}
             radius={"md"}
             width={150}
           >
             <Menu.Target>
-              <DotsThreeVertical color={colorScheme === "dark" ? "#f1beb5":undefined} size={22} />
+              <DotsThreeVertical color={colorScheme === "dark" ? "#f1beb5" : undefined} size={22} />
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Label c={colorScheme === "dark" ? "#f1beb5":undefined} size={22}>
+              <Menu.Label c={colorScheme === "dark" ? "#f1beb5" : undefined} size={22}>
                 Book Options
               </Menu.Label>
               <Menu.Item
@@ -100,8 +109,8 @@ export default function BookList({
                   setGenerateBookId(item.$id);
                   openGenerateBookModal();
                 }}
-                c={colorScheme === "dark" ? "#f1beb5":undefined}
-                leftSection={<Sparkle color={colorScheme === "dark" ? "#f1beb5":undefined} size={16} weight="fill" />}
+                c={colorScheme === "dark" ? "#f1beb5" : undefined}
+                leftSection={<Sparkle color={colorScheme === "dark" ? "#f1beb5" : undefined} size={16} weight="fill" />}
               >
                 Generate
               </Menu.Item>

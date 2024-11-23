@@ -2,20 +2,7 @@
 // Styles
 import "./Uploaded.css";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import {
-  Group,
-  Modal,
-  Button,
-  Stack,
-  Input,
-  Card,
-  BackgroundImage,
-  Text,
-  ActionIcon,
-  Divider,
-  useMantineTheme,
-  useComputedColorScheme,
-} from "@mantine/core";
+import { Group, Modal, Button, Stack, Input, Card, BackgroundImage, Text, ActionIcon, Divider, useMantineTheme, useComputedColorScheme, } from "@mantine/core";
 import { Dropzone, PDF_MIME_TYPE } from "@mantine/dropzone";
 import { fetchBook } from "../../appwrite/fetchBook";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -178,11 +165,12 @@ export default function Uploaded() {
               <Group wrap="nowrap" gap={"xs"}>
                 <BackgroundImage onClick={chooseRandomImage} src={currentImage} radius="xl" h={36} w={36} />
                 <Stack gap={0}>
-                  <Text maw={140} truncate={"end"} style={{ lineHeight: 1.1, fontFamily: "Afacad Flux" }}>
+                  <Text maw={140} truncate={"end"} style={{ lineHeight: 1.1 }}>
                     {bookTitle}
                   </Text>
                   <Text maw={140} truncate={"end"} style={{ lineHeight: 1.1 }} size="xs" c={"gray"}>
                     {authorName && "By: "}
+
                     {authorName}
                   </Text>
                 </Stack>
