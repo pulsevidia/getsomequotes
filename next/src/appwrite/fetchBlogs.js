@@ -6,9 +6,10 @@ export async function fetchBlogs(id) {
     const { documents } = await databases.listDocuments(
       process.env.NEXT_PUBLIC_DATABASE_ID,
       process.env.NEXT_PUBLIC_BLOGS_COLLECTION_ID,
-      [(Query.limit(2000), Query.equal("user_id", [id]))]
+      [Query.limit(2000), Query.equal("user_id", [id])]
     );
     const refined_documents = [];
+    
     documents.forEach((doc) => {
       doc.books ? refined_documents.push(doc) : null;
     });
