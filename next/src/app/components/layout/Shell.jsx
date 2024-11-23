@@ -1,11 +1,8 @@
-"use client";
 import "@mantine/core/styles.css";
 import "@mantine/dropzone/styles.css";
 import "./globals.css";
-
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import { House, UploadSimple, FilePlus, SunDim, Moon, SignOut, Question, QuestionMark } from "@phosphor-icons/react";
-import { useEffect, useState } from "react";
+import { House, UploadSimple, FilePlus, SunDim, Moon, SignOut } from "@phosphor-icons/react";
 import { Toaster } from "react-hot-toast";
 import BottomBar from "./components/BottomBar";
 import Logo from "./components/Logo";
@@ -31,67 +28,6 @@ import {
 import { ClerkProvider, SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/nextjs";
 import { dark_theme } from "./config/theme";
 import FeedBack from "./components/layout/FeedBack";
-
-// User Card Component
-function UserCard({ color }) {
-  const colorScheme = useComputedColorScheme();
-  const { user } = useUser();
-
-  return (
-    <Card bg={color} shadow={cardShadows.xs} radius="md" py="xs" px="md" mb="md">
-      <Group wrap="nowrap" justify="space-between">
-        <Group wrap="nowrap" gap="md" align="center">
-          <Avatar src={user?.imageUrl} alt="User Avatar" />
-          <Stack gap={0}>
-            <Text size="sm" c={colorScheme === "dark" ? "#f1beb5" : "dark"}>
-              {user.fullName}
-            </Text>
-            <Text size="xs" c="dimmed">
-              {user.primaryEmailAddress.emailAddress}
-            </Text>
-          </Stack>
-        </Group>
-      </Group>
-    </Card>
-  );
-}
-
-// Navbar Links
-const NavRoutes = ({ router, toggle, pathname, colorScheme }) => {
-  const routes = [
-    { path: "/home", label: "Home", Icon: House },
-    { path: "/uploaded", label: "Uploaded", Icon: UploadSimple },
-    { path: "/upload_book", label: "Upload Book", Icon: FilePlus },
-  ];
-
-  return (
-    <Stack gap={0}>
-      {routes.map((route) => (
-        <Group
-          key={route.path}
-          gap="xs"
-          align="center"
-          p="sm"
-          onClick={() => {
-            router.push(route.path);
-            toggle();
-          }}
-          style={{
-            cursor: "pointer",
-            boxShadow: pathname === route.path ? cardShadows.md : "none",
-            borderRadius: "8px",
-            background: pathname === route.path && colorScheme === "dark" ? "rgb(19, 27, 45)" : "none",
-          }}
-        >
-          <route.Icon color={colorScheme === "dark" ? "#f1beb5" : "black"} size={16} />
-          <Text size="xs" c={colorScheme === "dark" ? "#f1beb5" : "dark"}>
-            {route.label}
-          </Text>
-        </Group>
-      ))}
-    </Stack>
-  );
-};
 
 // Theme Toggle Button
 const ThemeToggleButton = () => {
@@ -157,6 +93,7 @@ const ThemeToggleButton = () => {
     />
   );
 };
+
 
 function Shell({ children }) {
   const router = useRouter();
@@ -243,48 +180,4 @@ function Shell({ children }) {
     </>
   );
 }
-
-function RootLayout({ children }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  useEffect(() => {
-    if (pathname === "/") router.push("/home");
-  }, [pathname, router]);
-
-  const def_theme = createTheme({
-    fontFamily: "Verdana, sans-serif",
-    fontFamilyMonospace: "Monaco, Courier, monospace",
-    headings: { fontFamily: "Greycliff CF, sans-serif" },
-  });
-
-  const queryClient = new QueryClient();
-  return (
-    <ClerkProvider>
-      <QueryClientProvider client={queryClient}>
-        <html lang="en">
-          <head>
-            <meta name="twitter:image" content="twitter-image.png" />
-            <meta name="twitter:image:type" content="image/png" />
-            <meta name="twitter:image:width" content="1200" />
-            <meta name="twitter:image:height" content="630" />
-
-            <meta property="og:image" content="opengraph-image.png" />
-            <meta property="og:image:type" content="image/png" />
-            <meta property="og:image:width" content="1200" />
-            <meta property="og:image:height" content="630" />
-
-            <meta name="description" content="Turn your favorite books into short blogs without losing exact lines." />
-            <title>Purple Night</title>
-          </head>
-
-          <body>
-            <MantineProvider theme={def_theme} defaultColorScheme="light">
-              <Shell>{children}</Shell>
-            </MantineProvider>
-          </body>
-        </html>
-      </QueryClientProvider>
-    </ClerkProvider>
-  );
-}
-export default RootLayout;
+export default Shell;
