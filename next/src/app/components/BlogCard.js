@@ -16,14 +16,8 @@ import { cardShadows } from "../utils/shadows";
 import { useMemo } from "react";
 import Link from "next/link";
 
-import { DM_Sans, Afacad_Flux, Noto_Sans_Javanese } from "next/font/google";
+import { DM_Sans, Afacad_Flux, } from "next/font/google";
 
-const noto_sans_javanese = Noto_Sans_Javanese({
-  weight: ["400"],
-  style: ["normal"],
-  subsets: ["latin"],
-  display: "swap",
-});
 const dm_sans = DM_Sans({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   style: ["normal", "italic"],
@@ -109,7 +103,7 @@ function BlogCard({ blog }) {
           ></BackgroundImage>
 
           <Stack pr={"sm"} py={"sm"} gap={0}>
-            <Group style={{flexDirection:'column'}} mb={"xs"} gap={"xs"} align="flex-start">
+            <Group mb={"xs"} gap={"xs"} align="flex-start">
               <Badge
                 variant="light"
                 className={afacad_flux.className}
@@ -122,10 +116,11 @@ function BlogCard({ blog }) {
                 {blog?.books?.book_name}
               </Badge>
               <Text
+              miw={200}
                 size="xs"
                 fw={600}
                 c={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
-                className={noto_sans_javanese.className}
+                className={dm_sans.className}
               >
                 {blog.books?.author || "Unknown"}
               </Text>
@@ -148,7 +143,7 @@ function BlogCard({ blog }) {
               fw={500}
               lineClamp={2}
               size="sm"
-              className={noto_sans_javanese.className}
+              className={dm_sans.className}
             >
               {content}
             </Text>
