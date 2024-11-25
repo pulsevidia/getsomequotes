@@ -3,8 +3,18 @@ import { databases } from "./appwrite";
 import removeMarkdown from "markdown-to-text";
 import { extractFirstLine } from "@/app/helpers/helper";
 
-async function getBlogById(id) {
+async function getBlogById(id, user_id) {
   try {
+    const doc = await databases.getDocument(
+      process.env.NEXT_PUBLIC_DATABASE_ID,
+      process.env.NEXT_PUBLIC_BLOGS_COLLECTION_ID,
+      id,
+      [Query.select(["user_id"])]
+    );
+    if (doc.user_id !== user_id) {
+      throw Error("The Blog Does not you belongs to you");
+    }
+
     const blog = await databases.getDocument(
       process.env.NEXT_PUBLIC_DATABASE_ID,
       process.env.NEXT_PUBLIC_BLOGS_COLLECTION_ID,
@@ -31,9 +41,9 @@ async function getAllBlogsWithBookId(id) {
   }
 }
 
-async function getBlogAndSuggestedBlogs(id) {
+async function getBlogAndSuggestedBlogs(id, user_id) {
   try {
-    const blogData = await getBlogById(id);
+    const blogData = await getBlogById(id, user_id);
     const bookId = blogData.books.$id;
     const { documents } = await getAllBlogsWithBookId(bookId);
 

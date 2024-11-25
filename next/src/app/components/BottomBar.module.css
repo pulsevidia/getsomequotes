@@ -1,25 +1,31 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:700");
-
-.nav {
+.nav_parent {
   font-family: "Open Sans", sans-serif;
   display: flex;
+  flex-direction: column;
   justify-content: space-evenly;
   /* background: transparent; */
   border-radius: 30px 30px 30px 30px;
   width: 100%;
   /* Shadow xl */
-  box-shadow: 0 10px 32px rgb(33 33 38 / 0.15), 0 1px 1px rgb(0 0 0 / 0.05),
-    0 0 0 1px rgba(19, 19, 22, 0.05), 0 4px 6px rgb(33 33 38 / 0.08),
-    0 24px 68px rgb(33 33 38 / 0.1);
+  box-shadow: 0 10px 32px rgb(33 33 38 / 0.15), 0 1px 1px rgb(0 0 0 / 0.05), 0 0 0 1px rgba(19, 19, 22, 0.05),
+    0 4px 6px rgb(33 33 38 / 0.08), 0 24px 68px rgb(33 33 38 / 0.1);
+}
+.nav {
+  font-family: "Open Sans", sans-serif;
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 0.3rem;
+  /* background: transparent; */
+  width: 100%;
 }
 
 .link {
   color: inherit;
   text-decoration: none;
-  margin: 0 0.2rem;
   display: flex;
   align-items: center;
-  padding: 0.75rem 1.25rem;
+  padding: 0.65rem 1.25rem;
   border-radius: 30px;
   position: relative;
 }
@@ -57,13 +63,6 @@
   color: var(--hover-c);
 }
 
-.active:before {
-  background: var(--hover-c);
-  opacity: 0;
-  visibility: hidden;
-  transform: translate(0%, -50%) scale(2);
-  transition: all 0.4s ease-out;
-}
 
 .active svg {
   margin-right: 0;
@@ -78,10 +77,6 @@
 @media (max-width: 500px) {
   .nav {
     justify-self: start;
-  }
-
-  .link {
-    margin: 0.5rem 0;
   }
 
   .link svg {
