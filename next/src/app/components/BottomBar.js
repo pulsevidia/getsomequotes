@@ -91,7 +91,7 @@ const BottomBar = () => {
           scrollbarSize={2}
           h={isExpanded ? 300 : 0}
           style={{
-            transition: "0.3s cubic-bezier(0.05, 0.82, 0.57, 0.61)",
+            transition: "0.3s ease-out",
             borderRadius: "30px",
           }}
           scrollbars="y"
