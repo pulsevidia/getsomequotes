@@ -22,6 +22,7 @@ import { cardShadows } from "../../utils/shadows";
 import { Afacad_Flux, Spectral } from "next/font/google";
 import SmallBlogCard from "@/app/components/SmallBlogCard";
 import TitleComponent from "@/app/components/TitleComponent";
+import { useUser } from "@clerk/clerk-react";
 
 const afacad_flux = Afacad_Flux({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -41,7 +42,7 @@ const spectral = Spectral({
 const allImages = Array.from({ length: 24 }, (_, i) => `${i + 1}${i >= 12 ? ".webp" : ".jpg"}`);
 
 const TextMarkdown = ({ children }) => (
-  <Text py="xs" ta="left" size="lg" className={spectral.className}>
+  <Text fw={300} py="xs" ta="left" size="lg" className={spectral.className}>
     {children}
   </Text>
 );
@@ -74,15 +75,17 @@ const MarkdownToCustom = ({ markdown }) => (
 
 function ReadBlog() {
   const [ref, rect] = useResizeObserver();
-
   const theme = useMantineTheme();
-  const { id } = useParams();
+  const { id: blog_id } = useParams();
+  const {
+    user: { id: user_id },
+  } = useUser();
 
   const colorScheme = useComputedColorScheme();
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["blog", id],
-    queryFn: () => getBlogAndSuggestedBlogs(id),
+    queryKey: ["blog", blog_id],
+    queryFn: () => getBlogAndSuggestedBlogs(blog_id,user_id),
   });
 
   const randomImage = allImages[Math.floor(Math.random() * allImages.length)];
