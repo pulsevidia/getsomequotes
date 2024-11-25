@@ -4,7 +4,7 @@ import "@mantine/dropzone/styles.css";
 import "./globals.css";
 
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import { House, UploadSimple, FilePlus, SunDim, Moon, SignOut, Question, QuestionMark } from "@phosphor-icons/react";
+import { SunDim, Moon, SignOut } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import BottomBar from "./components/BottomBar";
@@ -16,7 +16,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   AppShell,
   Avatar,
-  Card,
   Center,
   createTheme,
   Group,
@@ -31,67 +30,8 @@ import {
 import { ClerkProvider, SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/nextjs";
 import { dark_theme } from "./config/theme";
 import FeedBack from "./components/layout/FeedBack";
-
-// User Card Component
-function UserCard({ color }) {
-  const colorScheme = useComputedColorScheme();
-  const { user } = useUser();
-
-  return (
-    <Card bg={color} shadow={cardShadows.xs} radius="md" py="xs" px="md" mb="md">
-      <Group wrap="nowrap" justify="space-between">
-        <Group wrap="nowrap" gap="md" align="center">
-          <Avatar src={user?.imageUrl} alt="User Avatar" />
-          <Stack gap={0}>
-            <Text size="sm" c={colorScheme === "dark" ? "#f1beb5" : "dark"}>
-              {user.fullName}
-            </Text>
-            <Text size="xs" c="dimmed">
-              {user.primaryEmailAddress.emailAddress}
-            </Text>
-          </Stack>
-        </Group>
-      </Group>
-    </Card>
-  );
-}
-
-// Navbar Links
-const NavRoutes = ({ router, toggle, pathname, colorScheme }) => {
-  const routes = [
-    { path: "/home", label: "Home", Icon: House },
-    { path: "/uploaded", label: "Uploaded", Icon: UploadSimple },
-    { path: "/upload_book", label: "Upload Book", Icon: FilePlus },
-  ];
-
-  return (
-    <Stack gap={0}>
-      {routes.map((route) => (
-        <Group
-          key={route.path}
-          gap="xs"
-          align="center"
-          p="sm"
-          onClick={() => {
-            router.push(route.path);
-            toggle();
-          }}
-          style={{
-            cursor: "pointer",
-            boxShadow: pathname === route.path ? cardShadows.md : "none",
-            borderRadius: "8px",
-            background: pathname === route.path && colorScheme === "dark" ? "rgb(19, 27, 45)" : "none",
-          }}
-        >
-          <route.Icon color={colorScheme === "dark" ? "#f1beb5" : "black"} size={16} />
-          <Text size="xs" c={colorScheme === "dark" ? "#f1beb5" : "dark"}>
-            {route.label}
-          </Text>
-        </Group>
-      ))}
-    </Stack>
-  );
-};
+import UserCard from "./components/layout/UserCard";
+import NavRoutes from "./components/layout/NavRoutes";
 
 // Theme Toggle Button
 const ThemeToggleButton = () => {
@@ -203,7 +143,13 @@ function Shell({ children }) {
           <AppShell.Navbar p="md" bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}>
             <Stack gap={0} h="100%" justify="space-between">
               <Stack gap={0}>
-                <UserCard color={colorScheme === "dark" ? "rgb(19, 27, 46)" : theme.colors.gray[0]} />
+                <UserCard
+                  colorScheme={colorScheme}
+                  fullName={user?.fullName}
+                  emailAddress={user?.emailAddresses[0].emailAddress}
+                  imageUrl={user?.imageUrl}
+                  color={colorScheme === "dark" ? "rgb(19, 27, 46)" : theme.colors.gray[0]}
+                />
                 <NavRoutes router={router} toggle={toggle} pathname={pathname} colorScheme={colorScheme} />
               </Stack>
               <Group justify="space-between" gap={0}>
