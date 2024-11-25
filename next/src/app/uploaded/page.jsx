@@ -2,7 +2,20 @@
 // Styles
 import "./Uploaded.css";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import { Group, Modal, Button, Stack, Input, Card, BackgroundImage, Text, ActionIcon, Divider, useMantineTheme, useComputedColorScheme, } from "@mantine/core";
+import {
+  Group,
+  Modal,
+  Button,
+  Stack,
+  Input,
+  Card,
+  BackgroundImage,
+  Text,
+  ActionIcon,
+  Divider,
+  useMantineTheme,
+  useComputedColorScheme,
+} from "@mantine/core";
 import { Dropzone, PDF_MIME_TYPE } from "@mantine/dropzone";
 import { fetchBook } from "../../appwrite/fetchBook";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -128,18 +141,6 @@ export default function Uploaded() {
         title="upload"
       >
         <Stack gap={"0"} miw={230}>
-          <Input.Wrapper c={colorScheme === "dark" ? dark_theme.secondary_text_color : "dark"} label="Author Name">
-            <Input
-              disabled={status === "pending"}
-              radius={"md"}
-              variant="filled"
-              size="sm"
-              value={authorName}
-              onChange={(e) => setAuthorName(e.target.value)}
-              placeholder="Ex: Richard Dawkins"
-            />
-          </Input.Wrapper>
-
           <Input.Wrapper c={colorScheme === "dark" ? dark_theme.secondary_text_color : "dark"} l label="Book Title">
             <Input
               disabled={status === "pending"}
@@ -149,6 +150,17 @@ export default function Uploaded() {
               onChange={(e) => setBookTitle(e.target.value)}
               size="sm"
               placeholder="The Selfish Gene"
+            />
+          </Input.Wrapper>
+          <Input.Wrapper c={colorScheme === "dark" ? dark_theme.secondary_text_color : "dark"} label="Author Name">
+            <Input
+              disabled={status === "pending"}
+              radius={"md"}
+              variant="filled"
+              size="sm"
+              value={authorName}
+              onChange={(e) => setAuthorName(e.target.value)}
+              placeholder="Ex: Richard Dawkins"
             />
           </Input.Wrapper>
         </Stack>
@@ -190,43 +202,43 @@ export default function Uploaded() {
             </Group>
           </Card>
         )}
-        {authorName && bookTitle && !book ? (
-          <Dropzone
-            styles={{
-              root: {
-                border: "none",
-                padding: 0,
-                background: "none",
-              },
-            }}
-            onDrop={async (file) => {
-              setBook(file);
-              chooseRandomImage();
-            }}
-            onReject={() => {
-              toast.error("Should not exceed 5MB");
-            }}
-            maxSize={6 * 1024 ** 2}
-            accept={PDF_MIME_TYPE}
-          >
-            <Group mt={"md"} justify="center" gap="xl" style={{ pointerEvents: "none" }}>
-              <Dropzone.Idle>
-                <Button
-                  style={{ boxShadow: cardShadows.md }}
-                  variant="light"
-                  leftSection={<FileArrowUp size={18} />}
-                  size="sm"
-                  c={colorScheme === "dark" ? dark_theme.secondary_text_color : "black"}
-                  bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "black"}
-                  fullWidth
-                  radius="md"
-                >
-                  Upload
-                </Button>
-              </Dropzone.Idle>
-            </Group>
-          </Dropzone>
-        ) : null}
+        {/* {authorName && bookTitle && !book ? ( */}
+        <Dropzone
+          styles={{
+            root: {
+              border: "none",
+              padding: 0,
+              background: "none",
+            },
+          }}
+          onDrop={async (file) => {
+            setBook(file);
+            chooseRandomImage();
+          }}
+          onReject={() => {
+            toast.error("Should not exceed 5MB");
+          }}
+          maxSize={6 * 1024 ** 2}
+          accept={PDF_MIME_TYPE}
+        >
+          <Group mt={"md"} justify="center" gap="xl" style={{ pointerEvents: "none" }}>
+            <Dropzone.Idle>
+              <Button
+                style={{ boxShadow: cardShadows.md }}
+                variant="light"
+                leftSection={<FileArrowUp size={18} />}
+                size="sm"
+                c={colorScheme === "dark" ? dark_theme.secondary_text_color : "black"}
+                bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : theme.colors.gray[2]}
+                fullWidth
+                radius="md"
+              >
+                Upload
+              </Button>
+            </Dropzone.Idle>
+          </Group>
+        </Dropzone>
+        {/* ) : null} */}
         {book && (
           <Button
             variant="filled"
