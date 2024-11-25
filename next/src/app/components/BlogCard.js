@@ -9,29 +9,29 @@ import {
   useMantineTheme,
   useComputedColorScheme,
 } from "@mantine/core";
-
 import { useMediaQuery } from "@mantine/hooks";
 import removeMarkdown from "markdown-to-text";
 import { cardShadows } from "../utils/shadows";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
+import { DM_Sans, Afacad_Flux } from "next/font/google";
 
-import { DM_Sans, Afacad_Flux, } from "next/font/google";
-
+// Fonts optimized for used weights
 const dm_sans = DM_Sans({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  style: ["normal", "italic"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const afacad_flux = Afacad_Flux({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "600", "700"],
   style: ["normal"],
   subsets: ["latin"],
   display: "swap",
 });
 
+const afacad_flux = Afacad_Flux({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// Static image array inside the file
 const allImage = [
   "1.jpg",
   "2.jpg",
@@ -60,66 +60,69 @@ const allImage = [
 ];
 
 function BlogCard({ blog }) {
-  function extractFirstLine(blog) {
-    const start = blog.blog_markdown.indexOf("##");
-    if (start === -1) return null;
-
-    const end = blog.blog_markdown.indexOf("\n", start);
-    if (end === -1) return null;
-
-    const what = [blog.blog_markdown.slice(start + 2, end).trim()];
-    return what;
-  }
-
-  const title = useMemo(() => extractFirstLine(blog), [blog]);
-  const content = useMemo(() => removeMarkdown(blog.blog_markdown), [blog]);
-  const smallSizeMath = useMediaQuery("(max-width:480px)");
-  const randomImage = useMemo(() => allImage[Math.floor(Math.random() * allImage.length)], []);
-
   const theme = useMantineTheme();
   const colorScheme = useComputedColorScheme();
+  const isSmallScreen = useMediaQuery("(max-width: 480px)");
+
+  // Random image state, computed once on mount
+  const [randomImage, setRandomImage] = useState("");
+
+  useEffect(() => {
+    setRandomImage(allImage[Math.floor(Math.random() * allImage.length)]);
+  }, []);
+
+  // Extract title logic
+  const title = useMemo(() => {
+    const start = blog.blog_markdown.indexOf("##");
+    if (start === -1) return null;
+    const end = blog.blog_markdown.indexOf("\n", start);
+    return blog.blog_markdown.slice(start + 2, end).trim();
+  }, [blog.blog_markdown]);
+
+  // Parse markdown content
+  const content = useMemo(() => removeMarkdown(blog.blog_markdown), [blog.blog_markdown]);
+
+  // Pre-memoize styles
+  const cardBackground = colorScheme === "dark" ? "rgb(19, 27, 46)" : theme.colors.gray[0];
+  const textColor = colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[9];
+
   return (
     <Link href={`/blog/${blog.$id}`} style={{ textDecoration: "none" }}>
       <Card
         shadow={cardShadows.md}
         maw={600}
-        // mih={150}
         style={{ cursor: "pointer" }}
-        mx={"xs"}
-        radius={"sm"}
-        styles={{ root: { padding: 0 } }}
-        bg={colorScheme === "dark" ? "rgb(19, 27, 46)" : theme.colors.gray[0]}
+        mx="xs"
+        radius="sm"
+        padding={0}
+        bg={cardBackground}
       >
-        <Group gap={"xs"} style={{ flexWrap: "nowrap", alignItems: "flex-start" }}>
+        <Group gap="xs" align="flex-start" wrap="nowrap">
           <BackgroundImage
-            style={{
-              boxShadow: cardShadows.xs,
-            }}
+            style={{ boxShadow: cardShadows.xs }}
             loading="lazy"
-            miw={smallSizeMath ? 120 : 140}
-            mih={smallSizeMath ? 167 : 150}
-            p={40}
+            miw={isSmallScreen ? 120 : 140}
+            mih={isSmallScreen ? 167 : 150}
+            padding={40}
             src={`/images_4_blogs/${randomImage}`}
-          ></BackgroundImage>
+          />
 
-          <Stack pr={"sm"} py={"sm"} gap={0}>
-            <Group mb={"xs"} gap={"xs"} align="flex-start">
+          <Stack pr="sm" py="sm" gap={0}>
+            <Group mb="xs" gap="xs" align="flex-start">
               <Badge
                 variant="light"
                 className={afacad_flux.className}
-                style={{
-                  boxShadow: cardShadows.xs,
-                }}
-                size={smallSizeMath ? "xs" : "sm"}
+                size={isSmallScreen ? "xs" : "sm"}
                 color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
+                style={{ boxShadow: cardShadows.xs }}
               >
-                {blog?.books?.book_name}
+                {blog?.books?.book_name || "Unknown"}
               </Badge>
               <Text
-              miw={200}
+                miw={200}
                 size="xs"
-                fw={600}
-                c={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
+                weight={600}
+                color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
                 className={dm_sans.className}
               >
                 {blog.books?.author || "Unknown"}
@@ -127,20 +130,18 @@ function BlogCard({ blog }) {
             </Group>
             <Title
               lineClamp={2}
-              fw={600}
+              weight={600}
               className={dm_sans.className}
-              style={{
-                lineHeight: 1.1,
-              }}
-              mb={"xs"}
-              size={smallSizeMath ? "18px" : "20px"}
-              c={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[9]}
+              size={isSmallScreen ? "18px" : "20px"}
+              style={{ lineHeight: 1.1 }}
+              mb="xs"
+              color={textColor}
             >
               {title}
             </Title>
             <Text
-              c={colorScheme === "dark" ? "rgb(182, 141, 133)" : theme.colors.gray[5]}
-              fw={500}
+              color={colorScheme === "dark" ? "rgb(182, 141, 133)" : theme.colors.gray[5]}
+              weight={500}
               lineClamp={2}
               size="sm"
               className={dm_sans.className}
@@ -153,4 +154,5 @@ function BlogCard({ blog }) {
     </Link>
   );
 }
+
 export default BlogCard;
