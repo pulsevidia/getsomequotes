@@ -85,7 +85,7 @@ function ReadBlog() {
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["blog", blog_id],
-    queryFn: () => getBlogAndSuggestedBlogs(blog_id,user_id),
+    queryFn: () => getBlogAndSuggestedBlogs(blog_id, user_id),
   });
 
   const randomImage = allImages[Math.floor(Math.random() * allImages.length)];
@@ -114,7 +114,7 @@ function ReadBlog() {
         w="100%"
         miw={300}
         maw={800}
-        src={`/images_4_blogs/${randomImage}`}
+        src={blogData?.blog_image || `/images_4_blogs/${randomImage}`}
         alt="JUST a shthetic image"
         style={{ boxShadow: cardShadows.xs }}
         radius="md"

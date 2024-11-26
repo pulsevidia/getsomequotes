@@ -7,9 +7,9 @@ import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { SunDim, Moon, SignOut } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-import BottomBar from "./components/BottomBar";
-import Logo from "./components/Logo";
-import NotSignedIn from "./components/NotSignedIn";
+import BottomNavigationBar from "./components/BottomBar";
+import BrandLogo from "./components/Logo";
+import SignInPrompt from "./components/NotSignedIn";
 import { cardShadows } from "./utils/shadows";
 import { usePathname, useRouter } from "next/navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -17,6 +17,7 @@ import {
   AppShell,
   Avatar,
   Center,
+  closeOnEscape,
   createTheme,
   Group,
   MantineProvider,
@@ -29,26 +30,26 @@ import {
 } from "@mantine/core";
 import { ClerkProvider, SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/nextjs";
 import { dark_theme } from "./config/theme";
-import FeedBack from "./components/layout/FeedBack";
-import UserCard from "./components/layout/UserCard";
-import NavRoutes from "./components/layout/NavRoutes";
+import FeedbackButton from "./components/layout/FeedBack";
+import UserProfileCard from "./components/layout/UserCard";
+import NavigationRoutes from "./components/layout/NavRoutes";
 
-// Theme Toggle Button
-const ThemeToggleButton = () => {
+// Theme Toggle Button Component
+const ThemeSwitcher = () => {
   const colorScheme = useComputedColorScheme();
-  const [value, setValue] = useState(colorScheme);
+  const [themeMode, setThemeMode] = useState(colorScheme);
   const { setColorScheme } = useMantineColorScheme();
 
   return (
     <SegmentedControl
-      radius={"xl"}
+      radius="xl"
       size="xs"
-      onChange={(val) => {
-        setValue(val);
-        setColorScheme(val);
+      onChange={(selectedValue) => {
+        setThemeMode(selectedValue);
+        setColorScheme(selectedValue);
       }}
-      bg={colorScheme === "dark" ? "rgb(11,09, 28)" : undefined}
-      value={value}
+      bg={colorScheme === "dark" ? "rgb(11, 09, 28)" : undefined}
+      value={themeMode}
       withItemsBorders={false}
       w={66}
       styles={{
@@ -64,9 +65,9 @@ const ThemeToggleButton = () => {
           label: (
             <Center>
               <SunDim
-                color={
+                c={
                   colorScheme === "dark"
-                    ? value === "light"
+                    ? themeMode === "light"
                       ? dark_theme.main_text_color
                       : dark_theme.secondary_text_color
                     : undefined
@@ -83,7 +84,7 @@ const ThemeToggleButton = () => {
               <Moon
                 color={
                   colorScheme === "dark"
-                    ? value === "dark"
+                    ? themeMode === "dark"
                       ? dark_theme.main_text_color
                       : dark_theme.secondary_text_color
                     : undefined
@@ -98,59 +99,66 @@ const ThemeToggleButton = () => {
   );
 };
 
-function Shell({ children }) {
+// Application Shell
+function AppShellLayout({ children }) {
   const router = useRouter();
-  const pathname = usePathname();
-  const isBlogPage = pathname.includes("/blog/");
-  const smallScreen = useMediaQuery("(max-width: 450px)");
-  const smallSizeMath = useMediaQuery("(max-width:480px)");
-  const navSizeScreen = useMediaQuery("(max-width:767px)");
+  const currentPath = usePathname();
+  const isBlogView = currentPath.includes("/blog/");
 
-  const theme = useMantineTheme();
+  const isSmallScreen = useMediaQuery("(max-width: 450px)");
+  const isCompactScreen = useMediaQuery("(max-width:480px)");
+  const isTabletScreen = useMediaQuery("(max-width:767px)");
+
+  const mantineTheme = useMantineTheme();
   const colorScheme = useComputedColorScheme();
-  const [opened, { toggle }] = useDisclosure();
+  const [isNavbarOpen, { toggle: toggleNavbar }] = useDisclosure();
   const { user } = useUser();
 
   return (
     <>
       <SignedOut>
-        <NotSignedIn />
+        <SignInPrompt />
       </SignedOut>
       <SignedIn>
         <AppShell
-          bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}
+          bg={colorScheme === "dark" ? "#0f1523" : mantineTheme.colors.gray[0]}
           padding="md"
           header={{ height: 60 }}
           navbar={{
             width: 300,
             breakpoint: "sm",
-            collapsed: { mobile: !opened },
+            collapsed: { mobile: !isNavbarOpen },
           }}
         >
           <Toaster position="bottom-center" reverseOrder={false} />
 
           {/* Header */}
-          <AppShell.Header bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}>
-            <Group justify={"space-between"} h="100%" px="md">
-              {navSizeScreen && <Avatar src={user?.imageUrl} onClick={toggle} alt={user?.fullName} size={"32"} />}
-              <Logo />
-              {navSizeScreen && <ThemeToggleButton />}
-              {!navSizeScreen && <FeedBack />}
+          <AppShell.Header bg={colorScheme === "dark" ? "#0f1523" : mantineTheme.colors.gray[0]}>
+            <Group justify="space-between" h="100%" px="md">
+              {isTabletScreen && <Avatar src={user?.imageUrl} onClick={toggleNavbar} alt={user?.fullName} size={32} />}
+              <BrandLogo />
+              {isTabletScreen && <ThemeSwitcher />}
+              {!isTabletScreen && <FeedbackButton />}
             </Group>
           </AppShell.Header>
 
           {/* Navbar */}
-          <AppShell.Navbar p="md" bg={colorScheme === "dark" ? "#0f1523" : theme.colors.gray[0]}>
+          <AppShell.Navbar p="md" bg={colorScheme === "dark" ? "#0f1523" : mantineTheme.colors.gray[0]}>
             <Stack gap={0} h="100%" justify="space-between">
               <Stack gap={0}>
-                <UserCard
+                <UserProfileCard
                   colorScheme={colorScheme}
                   fullName={user?.fullName}
-                  emailAddress={user?.emailAddresses[0].emailAddress}
+                  emailAddress={user?.emailAddresses[0]?.emailAddress}
                   imageUrl={user?.imageUrl}
-                  color={colorScheme === "dark" ? "rgb(19, 27, 46)" : theme.colors.gray[0]}
+                  color={colorScheme === "dark" ? "rgb(19, 27, 46)" : mantineTheme.colors.gray[0]}
                 />
-                <NavRoutes router={router} toggle={toggle} pathname={pathname} colorScheme={colorScheme} />
+                <NavigationRoutes
+                  router={router}
+                  toggle={toggleNavbar}
+                  pathname={currentPath}
+                  colorScheme={colorScheme}
+                />
               </Stack>
               <Group justify="space-between" gap={0}>
                 <SignOutButton>
@@ -163,7 +171,7 @@ function Shell({ children }) {
                       cursor: "pointer",
                     }}
                   >
-                    <Text size="sm" c={colorScheme === "dark" ? dark_theme.main_text_color : "red"} fw={500}>
+                    <Text size="sm" c={colorScheme === "dark" ? dark_theme.main_text_color : "red"} fontWeight={500}>
                       Sign out
                     </Text>
                     <SignOut
@@ -173,37 +181,40 @@ function Shell({ children }) {
                     />
                   </Group>
                 </SignOutButton>
-                {!navSizeScreen && <ThemeToggleButton />}
-                {navSizeScreen && <FeedBack />}
+                {!isSmallScreen && <ThemeSwitcher />}
+                {isSmallScreen && <FeedbackButton />}
               </Group>
             </Stack>
           </AppShell.Navbar>
 
           {/* Main Content */}
-          <AppShell.Main style={{ paddingInline: smallSizeMath ? 0 : undefined }}>{children}</AppShell.Main>
+          <AppShell.Main style={{ paddingInline: isCompactScreen ? 0 : undefined }}>{children}</AppShell.Main>
 
-          {/* Bottom Navigation for SmaScreens */}
-          {smallScreen && !isBlogPage && !opened && <BottomBar />}
+          {/* Bottom Navigation for Small Screens */}
+          {isSmallScreen && !isBlogView && !isNavbarOpen && <BottomNavigationBar />}
         </AppShell>
       </SignedIn>
     </>
   );
 }
 
+// Root Layout Component
 function RootLayout({ children }) {
   const router = useRouter();
-  const pathname = usePathname();
-  useEffect(() => {
-    if (pathname === "/") router.push("/home");
-  }, [pathname, router]);
+  const currentPath = usePathname();
 
-  const def_theme = createTheme({
+  useEffect(() => {
+    if (currentPath === "/") router.push("/home");
+  }, [currentPath, router]);
+
+  const defaultTheme = createTheme({
     fontFamily: "Verdana, sans-serif",
     fontFamilyMonospace: "Monaco, Courier, monospace",
     headings: { fontFamily: "Greycliff CF, sans-serif" },
   });
 
   const queryClient = new QueryClient();
+
   return (
     <ClerkProvider>
       <QueryClientProvider client={queryClient}>
@@ -213,19 +224,16 @@ function RootLayout({ children }) {
             <meta name="twitter:image:type" content="image/png" />
             <meta name="twitter:image:width" content="1200" />
             <meta name="twitter:image:height" content="630" />
-
             <meta property="og:image" content="opengraph-image.png" />
             <meta property="og:image:type" content="image/png" />
             <meta property="og:image:width" content="1200" />
             <meta property="og:image:height" content="630" />
-
             <meta name="description" content="Turn your favorite books into short blogs without losing exact lines." />
             <title>Purple Night</title>
           </head>
-
           <body>
-            <MantineProvider theme={def_theme} defaultColorScheme="light">
-              <Shell>{children}</Shell>
+            <MantineProvider theme={defaultTheme} defaultColorScheme="light">
+              <AppShellLayout>{children}</AppShellLayout>
             </MantineProvider>
           </body>
         </html>
@@ -233,4 +241,5 @@ function RootLayout({ children }) {
     </ClerkProvider>
   );
 }
+
 export default RootLayout;

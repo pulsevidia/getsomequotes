@@ -104,7 +104,7 @@ function BlogCard({ blog }) {
             miw={isSmallScreen ? 120 : 140}
             mih={isSmallScreen ? 167 : 150}
             padding={40}
-            src={`/images_4_blogs/${randomImage}`}
+            src={blog?.blog_image || `/images_4_blogs/${randomImage}`}
           />
 
           <Stack pr="sm" py="sm" gap={0}>
