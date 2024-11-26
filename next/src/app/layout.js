@@ -160,7 +160,7 @@ function AppShellLayout({ children }) {
                   colorScheme={colorScheme}
                 />
               </Stack>
-              <Group justify="space-between" gap={0}>
+              <Group mb={'md'} justify="space-between" gap={0}>
                 <SignOutButton>
                   <Group
                     gap="xs"
