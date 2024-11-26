@@ -1,9 +1,7 @@
 export async function generateContent({ book_id, user_id }) {
   try {
     const response = await fetch(
-      `${
-        import.meta.env.VITE_NODE_SERVER_URL
-      }generate-content?id=${book_id}&user_id=${user_id}`,
+      `${process.env.NEXT_PUBLIC_NODE_SERVER_URL}generate-content?id=${book_id}&user_id=${user_id}`,
       {
         method: "POST",
       }
