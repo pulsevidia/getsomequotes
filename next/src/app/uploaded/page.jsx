@@ -50,7 +50,7 @@ export default function Uploaded() {
   });
 
   const [currentImage, setCurrentImage] = useState(null);
-  const imageArray = Array.from({ length: 100 }, (_, i) => `${i + 1}.png`);
+  const imageArray = Array.from({ length: 100 }, (_, i) => `${i + 1}.jpg`);
 
   function chooseRandomImage() {
     setCurrentImage(`/compress-cats/${imageArray[Math.floor(Math.random() * imageArray.length)]}`);
