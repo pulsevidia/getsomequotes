@@ -1,4 +1,7 @@
-export async function postPDF({ id, file, authorName, bookTitle, currentImage }) {
+export async function postPDF({ id, file, authorName, bookTitle, currentImage: book_image }) {
+
+  const currentImage = `https://purplenight.hyperingenious.tech/${book_image}`;
+
   try {
     if (!file || file.length === 0) {
       throw new Error("No file provided.");
