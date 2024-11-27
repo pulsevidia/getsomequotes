@@ -15,6 +15,7 @@ import { cardShadows } from "../utils/shadows";
 import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { DM_Sans, Afacad_Flux } from "next/font/google";
+import Image from "next/image";
 
 // Fonts optimized for used weights
 const dm_sans = DM_Sans({
@@ -98,15 +99,29 @@ function BlogCard({ blog }) {
         bg={cardBackground}
       >
         <Group gap="xs" align="flex-start" wrap="nowrap">
-          <BackgroundImage
-            style={{ boxShadow: cardShadows.xs }}
+          <Image
+            alt="Mountains"
+            src={blog.blog_image || `/images_4_blogs/${randomImage}`}
+            quality={100}
+            style={{
+              boxShadow: cardShadows.xs,
+              minWidth: isSmallScreen ? 120 : 140,
+              maxHeight: isSmallScreen ? 167 : 150,
+              objectFit: "cover",
+            }}
+            width={isSmallScreen ? 120 : 140}
+            height={isSmallScreen ? 167 : 150}
+            loading="lazy"
+            sizes="100vw"
+          />
+          {/* <BackgroundImage
             loading="lazy"
             miw={isSmallScreen ? 120 : 140}
             mih={isSmallScreen ? 167 : 150}
             padding={40}
             src={blog?.blog_image || `/images_4_blogs/${randomImage}`}
           />
-
+ */}
           <Stack pr="sm" py="sm" gap={0}>
             <Group mb="xs" gap="xs" align="flex-start">
               <Badge

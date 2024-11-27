@@ -17,7 +17,6 @@ import {
   AppShell,
   Avatar,
   Center,
-  closeOnEscape,
   createTheme,
   Group,
   MantineProvider,
@@ -160,7 +159,7 @@ function AppShellLayout({ children }) {
                   colorScheme={colorScheme}
                 />
               </Stack>
-              <Group mb={'md'} justify="space-between" gap={0}>
+              <Group mb={"md"} justify="space-between" gap={0}>
                 <SignOutButton>
                   <Group
                     gap="xs"

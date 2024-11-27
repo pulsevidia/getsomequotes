@@ -50,30 +50,10 @@ export default function Uploaded() {
   });
 
   const [currentImage, setCurrentImage] = useState(null);
-  const imageArray = [
-    "1-5Z7BuzVnrVbWrXx9ZA2bhkUEhIgRb9.jpg",
-    "10-zSeaqglQsBG354rs0uFQtV3CDhCclz.png",
-    "11-KXmnPrBxCX3GBE9piYRzpHgP1qht0l.png",
-    "12-5FVmKTerKVfPVyrLYO0QaSDMC0rh4I.png",
-    "13-ra4FdCQGIEo2bZ5twJ2xKyS7grQiG7.jpg",
-    "14-EAVsS2CfniRJYv5RJL3Cbkyh7Zorgi.png",
-    "15-ZT2pSfX2IL59OKMeYa6AmdroV2jqMx.jpg",
-    "2-oxt9IKmB1AdyDpkLs1itkBiKFs27nn.png",
-    "3-gMcdEKOQCRZ9bg8kSezvTxEZQPOQ2v.jpg",
-    "4-Uro718UPbvu7GYyv8T6uDqPpIFkh8j.jpg",
-    "5-lTIYYlQpguMZKCA2yF49l3oCnAcWhn.png",
-    "6-pZNOgN4gAJxJX5QZvTdRrYZxz5AHh9.png",
-    "7-eZLEPTNLv6bFLUDdY6ykH9MuAk6Qau.png",
-    "8-nShlQLtti1gelaByNwASMi3jU96te2.png",
-    "9-AkBiHFTUPyViVMy1pKyUjfyG5Capoa.png",
-  ];
+  const imageArray = Array.from({ length: 100 }, (_, i) => `${i + 1}.png`);
 
   function chooseRandomImage() {
-    setCurrentImage(
-      `https://viqwjhprxs3j5sad.public.blob.vercel-storage.com/image_4_books/${
-        imageArray[Math.floor(Math.random() * imageArray.length)]
-      }`
-    );
+    setCurrentImage(`/compress-cats/${imageArray[Math.floor(Math.random() * imageArray.length)]}`);
   }
 
   const [book, setBook] = useState(null);
