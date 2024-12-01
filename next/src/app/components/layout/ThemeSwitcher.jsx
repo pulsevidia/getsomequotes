@@ -1,11 +1,11 @@
-import { memo, useState } from "react";
+import { useState } from "react";
 import { Center, SegmentedControl, useComputedColorScheme, useMantineColorScheme } from "@mantine/core";
 import { SunDim, Moon } from "@phosphor-icons/react";
 import { dark_theme } from "@/app/config/theme";
 import { cardShadows } from "@/app/utils/shadows";
 
 // Theme Toggle Button Component
-const ThemeSwitcher = memo(() => {
+const ThemeSwitcher = () => {
   const colorScheme = useComputedColorScheme();
   const [themeMode, setThemeMode] = useState(colorScheme);
   const { setColorScheme } = useMantineColorScheme();
@@ -67,5 +67,5 @@ const ThemeSwitcher = memo(() => {
       ]}
     />
   );
-});
+};
 export default ThemeSwitcher;

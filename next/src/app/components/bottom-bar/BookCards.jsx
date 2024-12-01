@@ -2,7 +2,6 @@ import { BackgroundImage, Badge, Card, Group, Stack, Text, useMantineTheme } fro
 import { Poppins } from "next/font/google";
 import { dark_theme } from "@/app/config/theme";
 import { useRouter } from "next/navigation";
-import { memo } from "react";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -78,4 +77,4 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
     </Card>
   );
 }
-export default memo(BookCards);
+export default BookCards;
