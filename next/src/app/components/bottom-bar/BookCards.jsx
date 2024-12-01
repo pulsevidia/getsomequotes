@@ -78,4 +78,4 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
     </Card>
   );
 }
-export default memo BookCards;
+export default memo(BookCards);
