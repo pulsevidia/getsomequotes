@@ -1,0 +1,23 @@
+import { cardShadows } from "@/app/utils/shadows";
+import { Avatar, Card, Group, Stack, Text } from "@mantine/core";
+
+// User Card Component
+export default function UserCard({ color, colorScheme, imageUrl, fullName, emailAddress }) {
+  return (
+    <Card bg={color} shadow={cardShadows.xs} radius="md" py="xs" px="md" mb="md">
+      <Group wrap="nowrap" justify="space-between">
+        <Group wrap="nowrap" gap="md" align="center">
+          <Avatar src={imageUrl} alt="User Avatar" />
+          <Stack gap={0}>
+            <Text size="sm" c={colorScheme === "dark" ? "#f1beb5" : "dark"}>
+              {fullName}
+            </Text>
+            <Text size="xs" c="dimmed">
+              {emailAddress}
+            </Text>
+          </Stack>
+        </Group>
+      </Group>
+    </Card>
+  );
+}
