@@ -1,8 +1,8 @@
 import { BackgroundImage, Badge, Card, Group, Stack, Text, useMantineTheme } from "@mantine/core";
 import { Poppins } from "next/font/google";
 import { dark_theme } from "@/app/config/theme";
-import { cardShadows } from "@/app/utils/shadows";
 import { useRouter } from "next/navigation";
+import { memo } from "react";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -20,7 +20,6 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
   const extracts = blogs.length;
 
   const theme = useMantineTheme();
-
   return (
     <Card
       onClick={() => {
@@ -30,13 +29,12 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
       style={{ cursor: "pointer" }}
       key={$id}
       p="xs"
-      shadow="sm"
       radius="30"
       bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : undefined}
     >
       <Group justify="flex-start" wrap="nowrap" gap="xs">
         <BackgroundImage
-          style={{ boxShadow: cardShadows.xs }}
+          // style={{ boxShadow: cardShadows.xs }}
           src={book_image}
           radius="xl"
           h={36}
@@ -70,7 +68,7 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
               fw={500}
               size="xs"
               className={poppins.className}
-              style={{ boxShadow: cardShadows.xs }}
+              // style={{ boxShadow: cardShadows.xs }}
             >
               {extracts} Extracts
             </Badge>
@@ -80,4 +78,4 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
     </Card>
   );
 }
-export default BookCards;
+export default memo BookCards;

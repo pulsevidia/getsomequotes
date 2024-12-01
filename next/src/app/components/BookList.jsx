@@ -1,14 +1,4 @@
-import {
-  Group,
-  Text,
-  Card,
-  Stack,
-  Menu,
-  Loader,
-  useMantineTheme,
-  useComputedColorScheme,
-  BackgroundImage,
-} from "@mantine/core";
+import { Group, Text, Card, Stack, Menu, Loader, useMantineTheme, useComputedColorScheme, BackgroundImage, } from "@mantine/core";
 import { cardShadows } from "../utils/shadows";
 import { DotsThreeVertical, Sparkle, Trash } from "@phosphor-icons/react";
 import { useMediaQuery } from "@mantine/hooks";

@@ -2,7 +2,6 @@
 import "@mantine/core/styles.css";
 import "@mantine/dropzone/styles.css";
 import "./globals.css";
-
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { SunDim, Moon, SignOut } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
@@ -102,105 +101,6 @@ const ThemeSwitcher = () => {
 function AppShellLayout({ children }) {
   const router = useRouter();
   const currentPath = usePathname();
-  const isBlogView = currentPath.includes("/blog/");
-
-  const isSmallScreen = useMediaQuery("(max-width: 450px)");
-  const isCompactScreen = useMediaQuery("(max-width:480px)");
-  const isTabletScreen = useMediaQuery("(max-width:767px)");
-
-  const mantineTheme = useMantineTheme();
-  const colorScheme = useComputedColorScheme();
-  const [isNavbarOpen, { toggle: toggleNavbar }] = useDisclosure();
-  const { user } = useUser();
-
-  return (
-    <>
-      <SignedOut>
-        <SignInPrompt />
-      </SignedOut>
-      <SignedIn>
-        <AppShell
-          bg={colorScheme === "dark" ? "#0f1523" : mantineTheme.colors.gray[0]}
-          padding="md"
-          header={{ height: 60 }}
-          navbar={{
-            width: 300,
-            breakpoint: "sm",
-            collapsed: { mobile: !isNavbarOpen },
-          }}
-        >
-          <Toaster position="bottom-center" reverseOrder={false} />
-
-          {/* Header */}
-          <AppShell.Header bg={colorScheme === "dark" ? "#0f1523" : mantineTheme.colors.gray[0]}>
-            <Group justify="space-between" h="100%" px="md">
-              {isTabletScreen && <Avatar src={user?.imageUrl} onClick={toggleNavbar} alt={user?.fullName} size={32} />}
-              <BrandLogo />
-              {isTabletScreen && <ThemeSwitcher />}
-              {!isTabletScreen && <FeedbackButton />}
-            </Group>
-          </AppShell.Header>
-
-          {/* Navbar */}
-          <AppShell.Navbar p="md" bg={colorScheme === "dark" ? "#0f1523" : mantineTheme.colors.gray[0]}>
-            <Stack gap={0} h="100%" justify="space-between">
-              <Stack gap={0}>
-                <UserProfileCard
-                  colorScheme={colorScheme}
-                  fullName={user?.fullName}
-                  emailAddress={user?.emailAddresses[0]?.emailAddress}
-                  imageUrl={user?.imageUrl}
-                  color={colorScheme === "dark" ? "rgb(19, 27, 46)" : mantineTheme.colors.gray[0]}
-                />
-                <NavigationRoutes
-                  router={router}
-                  toggle={toggleNavbar}
-                  pathname={currentPath}
-                  colorScheme={colorScheme}
-                />
-              </Stack>
-              <Group mb={"md"} justify="space-between" gap={0}>
-                <SignOutButton>
-                  <Group
-                    gap="xs"
-                    align="center"
-                    p="sm"
-                    justify="center"
-                    style={{
-                      cursor: "pointer",
-                    }}
-                  >
-                    <Text size="sm" c={colorScheme === "dark" ? dark_theme.main_text_color : "red"} fontWeight={500}>
-                      Sign out
-                    </Text>
-                    <SignOut
-                      weight="bold"
-                      color={colorScheme === "dark" ? dark_theme.main_text_color : "#fa5252"}
-                      size={16}
-                    />
-                  </Group>
-                </SignOutButton>
-                {!isSmallScreen && <ThemeSwitcher />}
-                {isSmallScreen && <FeedbackButton />}
-              </Group>
-            </Stack>
-          </AppShell.Navbar>
-
-          {/* Main Content */}
-          <AppShell.Main style={{ paddingInline: isCompactScreen ? 0 : undefined }}>{children}</AppShell.Main>
-
-          {/* Bottom Navigation for Small Screens */}
-          {isSmallScreen && !isBlogView && !isNavbarOpen && <BottomNavigationBar />}
-        </AppShell>
-      </SignedIn>
-    </>
-  );
-}
-
-// Root Layout Component
-function RootLayout({ children }) {
-  const router = useRouter();
-  const currentPath = usePathname();
 
   useEffect(() => {
     if (currentPath === "/") router.push("/home");
@@ -230,6 +130,7 @@ function RootLayout({ children }) {
             <meta name="description" content="Turn your favorite books into short blogs without losing exact lines." />
             <title>Purple Night</title>
           </head>
+          {/* <script async src="https://unpkg.com/react-scan/dist/auto.global.js"></script> */}
           <body>
             <MantineProvider theme={defaultTheme} defaultColorScheme="light">
               <AppShellLayout>{children}</AppShellLayout>
