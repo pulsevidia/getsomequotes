@@ -252,8 +252,8 @@ export default function Uploaded() {
         <Button
           leftSection={<Book size={16} />}
           onClick={open}
-          color={colorScheme === "dark" ? "#19243d" : theme.colors.gray[2]}
-          c={colorScheme === "dark" ? "#febeb5" : theme.colors.dark[9]}
+          color={colorScheme === "dark" ? dark_theme.nav_link_dark_color : theme.colors.gray[2]}
+          c={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.dark[9]}
           radius={"md"}
           fullWidth={smallSizeMath}
           mx={"md"}

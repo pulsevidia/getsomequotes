@@ -88,8 +88,6 @@ function ReadBlog() {
     queryFn: () => getBlogAndSuggestedBlogs(blog_id, user_id),
   });
 
-  const randomImage = allImages[Math.floor(Math.random() * allImages.length)];
-
   if (isLoading) {
     return (
       <Center maw={800} w={"100%"} ref={ref} h="100%">
@@ -114,7 +112,7 @@ function ReadBlog() {
         w="100%"
         miw={300}
         maw={800}
-        src={blogData?.blog_image || `/images_4_blogs/${randomImage}`}
+        src={blogData?.blog_image || `/images_4_blogs/1.jpg`}
         alt="JUST a shthetic image"
         style={{ boxShadow: cardShadows.xs }}
         radius="md"

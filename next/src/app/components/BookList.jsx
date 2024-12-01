@@ -1,8 +1,19 @@
-import { Group, Text, Card, Stack, Menu, Loader, useMantineTheme, useComputedColorScheme, BackgroundImage, } from "@mantine/core";
+import {
+  Group,
+  Text,
+  Card,
+  Stack,
+  Menu,
+  Loader,
+  useMantineTheme,
+  useComputedColorScheme,
+  BackgroundImage,
+} from "@mantine/core";
 import { cardShadows } from "../utils/shadows";
 import { DotsThreeVertical, Sparkle, Trash } from "@phosphor-icons/react";
 import { useMediaQuery } from "@mantine/hooks";
 import { Poppins } from "next/font/google";
+import { dark_theme } from "../config/theme";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -22,14 +33,16 @@ export default function BookList({
   const theme = useMantineTheme();
   const colorScheme = useComputedColorScheme();
   const smallSizeMath = useMediaQuery("(max-width:480px)");
+  const bigScreen = useMediaQuery("(min-width:1367px)");
+
   const rows = data.map((item) => (
     <Card
       shadow={cardShadows.md}
       key={item.$id}
       w={"100%"}
-      bg={colorScheme === "dark" ? "#19243d" : theme.colors.gray[2]}
-      mx={"md"}
-      padding="sm"
+      bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : theme.colors.gray[2]}
+      mx={!bigScreen && 'md'}
+      p="sm"
       maw={480}
       miw={300}
       radius="md"

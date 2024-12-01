@@ -5,7 +5,7 @@ function LightLogo() {
   return (
     <svg
       style={{ cursor: "pointer" }}
-      onClick={() => router("/home")}
+      onClick={() => router("/")}
       width="110"
       height="60"
       viewBox="0 0 590 134"
@@ -91,7 +91,7 @@ function DarkLogo() {
   return (
     <svg
       style={{ cursor: "pointer" }}
-      onClick={() => router("/home")}
+      onClick={() => router("/")}
       width="110"
       height="60"
       viewBox="0 0 590 134"

@@ -1,12 +1,15 @@
 import { House, UploadSimple } from "@phosphor-icons/react";
 import { Group, Stack, Text } from "@mantine/core";
 import { cardShadows } from "@/app/utils/shadows";
+import { usePathname, useRouter } from "next/navigation";
 
-const NavRoutes = ({ router, toggle, pathname, colorScheme }) => {
+const NavRoutes = ({ toggle, colorScheme }) => {
   const routes = [
-    { path: "/home", label: "Home", Icon: House },
+    { path: "/", label: "Home", Icon: House },
     { path: "/uploaded", label: "Uploaded", Icon: UploadSimple },
   ];
+  const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <Stack gap={0}>
