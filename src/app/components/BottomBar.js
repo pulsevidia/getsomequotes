@@ -79,7 +79,7 @@ const BottomBar = () => {
           bg={colorScheme === "dark" ? "rgb(11, 9, 28)" : theme.colors.gray[3]}
           scrollbarSize={2}
           h={isExpanded ? 300 : 0}
-          style={{ transition: "0.3s ease-in", borderRadius: "30px" }}
+          style={{ transition: "0.3s ", borderRadius: "30px" }}
           scrollbars="y"
         >
           <Stack gap="xs" m="xs">
