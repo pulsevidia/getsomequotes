@@ -225,11 +225,13 @@ export default function Uploaded() {
             mt={"md"}
             styles={{ section: { marginInlineEnd: "5px" } }}
             style={{ boxShadow: cardShadows.md }}
-            leftSection={<Sparkle size={18} weight="fill" />}
+            leftSection={
+              <Sparkle color={colorScheme === "dark" ? dark_theme.main_text_color : "white"} size={18} weight="fill" />
+            }
             size="sm"
             fullWidth
             fw={400}
-            c={colorScheme === "dark" ? dark_theme.main_text_color : "black"}
+            c={colorScheme === "dark" ? dark_theme.main_text_color : "white"}
             bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "black"}
             radius="md"
             loaderProps={{ type: "dots", color: colorScheme === "dark" ? dark_theme.secondary_text_color : "dark" }}
