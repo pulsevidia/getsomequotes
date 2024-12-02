@@ -17,12 +17,12 @@ const afacad_flux = Afacad_Flux({
   display: "swap",
 });
 
-function SmallBlogCard({ blog, key, bookImage, author }) {
+function SmallBlogCard({ blog, bookImage, author }) {
   const theme = useMantineTheme();
   const colorScheme = useComputedColorScheme();
 
   return (
-    <Link key={key} href={`/blog/${blog.$id}`} style={{ textDecoration: "none" }}>
+    <Link href={`/blog/${blog.$id}`} style={{ textDecoration: "none" }}>
       <Card
         shadow={cardShadows.xs}
         bg={colorScheme === "dark" ? "rgb(19, 27, 46)" : theme.colors.gray[2]}
