@@ -2,6 +2,7 @@ import { Query } from "appwrite";
 import { databases } from "./appwrite";
 import removeMarkdown from "markdown-to-text";
 import { extractFirstLine } from "@/app/helpers/helper";
+import { markBlogRead } from "./update/updateBlog";
 
 async function getBlogById(id, user_id) {
   try {
@@ -44,6 +45,11 @@ async function getAllBlogsWithBookId(id) {
 async function getBlogAndSuggestedBlogs(id, user_id) {
   try {
     const blogData = await getBlogById(id, user_id);
+
+    if (!blogData.isRead) {
+      await markBlogRead({ id: blogData.$id });
+    }
+
     const bookId = blogData.books.$id;
     const { documents } = await getAllBlogsWithBookId(bookId);
 

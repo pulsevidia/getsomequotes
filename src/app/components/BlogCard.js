@@ -72,15 +72,27 @@ function BlogCard({ blog }) {
           />
           <Stack pr="sm" py="sm" gap={0}>
             <Group mb="xs" gap="xs" align="flex-start">
-              <Badge
-                variant="light"
-                className={afacad_flux.className}
-                size={isSmallScreen ? "xs" : "sm"}
-                color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
-                style={{ boxShadow: cardShadows.xs }}
-              >
-                {blog?.books?.book_name || "Unknown"}
-              </Badge>
+              <Group gap={'xs'}>
+                <Badge
+                  variant="light"
+                  className={afacad_flux.className}
+                  size={isSmallScreen ? "xs" : "sm"}
+                  color={colorScheme === "dark" ? "#f2beb5" : theme.colors.gray[6]}
+                  style={{ boxShadow: cardShadows.xs }}
+                >
+                  {blog?.books?.book_name || "Unknown"}
+                </Badge>
+                <Badge
+                  variant="light"
+                  className={afacad_flux.className}
+                  size={isSmallScreen ? "xs" : "sm"}
+                  // color={colorScheme === "dark" ? "#f2beb5" : theme.colors.gray[6]}
+                  color={blog.isRead ? "green" : "red"}
+                  style={{ boxShadow: cardShadows.xs }}
+                >
+                  {blog.isRead ? "READ" : "UNREAD"}
+                </Badge>
+              </Group>
               <Text
                 miw={200}
                 size="xs"
