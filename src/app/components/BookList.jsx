@@ -36,6 +36,12 @@ function BookList({
   const smallSizeMath = useMediaQuery("(max-width:480px)");
   const bigScreen = useMediaQuery("(min-width:1367px)");
 
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+    const options = { month: "short", day: "numeric", year: "numeric" };
+    return date.toLocaleDateString("en-US", options);
+  };
+
   const rows = data.map((item) => (
     <Card
       shadow={cardShadows.md}
@@ -83,7 +89,7 @@ function BookList({
             </Text>
             <Group gap={"xs"} align="center">
               <Text size="xs" c={colorScheme === "dark" ? "rgba(241, 190, 181, 0.67)" : theme.colors.dark[2]}>
-                Oct 28, 2024, {isGeneratingBook.bookId !== item.$id && `${item.blogs.length} Extracts`}
+                {formatDate(item.$createdAt)}, {isGeneratingBook.bookId !== item.$id && `${item.blogs.length} Extracts`}
               </Text>
               {isGeneratingBook.isGenerating && isGeneratingBook.bookId === item.$id && (
                 <Loader color={"#f1beb5"} type="dots" size={"xs"} />
