@@ -36,6 +36,8 @@ function AppShellLayout({ children }) {
     </AppShell.Header>
   ));
 
+  AppShellHeader.displayName = "AppShellHeader";
+
   const AppShellNavigation = useMemo(
     () => (
       <AppShell.Navbar p="md" bg={colorScheme === "dark" ? "#0f1523" : mantineTheme.colors.gray[0]}>
@@ -77,7 +79,7 @@ function AppShellLayout({ children }) {
         </Stack>
       </AppShell.Navbar>
     ),
-    [colorScheme, isSmallScreen, user]
+    [isSmallScreen, user]
   );
 
   return (
