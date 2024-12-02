@@ -8,14 +8,15 @@
   border-radius: 30px 30px 30px 30px;
   width: 100%;
   /* Shadow xl */
-  box-shadow: 0 10px 32px rgb(33 33 38 / 0.15), 0 1px 1px rgb(0 0 0 / 0.05), 0 0 0 1px rgba(19, 19, 22, 0.05),
-    0 4px 6px rgb(33 33 38 / 0.08), 0 24px 68px rgb(33 33 38 / 0.1);
+  
+  /* box-shadow: 0 10px 32px rgb(33 33 38 / 0.15), 0 1px 1px rgb(0 0 0 / 0.05), 0 0 0 1px rgba(19, 19, 22, 0.05),
+    0 4px 6px rgb(33 33 38 / 0.08), 0 24px 68px rgb(33 33 38 / 0.1); */
 }
 .nav {
   font-family: "Open Sans", sans-serif;
   display: flex;
   justify-content: space-evenly;
-  margin-top: 0.3rem;
+  /* margin-top: 0.3rem; */
   /* background: transparent; */
   width: 100%;
 }
@@ -25,7 +26,8 @@
   text-decoration: none;
   display: flex;
   align-items: center;
-  padding: 0.65rem 1.25rem;
+  padding: 0.35rem 0.5rem;
+  margin-top: 0.1rem;
   border-radius: 30px;
   position: relative;
 }
