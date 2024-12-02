@@ -14,6 +14,7 @@ import { DotsThreeVertical, Sparkle, Trash } from "@phosphor-icons/react";
 import { useMediaQuery } from "@mantine/hooks";
 import { Poppins } from "next/font/google";
 import { dark_theme } from "../config/theme";
+import { memo } from "react";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -22,7 +23,7 @@ const poppins = Poppins({
   display: "swap",
 });
 
-export default function BookList({
+function BookList({
   data,
   openGenerateBookModal,
   openDeleteBookModal,
@@ -41,7 +42,7 @@ export default function BookList({
       key={item.$id}
       w={"100%"}
       bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : theme.colors.gray[2]}
-      mx={!bigScreen && 'md'}
+      mx={!bigScreen && "md"}
       p="sm"
       maw={480}
       miw={300}
@@ -135,68 +136,4 @@ export default function BookList({
   ));
   return <>{rows}</>;
 }
-// Older version
-
-// <Table.Tr key={item.$id}>
-//   <Table.Td>
-//     <Group gap="sm">
-//       <Text fz="sm" w={200} truncate={"end"} fw={500}>
-//         {item?.book_name || "Untitled"}
-//       </Text>
-//     </Group>
-//   </Table.Td>
-//   <Table.Td>
-//     <Badge
-//       color={"blue"}
-//       px={"0"}
-//       py={"sm"}
-//       styles={{
-//         label: {
-//           textTransform: "none",
-//           display: "flex",
-//           alignItems: "center",
-//         },
-//       }}
-//       maw={100}
-//       variant="light"
-//     >
-//       <CopyButton value={item.pdf_link} />
-//       <Text fz="xs" truncate={"end"}>
-//         {item.pdf_link}
-//       </Text>
-//     </Badge>
-//   </Table.Td>
-//   <Table.Td>
-//     <Text fz="sm">{item.blogs.length}</Text>
-//   </Table.Td>
-//   <Table.Td>
-//     <Group gap={"xs"} justify="flex-end">
-//       <Button
-//         loading={
-//           isGeneratingBook.isGenerating &&
-//           isGeneratingBook.bookId === item.$id
-//         }
-//         onClick={() => {
-//           setGenerateBookId(item.$id);
-//           openGenerateBookModal();
-//         }}
-//         variant="filled"
-//         color="rgba(0, 0, 0, 1)"
-//         size="xs"
-//       >
-//         Generate
-//       </Button>
-//       <Button
-//         onClick={() => {
-//           setDeleteBookId(item.$id);
-//           openDeleteBookModal();
-//         }}
-//         variant="outline"
-//         color="rgba(0, 0, 0, 1)"
-//         size="xs"
-//       >
-//         Delete
-//       </Button>
-//     </Group>
-//   </Table.Td>
-// </Table.Tr>
+export default memo(BookList);

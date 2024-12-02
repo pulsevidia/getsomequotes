@@ -3,6 +3,7 @@ import { Center, SegmentedControl, useComputedColorScheme, useMantineColorScheme
 import { SunDim, Moon } from "@phosphor-icons/react";
 import { dark_theme } from "@/app/config/theme";
 import { cardShadows } from "@/app/utils/shadows";
+import { memo } from "react";
 
 // Theme Toggle Button Component
 const ThemeSwitcher = () => {
@@ -68,4 +69,4 @@ const ThemeSwitcher = () => {
     />
   );
 };
-export default ThemeSwitcher;
+export default memo(ThemeSwitcher);

@@ -1,5 +1,6 @@
 import { dark_theme } from "@/app/config/theme";
 import { Stack, Skeleton, Card, Group } from "@mantine/core";
+import {memo} from 'react'
 
 function LoadingSkeleton({ colorScheme }) {
   return Array.from({ length: 8 }, (_, i) => (
@@ -18,4 +19,4 @@ function LoadingSkeleton({ colorScheme }) {
   ));
 }
 
-export default LoadingSkeleton;
+export default memo(LoadingSkeleton);

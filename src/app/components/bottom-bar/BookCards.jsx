@@ -2,6 +2,7 @@ import { BackgroundImage, Badge, Card, Group, Stack, Text, useMantineTheme } fro
 import { Poppins } from "next/font/google";
 import { dark_theme } from "@/app/config/theme";
 import { useRouter } from "next/navigation";
+import {memo} from 'react'
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -32,14 +33,7 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
       bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : undefined}
     >
       <Group justify="flex-start" wrap="nowrap" gap="xs">
-        <BackgroundImage
-          // style={{ boxShadow: cardShadows.xs }}
-          src={book_image}
-          radius="xl"
-          h={36}
-          w={36}
-          fit="contain"
-        />
+        <BackgroundImage src={book_image} radius="xl" h={36} w={36} fit="contain" />
         <Stack gap={0}>
           <Text
             w={200}
@@ -67,7 +61,6 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
               fw={500}
               size="xs"
               className={poppins.className}
-              // style={{ boxShadow: cardShadows.xs }}
             >
               {extracts} Extracts
             </Badge>
@@ -77,4 +70,4 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
     </Card>
   );
 }
-export default BookCards;
+export default memo(BookCards);

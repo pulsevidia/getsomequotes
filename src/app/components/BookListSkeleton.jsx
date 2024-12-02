@@ -1,10 +1,5 @@
-import {
-  Group,
-  Skeleton,
-  Stack,
-  useComputedColorScheme,
-  useMantineTheme,
-} from "@mantine/core";
+import { Group, Skeleton, Stack, useComputedColorScheme, useMantineTheme } from "@mantine/core";
+import { memo } from "react";
 
 function BookListSkeleton() {
   const theme = useMantineTheme();
@@ -33,4 +28,4 @@ function BookListSkeleton() {
     </Group>
   );
 }
-export default BookListSkeleton;
+export default memo(BookListSkeleton);

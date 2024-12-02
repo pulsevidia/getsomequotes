@@ -2,6 +2,7 @@ import { House, UploadSimple } from "@phosphor-icons/react";
 import { Group, Stack, Text } from "@mantine/core";
 import { cardShadows } from "@/app/utils/shadows";
 import { usePathname, useRouter } from "next/navigation";
+import { memo } from "react";
 
 const NavRoutes = ({ toggle, colorScheme }) => {
   const routes = [
@@ -40,4 +41,4 @@ const NavRoutes = ({ toggle, colorScheme }) => {
   );
 };
 
-export default NavRoutes;
+export default memo(NavRoutes);

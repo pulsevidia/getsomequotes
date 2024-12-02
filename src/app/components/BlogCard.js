@@ -1,18 +1,8 @@
-import {
-  Card,
-  Text,
-  Badge,
-  Group,
-  BackgroundImage,
-  Stack,
-  Title,
-  useMantineTheme,
-  useComputedColorScheme,
-} from "@mantine/core";
+import { Card, Text, Badge, Group, Stack, Title, useMantineTheme, useComputedColorScheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import removeMarkdown from "markdown-to-text";
 import { cardShadows } from "../utils/shadows";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, memo } from "react";
 import Link from "next/link";
 import { DM_Sans, Afacad_Flux } from "next/font/google";
 import Image from "next/image";
@@ -80,14 +70,6 @@ function BlogCard({ blog }) {
             loading="lazy"
             sizes="100vw"
           />
-          {/* <BackgroundImage
-            loading="lazy"
-            miw={isSmallScreen ? 120 : 140}
-            mih={isSmallScreen ? 167 : 150}
-            padding={40}
-            src={blog?.blog_image || `/images_4_blogs/${randomImage}`}
-          />
- */}
           <Stack pr="sm" py="sm" gap={0}>
             <Group mb="xs" gap="xs" align="flex-start">
               <Badge
@@ -136,4 +118,4 @@ function BlogCard({ blog }) {
   );
 }
 
-export default BlogCard;
+export default memo(BlogCard);

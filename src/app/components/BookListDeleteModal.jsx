@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { dark_theme } from "../config/theme";
 import { cardShadows } from "../utils/shadows";
+import { memo } from "react";
 
 function BookListDeleteModal({ isOpened, close, bookId }) {
   const queryClient = useQueryClient();
@@ -115,4 +116,4 @@ function BookListDeleteModal({ isOpened, close, bookId }) {
     </Modal>
   );
 }
-export default BookListDeleteModal;
+export default memo(BookListDeleteModal);

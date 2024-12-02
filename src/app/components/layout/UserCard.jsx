@@ -1,8 +1,9 @@
 import { cardShadows } from "@/app/utils/shadows";
 import { Avatar, Card, Group, Stack, Text } from "@mantine/core";
+import { memo } from "react";
 
 // User Card Component
-export default function UserCard({ color, colorScheme, imageUrl, fullName, emailAddress }) {
+function UserCard({ color, colorScheme, imageUrl, fullName, emailAddress }) {
   return (
     <Card bg={color} shadow={cardShadows.xs} radius="md" py="xs" px="md" mb="md">
       <Group wrap="nowrap" justify="space-between">
@@ -21,3 +22,4 @@ export default function UserCard({ color, colorScheme, imageUrl, fullName, email
     </Card>
   );
 }
+export default memo(UserCard);

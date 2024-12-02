@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { useUser } from "@clerk/clerk-react";
 import { dark_theme } from "../config/theme";
 import { cardShadows } from "../utils/shadows";
+import { memo } from "react";
 
 function BookListGenerateModal({ isOpened, close, bookId, setIsGeneratingBook }) {
   const queryClient = useQueryClient();
@@ -106,4 +107,4 @@ function BookListGenerateModal({ isOpened, close, bookId, setIsGeneratingBook })
     </Modal>
   );
 }
-export default BookListGenerateModal;
+export default memo(BookListGenerateModal);

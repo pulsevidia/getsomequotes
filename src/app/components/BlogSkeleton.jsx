@@ -1,6 +1,7 @@
 import { Group, Skeleton, Stack, useMantineTheme } from "@mantine/core";
+import { memo } from "react";
 
-export default function BlogSkeleton({ colorScheme, instances }) {
+function BlogSkeleton({ colorScheme, instances }) {
   const theme = useMantineTheme();
   return (
     <>
@@ -17,3 +18,4 @@ export default function BlogSkeleton({ colorScheme, instances }) {
     </>
   );
 }
+export default memo(BlogSkeleton);
