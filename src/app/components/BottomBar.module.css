@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:700");
 .nav_parent {
   font-family: "Open Sans", sans-serif;
   display: flex;
@@ -8,7 +7,7 @@
   border-radius: 30px 30px 30px 30px;
   width: 100%;
   /* Shadow xl */
-  
+
   /* box-shadow: 0 10px 32px rgb(33 33 38 / 0.15), 0 1px 1px rgb(0 0 0 / 0.05), 0 0 0 1px rgba(19, 19, 22, 0.05),
     0 4px 6px rgb(33 33 38 / 0.08), 0 24px 68px rgb(33 33 38 / 0.1); */
 }
@@ -64,7 +63,6 @@
   background: var(--hover-bg);
   color: var(--hover-c);
 }
-
 
 .active svg {
   margin-right: 0;
