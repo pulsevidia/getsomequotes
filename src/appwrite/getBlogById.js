@@ -3,7 +3,7 @@ import { databases } from "./appwrite";
 import removeMarkdown from "markdown-to-text";
 import { extractFirstLine } from "@/app/helpers/helper";
 import { markBlogRead } from "./update/updateBlog";
-
+//hello
 async function getBlogById(id, user_id) {
   try {
     const doc = await databases.getDocument(
