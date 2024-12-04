@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { dark_theme } from "../config/theme";
 import { afacad_flux, dm_sans } from "../font";
-import { Check, CheckCircle } from "@phosphor-icons/react";
+import {  CheckCircle } from "@phosphor-icons/react";
 
 function BlogCard({ blog }) {
   const theme = useMantineTheme();

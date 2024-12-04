@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useUser } from "@clerk/clerk-react";
 import ActiveBookCard from "./bottom-bar/ActiveBookCard";
 import Link from "next/link";
+import NoContentAdded from "./NoContentAdded";
 
 const BottomBar = () => {
   const [isExpanded, toggleExpanded] = useToggle();
@@ -84,6 +85,7 @@ const BottomBar = () => {
                     />
                   )
               )}
+            {isSuccess && books.length === 0 && <NoContentAdded />}
             {isLoading && <LoadingSkeleton colorScheme={colorScheme} />}
           </Stack>
         </ScrollArea>
