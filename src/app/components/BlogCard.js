@@ -6,8 +6,8 @@ import { useMemo, memo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { dark_theme } from "../config/theme";
-
 import { afacad_flux, dm_sans } from "../font";
+import { Check, CheckCircle } from "@phosphor-icons/react";
 
 function BlogCard({ blog }) {
   const theme = useMantineTheme();
@@ -46,19 +46,19 @@ function BlogCard({ blog }) {
             src={blog.blog_image || `/images_4_blogs/1.jpg`}
             quality={100}
             style={{
-              boxShadow: cardShadows.xs,
               minWidth: isSmallScreen ? 120 : 140,
-              maxHeight: isSmallScreen ? 167 : 150,
+              maxHeight: 170,
+              boxShadow: cardShadows.xs,
               objectFit: "cover",
             }}
             width={isSmallScreen ? 120 : 140}
-            height={isSmallScreen ? 167 : 150}
+            height={170}
             loading="lazy"
             sizes="100vw"
           />
           <Stack pr="sm" py="sm" gap={0}>
-            <Group mb="xs" gap="xs" align="flex-start">
-              <Group gap={'xs'}>
+            <Group mb="xs" gap="xs" style={{ flexDirection: "column" }} align="flex-start">
+              <Group gap={"xs"}>
                 <Badge
                   variant="light"
                   className={afacad_flux.className}
@@ -72,15 +72,17 @@ function BlogCard({ blog }) {
                   variant="light"
                   className={afacad_flux.className}
                   size={isSmallScreen ? "xs" : "sm"}
-                  // color={colorScheme === "dark" ? "#f2beb5" : theme.colors.gray[6]}
+                  styles={{ label: { display: "flex", alignItems: "center", gap: "0.2rem" } }}
                   color={blog.isRead ? "green" : "red"}
                   style={{ boxShadow: cardShadows.xs }}
                 >
+                  <CheckCircle size={12} />
                   {blog.isRead ? "READ" : "UNREAD"}
                 </Badge>
               </Group>
               <Text
                 miw={200}
+                ml={4}
                 size="xs"
                 weight={600}
                 color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
