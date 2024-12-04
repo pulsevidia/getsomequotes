@@ -22,9 +22,6 @@ import { cardShadows } from "../../utils/shadows";
 import SmallBlogCard from "@/app/components/SmallBlogCard";
 import TitleComponent from "@/app/components/TitleComponent";
 import { useUser } from "@clerk/clerk-react";
-
-// List of images
-const allImages = Array.from({ length: 24 }, (_, i) => `${i + 1}${i >= 12 ? ".webp" : ".jpg"}`);
 import { afacad_flux, spectral } from "@/app/font";
 
 const TextMarkdown = ({ children }) => (
@@ -89,9 +86,7 @@ function ReadBlog() {
       </Center>
     );
   }
-
   const { blogData, allBlogsWithBookId } = data;
-
   return (
     <Stack
       ref={ref}
@@ -159,6 +154,7 @@ function ReadBlog() {
           {allBlogsWithBookId.map((blog) => (
             <SmallBlogCard
               key={blog.$id}
+              isRead={blog.isRead}
               blog={blog}
               bookImage={blogData.books.book_image}
               author={blogData.books.author}
