@@ -1,6 +1,16 @@
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/nextjs";
-import { AppShell, Avatar, Group, Stack, Text, useComputedColorScheme, useMantineTheme } from "@mantine/core";
+import {
+  AppShell,
+  Avatar,
+  Divider,
+  Group,
+  ScrollArea,
+  Stack,
+  Text,
+  useComputedColorScheme,
+  useMantineTheme,
+} from "@mantine/core";
 import { SignOut } from "@phosphor-icons/react";
 import { Toaster } from "react-hot-toast";
 
@@ -13,8 +23,9 @@ import NavigationRoutes from "./NavRoutes";
 
 import { dark_theme } from "@/app/config/theme";
 import ThemeSwitcher from "./ThemeSwitcher";
-import { memo, useMemo } from "react";
+import { memo } from "react";
 import RightBookSidebar from "../home/RightBookSideBar";
+import { usePathname } from "next/navigation";
 
 function AppShellLayout({ children }) {
   const mantineTheme = useMantineTheme();
@@ -40,8 +51,26 @@ function AppShellLayout({ children }) {
 
   AppShellHeader.displayName = "AppShellHeader";
 
-  const AppShellNavigation = useMemo(
-    () => (
+  const pathname = usePathname();
+
+  return (
+    <>
+      <SignedOut>
+        <SignInPrompt />
+      </SignedOut>
+      <SignedIn>
+        <AppShell
+          bg={colorScheme === "dark" ? "#0f1523" : mantineTheme.colors.gray[0]}
+          padding="md"
+          header={{ height: 60 }}
+          navbar={{
+            width: 300,
+            breakpoint: "sm",
+            collapsed: { mobile: !isNavbarOpen },
+          }}
+        >
+          <Toaster position="bottom-center" reverseOrder={false} />
+          <AppShellHeader />
       <AppShell.Navbar p="md" bg={colorScheme === "dark" ? "#0f1523" : mantineTheme.colors.gray[0]}>
         <Stack gap={0} h="100%" justify="space-between">
           <Stack gap={0}>
@@ -80,30 +109,8 @@ function AppShellLayout({ children }) {
           </Group>
         </Stack>
       </AppShell.Navbar>
-    ),
-    [isSmallScreen, user]
-  );
 
-  return (
-    <>
-      <SignedOut>
-        <SignInPrompt />
-      </SignedOut>
-      <SignedIn>
-        <AppShell
-          bg={colorScheme === "dark" ? "#0f1523" : mantineTheme.colors.gray[0]}
-          padding="md"
-          header={{ height: 60 }}
-          navbar={{
-            width: 300,
-            breakpoint: "sm",
-            collapsed: { mobile: !isNavbarOpen },
-          }}
-        >
-          <Toaster position="bottom-center" reverseOrder={false} />
-          <AppShellHeader />
-          {AppShellNavigation}
-          <AppShell.Main style={{ paddingInline: isCompactScreen ? 0 : undefined }}>{children}</AppShell.Main>
+
           <AppShell.Main style={{ paddingInline: isCompactScreen ? 0 : undefined }}>
             {pathname !== "/uploaded" && isDesktopScreen ? (
               <Group align="flex-start" wrap="nowrap">
