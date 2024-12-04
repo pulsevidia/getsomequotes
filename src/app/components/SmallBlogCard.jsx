@@ -16,7 +16,7 @@ function SmallBlogCard({ blog, bookImage, author }) {
       <Card
         shadow={cardShadows.xs}
         bg={colorScheme === "dark" ? "rgb(19, 27, 46)" : theme.colors.gray[2]}
-        miw={420}
+        miw={380}
         p={0}
         mih={137}
         radius="lg"
