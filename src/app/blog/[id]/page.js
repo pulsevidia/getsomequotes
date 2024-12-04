@@ -17,7 +17,7 @@ import { getBlogAndSuggestedBlogs } from "../../../appwrite/getBlogById";
 import { useParams } from "next/navigation";
 import Markdown from "markdown-to-jsx";
 import QuoteCard from "../../components/QuoteCard";
-import { useResizeObserver } from "@mantine/hooks";
+import { useMediaQuery, useResizeObserver } from "@mantine/hooks";
 import { cardShadows } from "../../utils/shadows";
 import { Afacad_Flux, Spectral } from "next/font/google";
 import SmallBlogCard from "@/app/components/SmallBlogCard";
@@ -106,7 +106,17 @@ function ReadBlog() {
   const { blogData, allBlogsWithBookId } = data;
 
   return (
-    <Stack ref={ref} w={"100%"} miw={300} align="start" maw={800} px="md" mx="auto" gap="lg">
+    <Stack
+      ref={ref}
+      w={"100%"}
+      miw={300}
+      align="start"
+      maw={800}
+      px="md"
+      mx="auto"
+      gap="lg"
+      mb={isSmallScreen ? 100 : 0}
+    >
       {/* Blog Image */}
       <Image
         w="100%"
