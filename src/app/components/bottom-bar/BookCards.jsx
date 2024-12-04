@@ -1,15 +1,8 @@
 import { BackgroundImage, Badge, Card, Group, Stack, Text, useMantineTheme } from "@mantine/core";
-import { Poppins } from "next/font/google";
 import { dark_theme } from "@/app/config/theme";
 import { useRouter } from "next/navigation";
 import {memo} from 'react'
 
-const poppins = Poppins({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  style: ["normal"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, toggle }) {
   const router = useRouter();

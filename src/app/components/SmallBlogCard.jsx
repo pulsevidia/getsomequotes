@@ -1,21 +1,7 @@
 import Link from "next/link";
 import { Avatar, Card, Group, Text, Title, useComputedColorScheme, useMantineTheme } from "@mantine/core";
 import { cardShadows } from "../utils/shadows";
-import { Afacad_Flux, DM_Sans } from "next/font/google";
 
-const dm_sans = DM_Sans({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  style: ["normal", "italic"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const afacad_flux = Afacad_Flux({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  style: ["normal"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 function SmallBlogCard({ blog, bookImage, author }) {
   const theme = useMantineTheme();

@@ -19,27 +19,13 @@ import Markdown from "markdown-to-jsx";
 import QuoteCard from "../../components/QuoteCard";
 import { useMediaQuery, useResizeObserver } from "@mantine/hooks";
 import { cardShadows } from "../../utils/shadows";
-import { Afacad_Flux, Spectral } from "next/font/google";
 import SmallBlogCard from "@/app/components/SmallBlogCard";
 import TitleComponent from "@/app/components/TitleComponent";
 import { useUser } from "@clerk/clerk-react";
 
-const afacad_flux = Afacad_Flux({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  style: ["normal"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const spectral = Spectral({
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
-  style: ["normal"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
 // List of images
 const allImages = Array.from({ length: 24 }, (_, i) => `${i + 1}${i >= 12 ? ".webp" : ".jpg"}`);
+import { afacad_flux, spectral } from "@/app/font";
 
 const TextMarkdown = ({ children }) => (
   <Text fw={300} py="xs" ta="left" size="lg" className={spectral.className}>
@@ -82,6 +68,7 @@ function ReadBlog() {
   } = useUser();
 
   const colorScheme = useComputedColorScheme();
+  const isSmallScreen = useMediaQuery("(max-width:480px)");
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["blog", blog_id],

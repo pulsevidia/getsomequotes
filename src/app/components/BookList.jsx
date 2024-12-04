@@ -12,16 +12,10 @@ import {
 import { cardShadows } from "../utils/shadows";
 import { DotsThreeVertical, Sparkle, Trash } from "@phosphor-icons/react";
 import { useMediaQuery } from "@mantine/hooks";
-import { Poppins } from "next/font/google";
 import { dark_theme } from "../config/theme";
 import { memo } from "react";
+import { poppins } from "../font";
 
-const poppins = Poppins({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  style: ["normal"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 function BookList({
   data,

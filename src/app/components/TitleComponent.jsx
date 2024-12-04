@@ -1,12 +1,6 @@
 import { Title, useComputedColorScheme, useMantineTheme } from "@mantine/core";
-import { Spectral } from "next/font/google";
+import { spectral } from "../font";
 
-const spectral = Spectral({
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
-  style: ["normal"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const TitleComponent = ({ children, order = 1, style = {} }) => {
   const theme = useMantineTheme();

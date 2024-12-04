@@ -4,24 +4,10 @@ import removeMarkdown from "markdown-to-text";
 import { cardShadows } from "../utils/shadows";
 import { useMemo, memo } from "react";
 import Link from "next/link";
-import { DM_Sans, Afacad_Flux } from "next/font/google";
 import Image from "next/image";
 import { dark_theme } from "../config/theme";
 
-// Fonts optimized for used weights
-const dm_sans = DM_Sans({
-  weight: ["400", "600", "700"],
-  style: ["normal"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const afacad_flux = Afacad_Flux({
-  weight: ["400"],
-  style: ["normal"],
-  subsets: ["latin"],
-  display: "swap",
-});
+import { afacad_flux, dm_sans } from "../font";
 
 function BlogCard({ blog }) {
   const theme = useMantineTheme();
