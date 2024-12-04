@@ -4,7 +4,7 @@ import {memo} from 'react'
 
 function LoadingSkeleton({ colorScheme }) {
   return Array.from({ length: 8 }, (_, i) => (
-    <Card key={i-2828} p="xs" h={57} radius={30} bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : undefined}>
+    <Card key={i-2828} p="xs" miw={250} h={57} radius={30} bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : undefined}>
       <Group align="center" justify="flex-start" gap="xs">
         <Skeleton h={32} radius="xl" w={32} />
         <Stack gap={5}>
