@@ -55,6 +55,7 @@ const BottomBar = () => {
     }
   };
 
+  const [activeBook, setActiveBook] = useState(null);
   return (
     <div
       style={{
@@ -83,6 +84,7 @@ const BottomBar = () => {
           scrollbars="y"
         >
           <Stack gap="xs" m="xs">
+            {activeBook && <ActiveBookCard {...activeBook} colorScheme={colorScheme} />}
             {isSuccess &&
               books.map((data, i) => <BookCards key={i} {...data} colorScheme={colorScheme} toggle={toggleExpanded} />)}
             {isLoading && <LoadingSkeleton colorScheme={colorScheme} />}
