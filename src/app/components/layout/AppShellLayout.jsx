@@ -14,12 +14,14 @@ import NavigationRoutes from "./NavRoutes";
 import { dark_theme } from "@/app/config/theme";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { memo, useMemo } from "react";
+import RightBookSidebar from "../home/RightBookSideBar";
 
 function AppShellLayout({ children }) {
   const mantineTheme = useMantineTheme();
   const isSmallScreen = useMediaQuery("(max-width: 450px)");
   const isCompactScreen = useMediaQuery("(max-width:480px)");
   const isTabletScreen = useMediaQuery("(max-width:767px)");
+  const isDesktopScreen = useMediaQuery("(min-width:1250px)");
 
   const colorScheme = useComputedColorScheme();
   const [isNavbarOpen, { toggle: toggleNavbar }] = useDisclosure();
@@ -102,6 +104,20 @@ function AppShellLayout({ children }) {
           <AppShellHeader />
           {AppShellNavigation}
           <AppShell.Main style={{ paddingInline: isCompactScreen ? 0 : undefined }}>{children}</AppShell.Main>
+          <AppShell.Main style={{ paddingInline: isCompactScreen ? 0 : undefined }}>
+            {pathname !== "/uploaded" && isDesktopScreen ? (
+              <Group align="flex-start" wrap="nowrap">
+                <ScrollArea scrollbarSize={2} h={"100vh"} scrollbars="y">
+                  {children}
+                </ScrollArea>
+                <Divider orientation="vertical" />
+                <RightBookSidebar />
+              </Group>
+            ) : isDesktopScreen ? (
+              <Stack>{children}</Stack>
+            ) : null}
+            {!isDesktopScreen && children}
+          </AppShell.Main>
 
           {/* Bottom Navigation for Small Screens */}
           {isSmallScreen && !isNavbarOpen && <BottomNavigationBar />}

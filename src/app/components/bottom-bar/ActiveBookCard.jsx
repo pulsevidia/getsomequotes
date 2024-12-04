@@ -1,28 +1,17 @@
-import { BackgroundImage, Badge, Card, Group, Stack, Text, useMantineTheme } from "@mantine/core";
 import { dark_theme } from "@/app/config/theme";
-import { useRouter } from "next/navigation";
-import { memo } from "react";
 import { poppins } from "@/app/font";
+import { BackgroundImage, Badge, Card, Group, Stack, Text, useMantineTheme } from "@mantine/core";
 
-function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, toggle, setActiveBook }) {
-  const router = useRouter();
-  const blogIds = blogs.map((obj) => obj.$id).join("/");
-  const url = `/specifics/${blogIds}`;
+function ActiveBookCard({ $id, author, book_image, book_name, blogs, colorScheme }) {
   const extracts = blogs.length;
-
   const theme = useMantineTheme();
   return (
     <Card
-      onClick={() => {
-        router.push(url);
-        setActiveBook({ $id, author, book_image, book_name, blogs });
-        if (toggle) toggle();
-      }}
       style={{ cursor: "pointer" }}
       key={$id}
       p="xs"
       radius="30"
-      bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : theme.colors.gray[2]}
+      bg={colorScheme === "dark" ? dark_theme.secondary_text_color : "black"}
     >
       <Group justify="flex-start" wrap="nowrap" gap="xs">
         <BackgroundImage src={book_image} radius="xl" h={36} w={36} fit="contain" />
@@ -30,7 +19,7 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
           <Text
             w={200}
             truncate
-            c={colorScheme === "dark" ? dark_theme.main_text_color : "dark"}
+            c={colorScheme === "dark" ? dark_theme.nav_link_dark_color : theme.colors.gray[0]}
             className={poppins.className}
             fw={600}
             size="sm"
@@ -41,14 +30,14 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
             <Text
               w={115}
               truncate
-              c={colorScheme === "dark" ? dark_theme.secondary_text_color : theme.colors.gray[8]}
+              c={colorScheme === "dark" ? dark_theme.nav_link_dark_color : theme.colors.gray[0]}
               className={poppins.className}
               size="xs"
             >
               By {author}
             </Text>
             <Badge
-              color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
+              color={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "white"}
               variant="light"
               fw={500}
               size="xs"
@@ -62,4 +51,4 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
     </Card>
   );
 }
-export default memo(BookCards);
+export default ActiveBookCard;
