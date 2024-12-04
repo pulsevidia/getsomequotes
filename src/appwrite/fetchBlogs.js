@@ -9,7 +9,8 @@ async function fetchBlogsWithIdArray({ idsArray, user_id }) {
       const result = await getBlogById(id, user_id);
       blogs.push(result);
     }
-    return blogs;
+    const reversedBlogs = blogs.reverse();
+    return reversedBlogs;
   } catch (error) {
     console.error(error);
     throw error;
