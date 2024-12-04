@@ -154,7 +154,6 @@ function ReadBlog() {
           {allBlogsWithBookId.map((blog) => (
             <SmallBlogCard
               key={blog.$id}
-              isRead={blog.isRead}
               blog={blog}
               bookImage={blogData.books.book_image}
               author={blogData.books.author}

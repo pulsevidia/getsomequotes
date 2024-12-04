@@ -1,5 +1,5 @@
 "use client";
-import { Stack, useComputedColorScheme } from "@mantine/core";
+import { ScrollArea, Stack, useComputedColorScheme } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useUser } from "@clerk/nextjs";
 import { fetchBlogsWithIdArray } from "@/appwrite/fetchBlogs";
@@ -20,13 +20,16 @@ export default function Specifics() {
     isLoading: isBlogsLoading,
     isSuccess: isBlogsSuccess,
   } = useQuery({
+    queryKey: [slug],
     queryFn: () => fetchBlogsWithIdArray({ idsArray: slug, user_id }),
   });
 
   return (
-    <Stack pb={"100"}>
-      {isBlogsLoading && <BlogSkeleton colorScheme={colorScheme} instances={10} />}
-      {isBlogsSuccess && blogsData.map((blog) => <BlogCard blog={blog} key={blog.$id} />)}
-    </Stack>
+    <ScrollArea scrollbarSize={2} h={"100vh"} scrollbars="y">
+      <Stack pb={"100"}>
+        {isBlogsLoading && <BlogSkeleton colorScheme={colorScheme} instances={10} />}
+        {isBlogsSuccess && blogsData.map((blog) => <BlogCard blog={blog} key={blog.$id} />)}
+      </Stack>
+    </ScrollArea>
   );
 }
