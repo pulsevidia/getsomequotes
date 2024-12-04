@@ -28,12 +28,12 @@ async function getBlogById(id, user_id) {
   }
 }
 
-async function getAllBlogsWithBookId(id) {
+async function getAllBlogsWithBookId({ book_id, blog_exception }) {
   try {
     const blogs = await databases.listDocuments(
       process.env.NEXT_PUBLIC_DATABASE_ID,
       process.env.NEXT_PUBLIC_BLOGS_COLLECTION_ID,
-      [Query.equal("books", [id])]
+      [Query.equal("books", [book_id]), Query.notEqual("$id", [blog_exception])]
     );
     return blogs;
   } catch (error) {
@@ -45,13 +45,12 @@ async function getAllBlogsWithBookId(id) {
 async function getBlogAndSuggestedBlogs(id, user_id) {
   try {
     const blogData = await getBlogById(id, user_id);
-
     if (!blogData.isRead) {
       await markBlogRead({ id: blogData.$id });
     }
 
     const bookId = blogData.books.$id;
-    const { documents } = await getAllBlogsWithBookId(bookId);
+    const { documents } = await getAllBlogsWithBookId({ book_id: bookId, blog_exception: id });
 
     const allBlogsWithBookId = documents.map((blog) => {
       const markdown = blog.blog_markdown;
