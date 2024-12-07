@@ -22,6 +22,7 @@ export default function Uploaded() {
   } = useUser();
   const theme = useMantineTheme();
   const colorScheme = useComputedColorScheme();
+  const { open } = useModelContext();
 
   const [isDeleteBookModalOpened, { open: openDeleteBookModal, close: closeDeleteBookModal }] = useDisclosure();
   const [isGenerateBookModalOpened, { open: openGenerateBookModal, close: closeGenerateBookModal }] = useDisclosure();
