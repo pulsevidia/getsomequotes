@@ -135,6 +135,7 @@ export default function NotSignedIn() {
         >
           <Text
             order={1}
+            display={!smallSizeMath && "none"}
             fw={300}
             ta={"center"}
             maw={medDesktop ? 800 : 1300}
@@ -148,7 +149,7 @@ export default function NotSignedIn() {
           <Title
             order={1}
             mb={"sm"}
-            fw={300}
+            fw={100}
             ta={"center"}
             maw={medDesktop ? 800 : 1300}
             mx={"md"}
