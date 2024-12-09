@@ -16,7 +16,6 @@ import { dark_theme } from "../config/theme";
 import { memo } from "react";
 import { poppins } from "../font";
 
-
 function BookList({
   data,
   openGenerateBookModal,
@@ -86,7 +85,7 @@ function BookList({
                 {formatDate(item.$createdAt)}, {isGeneratingBook.bookId !== item.$id && `${item.blogs.length} Extracts`}
               </Text>
               {isGeneratingBook.isGenerating && isGeneratingBook.bookId === item.$id && (
-                <Loader color={"#f1beb5"} type="dots" size={"xs"} />
+                <Loader color={colorScheme === "dark" ? "#f1beb5" : theme.colors.dark[9]} type="dots" size={"xs"} />
               )}
             </Group>
           </Stack>
