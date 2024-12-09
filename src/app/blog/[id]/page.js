@@ -25,7 +25,7 @@ import { useUser } from "@clerk/clerk-react";
 import { afacad_flux, spectral } from "@/app/font";
 
 const TextMarkdown = ({ children }) => (
-  <Text fw={300} py="xs" ta="left" size="lg" className={spectral.className}>
+  <Text fw={400} py="xs" ta="left" size="lg" className={spectral.className}>
     {children}
   </Text>
 );
