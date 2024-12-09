@@ -1,10 +1,8 @@
-import { Container, Text, Button, Group, Stack, Title } from "@mantine/core";
-import classes from "./NotSignedIn.module.css";
-import { SignInButton, SignUp, SignUpButton } from "@clerk/clerk-react";
+import { Text, Group, Stack, Title } from "@mantine/core";
+import { SignUpButton } from "@clerk/clerk-react";
 import { kanit, poppins } from "../font";
 import Logo, { LargeLightLogo } from "./Logo";
-import { IconArrowRight } from "@tabler/icons-react";
-import { ArrowRight, HourglassSimpleLow } from "@phosphor-icons/react";
+import { ArrowRight } from "@phosphor-icons/react";
 import { useMediaQuery } from "@mantine/hooks";
 
 export default function NotSignedIn() {
@@ -12,48 +10,6 @@ export default function NotSignedIn() {
   const smallSizeMath = useMediaQuery("(max-width:480px)");
   return (
     <>
-      {/* 
-      <div className={classes.wrapper}>
-      <Container size={700} className={classes.inner}>
-        <h1 className={classes.title}>
-          Purplenight{" "}
-          <Text
-            component="span"
-            variant="gradient"
-            gradient={{ from: "blue", to: "cyan" }}
-            inherit
-          >
-            Helping You
-          </Text>{" "}
-          read books everytime
-        </h1>
-
-        <Group className={classes.controls}>
-          <SignUpButton mode="modal">
-            <Button
-              size="xl"
-              className={classes.control}
-              variant="gradient"
-              gradient={{ from: "blue", to: "cyan" }}
-            >
-              Sign up
-            </Button>
-          </SignUpButton>
-
-          <SignInButton mode="modal">
-            <Button
-              component="a"
-              size="xl"
-              variant="default"
-              className={classes.control}
-            >
-              Sign in
-            </Button>
-          </SignInButton>
-        </Group>
-      </Container>
-    </div>
-*/}
       <Stack
         h={"100vh"}
         w={"100%"}
