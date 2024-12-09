@@ -3,7 +3,6 @@ import { SignedIn, SignedOut, SignOutButton, useUser } from "@clerk/nextjs";
 import {
   AppShell,
   Avatar,
-  Divider,
   Group,
   ScrollArea,
   Stack,
@@ -43,6 +42,7 @@ import { useModelContext } from "@/app/contexts/ModelProvider";
 import { checkIfAtLeastOneBookIsThere } from "@/appwrite/checkIfAtLeastOneBookIsThere";
 import NoContentAdded from "../NoContentAdded";
 import { afacad_flux } from "@/app/font";
+import PublicAppShellLayout from "./PublicAppShellLayout";
 
 function AppShellLayout({ children }) {
   const { user } = useUser();
@@ -84,11 +84,10 @@ function AppShellLayout({ children }) {
   } = useQuery({
     queryKey: ["bookLength"],
     queryFn: () => checkIfAtLeastOneBookIsThere({ user_id: user.id }),
-    cacheTime : Infinity
+    cacheTime: Infinity,
   });
 
   // status can be idle, pending, success, error
-
   const mantineTheme = useMantineTheme();
   const isSmallScreen = useMediaQuery("(max-width: 450px)");
   const isCompactScreen = useMediaQuery("(max-width:480px)");
@@ -116,7 +115,11 @@ function AppShellLayout({ children }) {
   return (
     <>
       <SignedOut>
-        <SignInPrompt />
+        {pathname.includes("shared/blogs/public") ? (
+          <PublicAppShellLayout>{children}</PublicAppShellLayout>
+        ) : (
+          <SignInPrompt />
+        )}
       </SignedOut>
       <SignedIn>
         <Modal
@@ -331,7 +334,7 @@ function AppShellLayout({ children }) {
 
           {isBookLengthSuccess && bookLength === 0 ? (
             <AppShell.Main style={{ paddingInline: isCompactScreen ? 0 : undefined }}>
-              <Stack justify="center" align="center" h={'80vh'}>
+              <Stack justify="center" align="center" h={"80vh"}>
                 <NoContentAdded />
               </Stack>
             </AppShell.Main>
@@ -351,7 +354,6 @@ function AppShellLayout({ children }) {
               )}
             </AppShell.Main>
           )}
-
           {/* Bottom Navigation for Small Screens */}
           {isSmallScreen && !isNavbarOpen && <BottomNavigationBar />}
         </AppShell>
