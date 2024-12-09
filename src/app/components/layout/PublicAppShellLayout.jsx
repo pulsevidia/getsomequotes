@@ -37,6 +37,7 @@ function PublicAppShellLayout({ children }) {
       header={{ height: 60 }}
     >
       <AppShellHeader />
+      <AppShell.Main style={{ paddingInline: isCompactScreen ? 0 : undefined }}>{children}</AppShell.Main>
     </AppShell>
   );
 }
