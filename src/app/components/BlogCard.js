@@ -9,6 +9,7 @@ import {
   useComputedColorScheme,
   Button,
   Modal,
+  ActionIcon,
 } from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import removeMarkdown from "markdown-to-text";
@@ -18,7 +19,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { dark_theme } from "../config/theme";
 import { afacad_flux, dm_sans } from "../font";
-import { CheckCircle, Share } from "@phosphor-icons/react";
+import { CheckCircle, Share, ShareNetwork } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
 import { shareBlogPublicly } from "@/appwrite/add/addShareBlog";
 import { useUser } from "@clerk/clerk-react";
@@ -70,7 +71,6 @@ function BlogCard({ blog }) {
   const document_id = ID.unique();
   return (
     <>
-      <Button onClick={open}>Share Blog</Button>
       <Modal
         radius={"xl"}
         centered
@@ -210,6 +210,7 @@ function BlogCard({ blog }) {
               author_name: blog.books.author,
               book_name: blog.books.book_name,
               book_image: blog.books.book_image,
+              blog_image: blog.blog_image,
               document_id,
             })
           }
@@ -218,55 +219,62 @@ function BlogCard({ blog }) {
         </Button>
       </Modal>
 
-      <Link href={`/blog/${blog.$id}`} style={{ textDecoration: "none" }}>
-        <Card
-          shadow={cardShadows.md}
-          maw={600}
-          style={{ cursor: "pointer" }}
-          mx="xs"
-          radius="md"
-          padding={0}
-          bg={cardBackground}
-        >
-          <Group gap="xs" align="flex-start" wrap="nowrap">
-            <Image
-              alt="Mountains"
-              src={blog.blog_image || `/images_4_blogs/1.jpg`}
-              quality={100}
-              style={{
-                minWidth: isSmallScreen ? 120 : 140,
-                maxHeight: 170,
-                boxShadow: cardShadows.xs,
-                objectFit: "cover",
-              }}
-              width={isSmallScreen ? 120 : 140}
-              height={170}
-              loading="lazy"
-              sizes="100vw"
-            />
+      <Card
+        shadow={cardShadows.md}
+        maw={600}
+        style={{ cursor: "pointer" }}
+        mx="xs"
+        radius="md"
+        padding={0}
+        bg={cardBackground}
+      >
+        <Group gap="xs" align="flex-start" wrap="nowrap">
+          <Image
+            alt="Mountains"
+            src={blog.blog_image || `/images_4_blogs/1.jpg`}
+            quality={100}
+            style={{
+              minWidth: isSmallScreen ? 120 : 140,
+              maxHeight: 177,
+              boxShadow: cardShadows.xs,
+              objectFit: "cover",
+            }}
+            width={isSmallScreen ? 120 : 140}
+            height={177}
+            loading="lazy"
+            sizes="100vw"
+          />
+
             <Stack pr="sm" py="sm" gap={0}>
               <Group mb="xs" gap="xs" style={{ flexDirection: "column" }} align="flex-start">
-                <Group gap={"xs"}>
-                  <Badge
-                    variant="light"
-                    className={afacad_flux.className}
-                    size={isSmallScreen ? "xs" : "sm"}
-                    color={colorScheme === "dark" ? "#f2beb5" : theme.colors.gray[6]}
-                    style={{ boxShadow: cardShadows.xs }}
-                  >
-                    {blog?.books?.book_name || "Unknown"}
-                  </Badge>
-                  <Badge
-                    variant="light"
-                    className={afacad_flux.className}
-                    size={isSmallScreen ? "xs" : "sm"}
-                    styles={{ label: { display: "flex", alignItems: "center", gap: "0.2rem" } }}
-                    color={blog.isRead ? "green" : "red"}
-                    style={{ boxShadow: cardShadows.xs }}
-                  >
-                    <CheckCircle size={12} />
-                    {blog.isRead ? "READ" : "UNREAD"}
-                  </Badge>
+                <Group w={"100%"} justify="space-between">
+                  <Group gap={"xs"}>
+                    <Badge
+                      variant="light"
+                      className={afacad_flux.className}
+                      size={isSmallScreen ? "xs" : "sm"}
+                      color={colorScheme === "dark" ? "#f2beb5" : theme.colors.gray[6]}
+                      style={{ boxShadow: cardShadows.xs }}
+                      maw={120}
+
+                    >
+                      {blog?.books?.book_name || "Unknown"}
+                    </Badge>
+                    <Badge
+                      variant="light"
+                      className={afacad_flux.className}
+                      size={isSmallScreen ? "xs" : "sm"}
+                      styles={{ label: { display: "flex", alignItems: "center", gap: "0.2rem" } }}
+                      color={blog.isRead ? "green" : "red"}
+                      style={{ boxShadow: cardShadows.xs }}
+                    >
+                      <CheckCircle size={12} />
+                      {blog.isRead ? "READ" : "UNREAD"}
+                    </Badge>
+                  </Group>
+                  <ActionIcon onClick={open} variant="light" color="gray" radius="xl" size={"sm"} aria-label="Settings">
+                    <ShareNetwork weight="bold" size={12} />
+                  </ActionIcon>
                 </Group>
                 <Text
                   miw={200}
@@ -279,6 +287,8 @@ function BlogCard({ blog }) {
                   {blog.books?.author || "Unknown"}
                 </Text>
               </Group>
+
+          <Link href={`/blog/${blog.$id}`} style={{ textDecoration: "none" }}>
               <Title
                 lineClamp={2}
                 weight={600}
@@ -299,10 +309,11 @@ function BlogCard({ blog }) {
               >
                 {content}
               </Text>
+
+                </Link>
             </Stack>
-          </Group>
-        </Card>
-      </Link>
+        </Group>
+      </Card>
     </>
   );
 }

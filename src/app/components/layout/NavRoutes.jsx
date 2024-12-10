@@ -8,7 +8,7 @@ const NavRoutes = ({ toggle, colorScheme }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [currentRoute, setCurrentRoute] = useState(null);
-  useEffect(() => setCurrentRoute(pathname), []);
+  useEffect(() => setCurrentRoute(pathname), [pathname]);
 
   return (
     <Stack gap={0}>

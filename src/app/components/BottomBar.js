@@ -42,7 +42,7 @@ const BottomBar = () => {
 
   const [activeBook, setActiveBook] = useState(null);
   const [currentRoute, setCurrentRoute] = useState(null);
-  useEffect(() => setCurrentRoute(pathname), []);
+  useEffect(() => setCurrentRoute(pathname), [pathname]);
   return (
     <div
       style={{

@@ -155,7 +155,7 @@ function SharedContent() {
       <SignedOut>
         <Group gap={"5"}>
           <Text className={dm_sans.className} c="gray">
-            Don't have account?
+            Do not have an account?
           </Text>
 
           <SignInButton mode="modal">
