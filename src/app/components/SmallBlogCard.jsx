@@ -64,7 +64,9 @@ function SmallBlogCard({ blog, bookImage, author }) {
                 <Text
                   className={afacad_flux.className}
                   c={colorScheme === "dark" ? "rgb(182, 141, 133)" : theme.colors.gray[6]}
+                  maw={100}
                   size="sm"
+                  truncate
                 >
                   {author}
                 </Text>
