@@ -247,7 +247,7 @@ function BlogCard({ blog }) {
 
           <Stack pr="sm" py="sm" gap={0}>
             <Group mb="xs" gap="xs" style={{ flexDirection: "column" }} align="flex-start">
-              <Group w={"100%"} justify="space-between">
+              <Group w={"100%"} wrap={'nowrap'} justify="space-between">
                 <Group gap={"xs"}>
                   <Badge
                     variant="light"
@@ -255,7 +255,7 @@ function BlogCard({ blog }) {
                     size={isSmallScreen ? "xs" : "sm"}
                     color={colorScheme === "dark" ? "#f2beb5" : theme.colors.gray[6]}
                     style={{ boxShadow: cardShadows.xs }}
-                    maw={120}
+                    maw={isSmallScreen? 100: 150}
                   >
                     {blog?.books?.book_name || "Unknown"}
                   </Badge>
