@@ -19,7 +19,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { dark_theme } from "../config/theme";
 import { afacad_flux, dm_sans } from "../font";
-import { CheckCircle, Share, ShareNetwork } from "@phosphor-icons/react";
+import { Check,  Checks, Share, ShareNetwork } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
 import { shareBlogPublicly } from "@/appwrite/add/addShareBlog";
 import { useUser } from "@clerk/clerk-react";
@@ -245,50 +245,49 @@ function BlogCard({ blog }) {
             sizes="100vw"
           />
 
-            <Stack pr="sm" py="sm" gap={0}>
-              <Group mb="xs" gap="xs" style={{ flexDirection: "column" }} align="flex-start">
-                <Group w={"100%"} justify="space-between">
-                  <Group gap={"xs"}>
-                    <Badge
-                      variant="light"
-                      className={afacad_flux.className}
-                      size={isSmallScreen ? "xs" : "sm"}
-                      color={colorScheme === "dark" ? "#f2beb5" : theme.colors.gray[6]}
-                      style={{ boxShadow: cardShadows.xs }}
-                      maw={120}
-
-                    >
-                      {blog?.books?.book_name || "Unknown"}
-                    </Badge>
-                    <Badge
-                      variant="light"
-                      className={afacad_flux.className}
-                      size={isSmallScreen ? "xs" : "sm"}
-                      styles={{ label: { display: "flex", alignItems: "center", gap: "0.2rem" } }}
-                      color={blog.isRead ? "green" : "red"}
-                      style={{ boxShadow: cardShadows.xs }}
-                    >
-                      <CheckCircle size={12} />
-                      {blog.isRead ? "READ" : "UNREAD"}
-                    </Badge>
-                  </Group>
-                  <ActionIcon onClick={open} variant="light" color="gray" radius="xl" size={"sm"} aria-label="Settings">
-                    <ShareNetwork weight="bold" size={12} />
-                  </ActionIcon>
+          <Stack pr="sm" py="sm" gap={0}>
+            <Group mb="xs" gap="xs" style={{ flexDirection: "column" }} align="flex-start">
+              <Group w={"100%"} justify="space-between">
+                <Group gap={"xs"}>
+                  <Badge
+                    variant="light"
+                    className={afacad_flux.className}
+                    size={isSmallScreen ? "xs" : "sm"}
+                    color={colorScheme === "dark" ? "#f2beb5" : theme.colors.gray[6]}
+                    style={{ boxShadow: cardShadows.xs }}
+                    maw={120}
+                  >
+                    {blog?.books?.book_name || "Unknown"}
+                  </Badge>
+                  <Badge
+                    variant="light"
+                    className={afacad_flux.className}
+                    size={isSmallScreen ? "xs" : "sm"}
+                    styles={{ label: { display: "flex", alignItems: "center", gap: "0.2rem" } }}
+                    color={blog.isRead ? "blue" : "gray"}
+                    style={{ boxShadow: cardShadows.xs }}
+                  >
+                    {blog.isRead ? <Checks size={12} /> : <Check size={12} />}
+                    Read
+                  </Badge>
                 </Group>
-                <Text
-                  miw={200}
-                  ml={4}
-                  size="xs"
-                  weight={600}
-                  color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
-                  className={dm_sans.className}
-                >
-                  {blog.books?.author || "Unknown"}
-                </Text>
+                <ActionIcon onClick={open} variant="light" color="gray" radius="xl" size={"sm"} aria-label="Settings">
+                  <ShareNetwork weight="bold" size={12} />
+                </ActionIcon>
               </Group>
+              <Text
+                miw={200}
+                ml={4}
+                size="xs"
+                weight={600}
+                color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
+                className={dm_sans.className}
+              >
+                {blog.books?.author || "Unknown"}
+              </Text>
+            </Group>
 
-          <Link href={`/blog/${blog.$id}`} style={{ textDecoration: "none" }}>
+            <Link href={`/blog/${blog.$id}`} style={{ textDecoration: "none" }}>
               <Title
                 lineClamp={2}
                 weight={600}
@@ -309,9 +308,8 @@ function BlogCard({ blog }) {
               >
                 {content}
               </Text>
-
-                </Link>
-            </Stack>
+            </Link>
+          </Stack>
         </Group>
       </Card>
     </>
