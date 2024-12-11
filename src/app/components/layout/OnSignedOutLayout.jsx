@@ -1,8 +1,9 @@
 "use client";
 
-import { SignedOut, SignInButton } from "@clerk/clerk-react";
+import { SignedOut } from "@clerk/clerk-react";
 import { usePathname } from "next/navigation";
 import PublicAppShellLayout from "./PublicAppShellLayout";
+import NotSignedIn from "../NotSignedIn";
 
 function OnSignedOutLayout({ children }) {
   const pathname = usePathname();
@@ -11,7 +12,7 @@ function OnSignedOutLayout({ children }) {
       {pathname.includes("shared/blogs/public") ? (
         <PublicAppShellLayout>{children}</PublicAppShellLayout>
       ) : (
-        <SignInButton />
+        <NotSignedIn />
       )}
     </SignedOut>
   );

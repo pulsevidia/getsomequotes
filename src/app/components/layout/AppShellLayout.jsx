@@ -20,7 +20,6 @@ import NoContentAdded from "../NoContentAdded";
 import PDFUploadModalProvider from "../PDFUploadModalProvider";
 import OnSignedOutLayout from "./OnSignedOutLayout";
 import CheckDesktopScreen from "./CheckDesktopScreen";
-import { ModelProvider } from "@/app/contexts/ModelProvider";
 
 function AppShellLayout({ children }) {
   const { user } = useUser();
@@ -62,9 +61,7 @@ function AppShellLayout({ children }) {
     <>
       <OnSignedOutLayout />
       <SignedIn>
-        <ModelProvider>
-          <PDFUploadModalProvider />
-        </ModelProvider>
+        <PDFUploadModalProvider />
         <AppShell
           bg={colorScheme === "dark" ? "#0f1523" : mantineTheme.colors.gray[0]}
           padding="md"
@@ -124,9 +121,7 @@ function AppShellLayout({ children }) {
             </AppShell.Main>
           ) : (
             <AppShell.Main style={{ paddingInline: isCompactScreen ? 0 : undefined }}>
-              <ModelProvider>
-                <CheckDesktopScreen>{children}</CheckDesktopScreen>
-              </ModelProvider>
+              <CheckDesktopScreen>{children}</CheckDesktopScreen>
             </AppShell.Main>
           )}
           {/* Bottom Navigation for Small Screens */}

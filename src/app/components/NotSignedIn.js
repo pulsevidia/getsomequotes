@@ -9,7 +9,6 @@ export default function NotSignedIn() {
   const medDesktop = useMediaQuery("(max-width:1200px)");
   const smallSizeMath = useMediaQuery("(max-width:480px)");
   return (
-    <>
       <Stack
         h={"100vh"}
         w={"100%"}
@@ -70,7 +69,7 @@ export default function NotSignedIn() {
 
           <SignUpButton mode="modal">
             <Group style={{ cursor: "pointer" }} gap={"xs"}>
-              <Text size="lg" fw={600} className={poppins.className} style={{ textDecoration: "underline" }}>
+              <Text c={'black'} size="lg" fw={600} className={poppins.className} style={{ textDecoration: "underline" }}>
                 Start Reading
               </Text>
               <ArrowRight weight="regular" size={28} />
@@ -109,6 +108,7 @@ export default function NotSignedIn() {
             ta={"center"}
             maw={medDesktop ? 800 : 1300}
             mx={"md"}
+            c={'black'}
             style={{ fontSize: medDesktop ? "1.5rem" : "4rem" }}
             className={poppins.className}
           >
@@ -120,6 +120,7 @@ export default function NotSignedIn() {
             fw={400}
             maw={smallSizeMath ? 400 : 500}
             ta={"center"}
+            c={'black'}
             className={kanit.className}
           >
             A very new way of approaching book reading, experience{" "}
@@ -136,6 +137,7 @@ export default function NotSignedIn() {
                 fw={400}
                 className={poppins.className}
                 style={{ textDecoration: "underline" }}
+                c={'black'}
               >
                 Start Reading
               </Text>
@@ -144,6 +146,5 @@ export default function NotSignedIn() {
           </SignUpButton>
         </Stack>
       </Stack>
-    </>
   );
 }

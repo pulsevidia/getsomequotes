@@ -1,6 +1,3 @@
-body {
-  background: rgba(19, 27, 46) !important;
-}
 @font-face {
   font-family: "Circular";
   src: url("../../public/fonts/Gilroy-Bold.ttf") format("truetype");

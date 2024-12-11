@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { ClerkProvider } from "@clerk/nextjs";
 import AppShellLayout from "./components/layout/AppShellLayout";
+import { ModelProvider } from "./contexts/ModelProvider";
 
 // Root Layout Component
 function RootLayout({ children }) {
@@ -36,7 +37,9 @@ function RootLayout({ children }) {
           {/* <script async src="https://unpkg.com/react-scan/dist/auto.global.js"></script> */}
           <body>
             <MantineProvider theme={defaultTheme} defaultColorScheme="light">
-              <AppShellLayout>{children}</AppShellLayout>
+              <ModelProvider>
+                <AppShellLayout>{children}</AppShellLayout>
+              </ModelProvider>
             </MantineProvider>
           </body>
         </html>
