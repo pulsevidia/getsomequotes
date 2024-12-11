@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { Center, SegmentedControl, useComputedColorScheme, useMantineColorScheme } from "@mantine/core";
 import { SunDim, Moon } from "@phosphor-icons/react";

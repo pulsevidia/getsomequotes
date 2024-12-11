@@ -1,7 +1,8 @@
+"use client";
 import React, { useEffect, useMemo, useState } from "react";
 import styles from "./BottomBar.module.css";
 import { House, FileArrowUp, Books } from "@phosphor-icons/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { dark_theme } from "../config/theme";
 import { ScrollArea, Stack, useComputedColorScheme, useMantineTheme } from "@mantine/core";
 import { useResizeObserver, useToggle } from "@mantine/hooks";
@@ -20,7 +21,6 @@ const BottomBar = () => {
   const colorScheme = useComputedColorScheme();
   const [ref] = useResizeObserver();
   const theme = useMantineTheme();
-  const router = useRouter();
   const {
     user: { id },
   } = useUser();

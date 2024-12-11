@@ -1,3 +1,4 @@
+'use client'
 import { useComputedColorScheme } from "@mantine/core";
 import { useRouter } from "next/navigation";
 function LightLogo() {

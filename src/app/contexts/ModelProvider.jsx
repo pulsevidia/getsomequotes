@@ -1,3 +1,5 @@
+"use client";
+
 import { useDisclosure } from "@mantine/hooks";
 import { createContext, useContext } from "react";
 const ModelContext = createContext();

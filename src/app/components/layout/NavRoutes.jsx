@@ -1,3 +1,4 @@
+'use client'
 import { House, UploadSimple } from "@phosphor-icons/react";
 import { Group, Stack, Text } from "@mantine/core";
 import { cardShadows } from "@/app/utils/shadows";
