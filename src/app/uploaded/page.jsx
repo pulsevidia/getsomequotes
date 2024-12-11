@@ -40,6 +40,7 @@ export default function Uploaded() {
   } = useQuery({
     queryKey: ["book"],
     queryFn: () => fetchBook(id),
+    staleTime: Infinity,
     cacheTime: Infinity,
   });
   return (
