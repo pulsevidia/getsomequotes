@@ -24,7 +24,7 @@ function SmallBlogCard({ blog, bookImage, author }) {
         <Group wrap="nowrap" gap={"0"}>
           <Image
             alt="Mountains"
-            src={blog.blog_image}
+            src={blog.blog_image || `/images_4_blogs/1.jpg`}
             quality={100}
             style={{
               boxShadow: cardShadows.xs,
