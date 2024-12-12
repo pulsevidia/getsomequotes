@@ -41,13 +41,6 @@ function RightBookSidebar() {
                 <BookCards setActiveBook={setActiveBook} key={i} {...data} colorScheme={colorScheme} />
               )
           )}
-        {isSuccess &&
-          books.map(
-            (data, i) =>
-              data.$id !== activeBook?.$id && (
-                <BookCards setActiveBook={setActiveBook} key={i} {...data} colorScheme={colorScheme} />
-              )
-          )}
 
         {isLoading && <LoadingSkeleton colorScheme={colorScheme} />}
       </Stack>
