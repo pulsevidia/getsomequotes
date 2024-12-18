@@ -20,6 +20,7 @@ import NoContentAdded from "../NoContentAdded";
 import PDFUploadModalProvider from "../PDFUploadModalProvider";
 import OnSignedOutLayout from "./OnSignedOutLayout";
 import CheckDesktopScreen from "./CheckDesktopScreen";
+import SharedContent from "@/app/shared/blogs/public/[id]/page";
 
 function AppShellLayout({ children }) {
   const { user } = useUser();
@@ -59,7 +60,9 @@ function AppShellLayout({ children }) {
 
   return (
     <>
-      <OnSignedOutLayout />
+      <OnSignedOutLayout>
+        <SharedContent />
+      </OnSignedOutLayout>
       <SignedIn>
         <PDFUploadModalProvider />
         <AppShell

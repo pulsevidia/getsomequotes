@@ -1,21 +1,15 @@
-import { useDisclosure, useMediaQuery } from "@mantine/hooks";
-import { SignInButton } from "@clerk/nextjs";
-import { AppShell, Avatar, Group, Stack, Text, useMantineTheme, useComputedColorScheme } from "@mantine/core";
-import { SignIn, SignOut } from "@phosphor-icons/react";
+import {  useMediaQuery } from "@mantine/hooks";
+import { AppShell,  Group, useMantineTheme, useComputedColorScheme } from "@mantine/core";
 
 import BrandLogo from "../Logo";
-import FeedbackButton from "./FeedBack";
 
-import { dark_theme } from "@/app/config/theme";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { memo } from "react";
 
 function PublicAppShellLayout({ children }) {
   // status can be idle, pending, success, error
   const mantineTheme = useMantineTheme();
-  const isSmallScreen = useMediaQuery("(max-width: 450px)");
   const isCompactScreen = useMediaQuery("(max-width:480px)");
-  const isTabletScreen = useMediaQuery("(max-width:767px)");
 
   const colorScheme = useComputedColorScheme();
 
