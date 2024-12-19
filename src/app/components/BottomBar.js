@@ -57,8 +57,9 @@ const BottomBar = () => {
     >
       <div
         style={{
-          background: colorScheme == "dark" ? dark_theme.nav_link_dark_color : "white",
-          padding: "8px",
+          background: colorScheme == "dark" ? '#131b2dc2' : "#ffffffc2",
+          backdropFilter: 'blur(8px)'
+          , padding: "8px",
         }}
         className={styles.nav_parent}
       >
