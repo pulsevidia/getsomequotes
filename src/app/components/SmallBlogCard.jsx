@@ -5,6 +5,7 @@ import { afacad_flux, dm_sans } from "../font";
 import { useMediaQuery } from "@mantine/hooks";
 import { CheckCircle } from "@phosphor-icons/react";
 import Image from "next/image";
+import { dark_theme } from "../config/theme";
 
 function SmallBlogCard({ blog, bookImage, author }) {
   const theme = useMantineTheme();
@@ -15,7 +16,7 @@ function SmallBlogCard({ blog, bookImage, author }) {
     <Link href={`/blog/${blog.$id}`} style={{ textDecoration: "none" }}>
       <Card
         shadow={cardShadows.xs}
-        bg={colorScheme === "dark" ? "rgb(19, 27, 46)" : theme.colors.gray[2]}
+        bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : theme.colors.gray[2]}
         miw={380}
         p={0}
         mih={137}
@@ -41,14 +42,14 @@ function SmallBlogCard({ blog, bookImage, author }) {
               mih={43}
               fw={500}
               order={4}
-              c={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[9]}
+              c={colorScheme === "dark" ? dark_theme.main_text_color  : theme.colors.gray[9]}
               className={afacad_flux.className}
               style={{ lineHeight: 1.2 }}
             >
               {blog.blogTitle || "Surprise Blog It Has No Title"}
             </Title>
             <Text
-              c={colorScheme === "dark" ? "rgba(182, 141, 133, 0.46)" : theme.colors.gray[6]}
+              c={colorScheme === "dark" ? dark_theme.secondary_text_color : theme.colors.gray[6]}
               fw={500}
               mt={5}
               size="sm"
@@ -63,7 +64,7 @@ function SmallBlogCard({ blog, bookImage, author }) {
                 <Avatar size="22" src={bookImage} alt="Author" />
                 <Text
                   className={afacad_flux.className}
-                  c={colorScheme === "dark" ? "rgb(182, 141, 133)" : theme.colors.gray[6]}
+                  c={colorScheme === "dark" ? dark_theme.secondary_text_color : theme.colors.gray[6]}
                   maw={100}
                   size="sm"
                   truncate

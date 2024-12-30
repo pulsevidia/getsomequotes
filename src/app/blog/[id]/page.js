@@ -23,6 +23,7 @@ import SmallBlogCard from "@/app/components/SmallBlogCard";
 import TitleComponent from "@/app/components/TitleComponent";
 import { useUser } from "@clerk/clerk-react";
 import { afacad_flux, spectral } from "@/app/font";
+import { dark_theme } from "@/app/config/theme";
 
 const TextMarkdown = ({ children }) => (
   <Text fw={400} py="xs" ta="left" size="lg" className={spectral.className}>
@@ -75,7 +76,7 @@ function ReadBlog() {
   if (isLoading) {
     return (
       <Center maw={800} w={"100%"} ref={ref} h="100%">
-        <Loader color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[9]} type="dots" />
+        <Loader color={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[9]} type="dots" />
       </Center>
     );
   }
@@ -115,7 +116,7 @@ function ReadBlog() {
       <Stack gap={0}>
         {/* Book Badge */}
         <Badge
-          color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
+          color={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[6]}
           mt="md"
           variant="light"
           size="lg"

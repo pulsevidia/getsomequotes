@@ -1,12 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
 }
-
 body{
     background-color: #c9d6ff;
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
@@ -199,12 +197,10 @@ body{
 .container.active .toggle-left{
     transform: translateX(0);
 }
-
 .toggle-right{
     right: 0;
     transform: translateX(0);
 }
-
 .container.active .toggle-right{
     transform: translateX(200%);
 }

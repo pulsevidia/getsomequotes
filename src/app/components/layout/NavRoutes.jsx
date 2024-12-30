@@ -4,6 +4,7 @@ import { Group, Stack, Text } from "@mantine/core";
 import { cardShadows } from "@/app/utils/shadows";
 import { usePathname, useRouter } from "next/navigation";
 import { memo, useEffect, useState } from "react";
+import { dark_theme } from "@/app/config/theme";
 
 const NavRoutes = ({ toggle, colorScheme }) => {
   const router = useRouter();
@@ -26,11 +27,11 @@ const NavRoutes = ({ toggle, colorScheme }) => {
           cursor: "pointer",
           boxShadow: currentRoute === "/" ? cardShadows.md : "none",
           borderRadius: "8px",
-          background: currentRoute === "/" && colorScheme === "dark" ? "rgb(19, 27, 45)" : "none",
+          background: currentRoute === "/" && colorScheme === "dark" ? dark_theme.nav_link_dark_color : "none",
         }}
       >
-        <House color={colorScheme === "dark" ? "#f1beb5" : "black"} size={16} />
-        <Text size="xs" c={colorScheme === "dark" ? "#f1beb5" : "dark"}>
+        <House color={colorScheme === "dark" ? dark_theme.main_text_color : "black"} size={16} />
+        <Text size="xs" c={colorScheme === "dark" ? dark_theme.main_text_color : "dark"}>
           Home
         </Text>
       </Group>
@@ -48,11 +49,11 @@ const NavRoutes = ({ toggle, colorScheme }) => {
           cursor: "pointer",
           boxShadow: currentRoute === "/uploaded" ? cardShadows.md : "none",
           borderRadius: "8px",
-          background: currentRoute === "/uploaded" && colorScheme === "dark" ? "rgb(19, 27, 45)" : "none",
+          background: currentRoute === "/uploaded" && colorScheme === "dark" ? dark_theme.nav_link_dark_color : "none",
         }}
       >
-        <UploadSimple color={colorScheme === "dark" ? "#f1beb5" : "black"} size={16} />
-        <Text size="xs" c={colorScheme === "dark" ? "#f1beb5" : "dark"}>
+        <UploadSimple color={colorScheme === "dark" ? dark_theme.main_text_color : "black"} size={16} />
+        <Text size="xs" c={colorScheme === "dark" ? dark_theme.main_text_color : "dark"}>
           Uploaded
         </Text>
       </Group>
