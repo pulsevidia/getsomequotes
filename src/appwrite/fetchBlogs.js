@@ -22,7 +22,7 @@ async function fetchBlogs(user_id, offset = 0) {
     const { documents } = await databases.listDocuments(
       process.env.NEXT_PUBLIC_DATABASE_ID,
       process.env.NEXT_PUBLIC_BLOGS_COLLECTION_ID,
-      [Query.limit(7), Query.offset(offset * 7), Query.equal("user_id", [user_id]), Query.isNull("isRead")]
+      [Query.limit(7), Query.offset(offset * 7), Query.orderDesc(), Query.equal("user_id", [user_id]), Query.isNull("isRead")]
     );
 
     return documents
