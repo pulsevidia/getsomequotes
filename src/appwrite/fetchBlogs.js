@@ -1,7 +1,6 @@
 import { Query } from "appwrite";
 import { databases } from "./appwrite";
 import { getBlogById } from "./getBlogById";
-import { shuffleArrayRandomly } from "@/app/helpers/helper";
 
 async function fetchBlogsWithIdArray({ idsArray, user_id }) {
   try {
@@ -18,14 +17,15 @@ async function fetchBlogsWithIdArray({ idsArray, user_id }) {
   }
 }
 
-async function fetchBlogs(id) {
+async function fetchBlogs(user_id, offset = 0) {
   try {
     const { documents } = await databases.listDocuments(
       process.env.NEXT_PUBLIC_DATABASE_ID,
       process.env.NEXT_PUBLIC_BLOGS_COLLECTION_ID,
-      [Query.limit(2000), Query.equal("user_id", [id]), Query.isNull("isRead")]
+      [Query.limit(7), Query.offset(offset * 7), Query.equal("user_id", [user_id]), Query.isNull("isRead")]
     );
-    return shuffleArrayRandomly(documents);
+
+    return documents
   } catch (error) {
     console.error(error);
   }
