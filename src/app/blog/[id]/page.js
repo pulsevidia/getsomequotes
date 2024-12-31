@@ -67,6 +67,7 @@ function ReadBlog() {
 
   const colorScheme = useComputedColorScheme();
   const isSmallScreen = useMediaQuery("(max-width:480px)");
+  const isBigScreen = useMediaQuery("(min-width:1200px)")
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["blog", blog_id],
@@ -75,7 +76,7 @@ function ReadBlog() {
 
   if (isLoading) {
     return (
-      <Center maw={800} w={"100%"} ref={ref} h="100%">
+      <Center maw={800} w={isBigScreen ? 800 : "100%"} ref={ref} h="100%">
         <Loader color={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[9]} type="dots" />
       </Center>
     );
