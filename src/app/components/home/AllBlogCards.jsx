@@ -30,7 +30,6 @@ function AllBlogCards() {
 
   useEffect(() => {
     if (blogsData) allBlogsData ? setAllBlogsData(oldData => [...oldData, ...blogsData]) : setAllBlogsData(() => [...blogsData])
-
   }, [isBlogsSuccess, blogsData])
 
   useEffect(() => { if (isBlogsSuccess && !isBlogsLoading && inViewport) setOffsetIndex(i => i + 1) }, [inViewport])
@@ -52,7 +51,7 @@ function AllBlogCards() {
       <Stack pb={"100"}>
         {allBlogsData && allBlogsData?.map((blog) => <BlogCard blog={blog} key={blog.$id} />)}
         {isBlogsLoading && offsetIndex == 0 && <BlogSkeleton colorScheme={colorScheme} instances={7} />}
-        {!isBlogsLoading && <div ref={ref} style={{ margin: '1rem 0' }}></div>}
+        <div ref={ref} style={{ margin: '1rem 0' }}></div>
       </Stack>
     </>
   );
