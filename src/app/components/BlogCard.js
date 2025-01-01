@@ -55,6 +55,7 @@ function BlogCard({ blog }) {
   const {
     user: { id, imageUrl, fullName },
   } = useUser();
+
   const document_id = ID.unique();
   return (
     <>
