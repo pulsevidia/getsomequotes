@@ -14,9 +14,6 @@ import NavigationRoutes from "./NavRoutes";
 import { dark_theme } from "@/app/config/theme";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { memo } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { checkIfAtLeastOneBookIsThere } from "@/appwrite/checkIfAtLeastOneBookIsThere";
-import NoContentAdded from "../NoContentAdded";
 import PDFUploadModalProvider from "../PDFUploadModalProvider";
 import OnSignedOutLayout from "./OnSignedOutLayout";
 import CheckDesktopScreen from "./CheckDesktopScreen";
@@ -24,18 +21,6 @@ import SharedContent from "@/app/shared/blogs/public/[id]/page";
 
 function AppShellLayout({ children }) {
   const { user } = useUser();
-  const imageArray = Array.from({ length: 100 }, (_, i) => `${i + 1}.jpg`);
-
-  function chooseRandomImage() {
-    setCurrentImage(`/compress-cats/${imageArray[Math.floor(Math.random() * imageArray.length)]}`);
-  }
-
-  const { data: bookLength, isSuccess: isBookLengthSuccess } = useQuery({
-    queryKey: ["bookLength"],
-    queryFn: () => checkIfAtLeastOneBookIsThere({ user_id: user.id }),
-    cacheTime: Infinity,
-  });
-
   // status can be idle, pending, success, error
   const mantineTheme = useMantineTheme();
   const isSmallScreen = useMediaQuery("(max-width: 450px)");
@@ -115,18 +100,10 @@ function AppShellLayout({ children }) {
               </Group>
             </Stack>
           </AppShell.Navbar>
+          <AppShell.Main style={{ paddingInline: isCompactScreen ? 0 : undefined }}>
+            <CheckDesktopScreen>{children}</CheckDesktopScreen>
+          </AppShell.Main>
 
-          {isBookLengthSuccess && bookLength === 0 ? (
-            <AppShell.Main style={{ paddingInline: isCompactScreen ? 0 : undefined }}>
-              <Stack justify="center" align="center" h={"80vh"}>
-                <NoContentAdded />
-              </Stack>
-            </AppShell.Main>
-          ) : (
-            <AppShell.Main style={{ paddingInline: isCompactScreen ? 0 : undefined }}>
-              <CheckDesktopScreen>{children}</CheckDesktopScreen>
-            </AppShell.Main>
-          )}
           {/* Bottom Navigation for Small Screens */}
           {isSmallScreen && !isNavbarOpen && <BottomNavigationBar />}
         </AppShell>
