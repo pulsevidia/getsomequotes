@@ -28,7 +28,7 @@ export default function Specifics() {
     <ScrollArea scrollbarSize={2} h={"100vh"} scrollbars="y">
       <Stack pb={"100"}>
         {isBlogsLoading && <BlogSkeleton colorScheme={colorScheme} instances={10} />}
-        {isBlogsSuccess && blogsData.map((blog) => <BlogCard blog={blog} key={blog.$id} />)}
+        {isBlogsSuccess && blogsData.map((blog) => <BlogCard blog={blog.blog} key={blog.blog.$id} />)}
       </Stack>
     </ScrollArea>
   );
