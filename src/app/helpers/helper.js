@@ -14,4 +14,11 @@ function extractFirstLine(markdown) {
   const what = [markdown.slice(start + 2, end).trim()];
   return what;
 }
-export { extractFirstLine, shuffleArrayRandomly };
+ const formatDate = (isoString) => {
+    const date = new Date(isoString);
+    const options = { month: "short", day: "numeric", year: "numeric" };
+    return date.toLocaleDateString("en-US", options);
+  };
+
+
+export { formatDate, extractFirstLine, shuffleArrayRandomly };

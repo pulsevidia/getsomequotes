@@ -1,5 +1,5 @@
 'use client'
-import { House, UploadSimple } from "@phosphor-icons/react";
+import { House, Key, UploadSimple } from "@phosphor-icons/react";
 import { Group, Stack, Text } from "@mantine/core";
 import { cardShadows } from "@/app/utils/shadows";
 import { usePathname, useRouter } from "next/navigation";
@@ -57,6 +57,29 @@ const NavRoutes = ({ toggle, colorScheme }) => {
           Uploaded
         </Text>
       </Group>
+      <Group
+        gap="xs"
+        align="center"
+        p="sm"
+        onClick={() => {
+          setCurrentRoute("/tokenisation");
+
+          toggle();
+          router.push("/tokenisation");
+        }}
+        style={{
+          cursor: "pointer",
+          boxShadow: currentRoute === "/tokenisation" ? cardShadows.md : "none",
+          borderRadius: "8px",
+          background: currentRoute === "/tokenisation" && colorScheme === "dark" ? dark_theme.nav_link_dark_color : "none",
+        }}
+      >
+        <Key color={colorScheme === "dark" ? dark_theme.main_text_color : "black"} size={16} />
+        <Text size="xs" c={colorScheme === "dark" ? dark_theme.main_text_color : "dark"}>
+          Tokenisation
+        </Text>
+      </Group>
+
     </Stack>
   );
 };

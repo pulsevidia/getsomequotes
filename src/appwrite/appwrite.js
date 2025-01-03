@@ -13,6 +13,7 @@ export const bucketID = process.env.NEXT_PUBLIC_BUCKET_ID;
 export const blogsCollectionID = process.env.NEXT_PUBLIC_BLOGS_COLLECTION_ID;
 export const booksCollectionID = process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID;
 export const chunksCollectionID = process.env.NEXT_PUBLIC_CHUNKS_COLLECTION_ID;
+export const tokenisationCollectionID = process.env.NEXT_PUBLIC_TOKENISATION_COLLECTION_ID;
 export const appwriteAPIKey = process.env.NEXT_PUBLIC_APPWRITE_API_KEY;
 export const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 export const clerkSecretKey = process.env.CLERK_SECRET_KEY;
