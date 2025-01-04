@@ -30,9 +30,9 @@ function AllBlogCards() {
 
   useEffect(() => {
     if (blogsData) allBlogsData ? setAllBlogsData(oldData => [...oldData, ...blogsData]) : setAllBlogsData(() => [...blogsData])
-  }, [isBlogsSuccess, blogsData, allBlogsData])
+  }, [isBlogsSuccess, blogsData ])
 
-  useEffect(() => { if (isBlogsSuccess && !isBlogsLoading && inViewport) setOffsetIndex(i => i + 1) }, [inViewport, isBlogsLoading])
+  useEffect(() => { if (isBlogsSuccess && !isBlogsLoading && inViewport) setOffsetIndex(i => i + 1) }, [inViewport])
 
   useEffect(() => {
     if (offsetIndex > 0) {
