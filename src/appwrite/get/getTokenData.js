@@ -13,7 +13,6 @@ async function getTokenData({ user_id }) {
             )
             return { ...doc, access:accessArray }
         })
-console.log(mappedDocuments)
         return mappedDocuments;
     } catch (error) {
         console.error(error)
