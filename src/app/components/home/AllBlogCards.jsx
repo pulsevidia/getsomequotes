@@ -1,4 +1,4 @@
-import { Center, Group, Loader, Stack, useComputedColorScheme } from "@mantine/core";
+import { Center, Stack, useComputedColorScheme } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useUser } from "@clerk/nextjs";
 import { fetchBlogs } from "@/appwrite/fetchBlogs";
@@ -30,15 +30,15 @@ function AllBlogCards() {
 
   useEffect(() => {
     if (blogsData) allBlogsData ? setAllBlogsData(oldData => [...oldData, ...blogsData]) : setAllBlogsData(() => [...blogsData])
-  }, [isBlogsSuccess, blogsData])
+  }, [isBlogsSuccess, blogsData, allBlogsData])
 
-  useEffect(() => { if (isBlogsSuccess && !isBlogsLoading && inViewport) setOffsetIndex(i => i + 1) }, [inViewport])
+  useEffect(() => { if (isBlogsSuccess && !isBlogsLoading && inViewport) setOffsetIndex(i => i + 1) }, [inViewport, isBlogsLoading])
 
   useEffect(() => {
     if (offsetIndex > 0) {
       refetch()
     }
-  }, [offsetIndex])
+  }, [offsetIndex, refetch])
 
   return (
     <>
