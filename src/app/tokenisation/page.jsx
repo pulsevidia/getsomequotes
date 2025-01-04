@@ -6,7 +6,7 @@ import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { cardShadows } from "../utils/shadows";
 import { dark_theme } from "../config/theme";
-import { ActionIcon, Badge, Button, Card, Checkbox, CopyButton, Divider, Group, Input, Loader, Modal, rem, Stack, Text, Title, Tooltip, useComputedColorScheme, useMantineTheme } from "@mantine/core";
+import { ActionIcon, Badge, Button, Card, Checkbox, CopyButton, Group, Input, Loader, Modal, rem, Stack, Text, Title, Tooltip, useComputedColorScheme, useMantineTheme } from "@mantine/core";
 import { useUser } from "@clerk/clerk-react";
 import { afacad_flux, dm_sans } from "../font";
 import { ArrowsClockwise, Check, Copy, Key, Share, Trash } from "@phosphor-icons/react";
@@ -23,9 +23,9 @@ function Tokenisation() {
     });
     const [tokenName, setTokenName] = useState('')
     const [tokenItSelf, setTokenItSelf] = useState(null)
-    const bigScreen = useMediaQuery("(min-width:1367px)");
 
-    const [opened, { open, close }] = useDisclosure(true);
+    const [opened, { open, close }] = useDisclosure(false);
+    const smallSizeMath = useMediaQuery("(max-width:480px)");
     const colorScheme = useComputedColorScheme()
     const theme = useMantineTheme()
 
@@ -372,8 +372,9 @@ function Tokenisation() {
                     {
                         status === 'success' &&
                         <Group gap={'5'} mt={'sm'}>
-                            {tokenData.access.map(({ _, access_type, value }) =>
+                            {tokenData.access.map(({ _, access_type, value }, i) =>
                                 <Badge
+                                    key={i}
                                     variant="outline"
                                     className={afacad_flux.className}
                                     size={"sm"}
@@ -396,7 +397,7 @@ function Tokenisation() {
                     color={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[6]}
                     className={dm_sans.className}
                 >
-                    Copy and Save it securely, you'll not see the same token again once close the popup.
+                    Copy and Save it securely, you&apos;ll not see the same token again once close the popup.
                 </Text>
                 <Button
                     display={!tokenItSelf && 'none'}
@@ -443,6 +444,20 @@ function Tokenisation() {
             {isLoading && <Loader />}
             {isError && <Title>Something went wrong</Title>}
             {isSuccess && data.length === 0 && <Title>No Token has been created</Title>}
+            <Button
+                leftSection={<Key size={16} />}
+                onClick={open}
+                color={colorScheme === "dark" ? dark_theme.secondary_text_color : theme.colors.gray[2]}
+                c={colorScheme === "dark" ? dark_theme.nav_link_dark_color : theme.colors.dark[9]}
+                radius={"md"}
+                my={'md'}
+                fullWidth={smallSizeMath}
+                style={{
+                    boxShadow: `${cardShadows.xsn}`,
+                }}
+            >
+                Generate Token
+            </Button>
 
             {isSuccess &&
                 <Group maw={650}>
@@ -463,7 +478,7 @@ function Tokenisation() {
                                         <Title order={4}>{el.token_name}</Title>
                                         <Text>Created at: {formatDate(el.$createdAt)}</Text>
                                     </Stack>
-                                    <ActionIcon onClick={async () => await deleteTokenEntry({ document_id: el.$id })} variant="light" size="lg" radius="xl" aria-label="Settings">
+                                    <ActionIcon color="gray" onClick={async () => await deleteTokenEntry({ document_id: el.$id })} variant="light" size="lg" radius="xl" aria-label="Settings">
                                         <Trash style={{ width: '70%', height: '70%' }} stroke={1.5} />
                                     </ActionIcon>
                                 </Group>
@@ -472,7 +487,7 @@ function Tokenisation() {
 
                                     {el.access.map(({ _, access_type, value }, index) =>
                                         <Badge
-                                        key={index}
+                                            key={index}
                                             variant="outline"
                                             className={afacad_flux.className}
                                             size={"sm"}
@@ -480,7 +495,6 @@ function Tokenisation() {
                                         >
                                             {access_type}
                                         </Badge>
-
                                     )}
                                 </Group>
                             </Card>
