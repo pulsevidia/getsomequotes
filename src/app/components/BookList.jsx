@@ -61,7 +61,7 @@ function BookList({
           />
           <Stack gap={0}>
             <Text
-              c={colorScheme === "dark" ? "#f1beb5" : theme.colors.dark[9]}
+              c={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.dark[9]}
               w={smallSizeMath ? 200 : 300}
               fw={400}
               className={poppins.className}
@@ -75,17 +75,17 @@ function BookList({
               className={poppins.className}
               fw={500}
               size="sm"
-              c={colorScheme === "dark" ? "rgba(241, 190, 181, 0.67)" : theme.colors.dark[2]}
+              c={colorScheme === "dark" ? dark_theme.secondary_text_color : theme.colors.dark[2]}
               truncate={"end"}
             >
               By: {item?.author || "unkown"}
             </Text>
             <Group gap={"xs"} align="center">
-              <Text size="xs" c={colorScheme === "dark" ? "rgba(241, 190, 181, 0.67)" : theme.colors.dark[2]}>
+              <Text size="xs" c={colorScheme === "dark" ? dark_theme.secondary_text_color : theme.colors.dark[2]}>
                 {formatDate(item.$createdAt)}, {isGeneratingBook.bookId !== item.$id && `${item.blogs.length} Extracts`}
               </Text>
               {isGeneratingBook.isGenerating && isGeneratingBook.bookId === item.$id && (
-                <Loader color={colorScheme === "dark" ? "#f1beb5" : theme.colors.dark[9]} type="dots" size={"xs"} />
+                <Loader color={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.dark[9]} type="dots" size={"xs"} />
               )}
             </Group>
           </Stack>
@@ -94,17 +94,17 @@ function BookList({
           <Menu
             styles={{
               dropdown: {
-                background: `${colorScheme === "dark" ? "#0f1523" : undefined}`,
+                background: `${colorScheme === "dark" ? dark_theme.app_bg_dark_color : undefined}`,
               },
             }}
             radius={"md"}
             width={150}
           >
             <Menu.Target>
-              <DotsThreeVertical color={colorScheme === "dark" ? "#f1beb5" : undefined} size={22} />
+              <DotsThreeVertical color={colorScheme === "dark" ? dark_theme.main_text_color : undefined} size={22} />
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Label c={colorScheme === "dark" ? "#f1beb5" : undefined} size={22}>
+              <Menu.Label c={colorScheme === "dark" ? dark_theme.main_text_color : undefined} size={22}>
                 Book Options
               </Menu.Label>
               <Menu.Item
@@ -112,8 +112,8 @@ function BookList({
                   setGenerateBookId(item.$id);
                   openGenerateBookModal();
                 }}
-                c={colorScheme === "dark" ? "#f1beb5" : undefined}
-                leftSection={<Sparkle color={colorScheme === "dark" ? "#f1beb5" : undefined} size={16} weight="fill" />}
+                c={colorScheme === "dark" ? dark_theme.main_text_color : undefined}
+                leftSection={<Sparkle color={colorScheme === "dark" ? dark_theme.main_text_color : undefined} size={16} weight="fill" />}
               >
                 Generate
               </Menu.Item>

@@ -48,7 +48,7 @@ function BookCards({ $id, author, book_image, book_name, blogs, colorScheme, tog
               By {author}
             </Text>
             <Badge
-              color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
+              color={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[6]}
               variant="light"
               fw={500}
               size="xs"

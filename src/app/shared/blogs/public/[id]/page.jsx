@@ -22,6 +22,7 @@ import { getPubliclySharedBlogWithID } from "@/appwrite/get/getPublicSharedBlog"
 import QuoteCard from "@/app/components/QuoteCard";
 import { cardShadows } from "@/app/utils/shadows";
 import { SignedOut, SignInButton } from "@clerk/clerk-react";
+import { dark_theme } from "@/app/config/theme";
 
 const TextMarkdown = ({ children }) => (
   <Text fw={400} py="xs" ta="left" size="lg" className={spectral.className}>
@@ -75,7 +76,7 @@ function SharedContent() {
   if (isLoading) {
     return (
       <Center maw={800} w={"100%"} ref={ref} h="100%">
-        <Loader color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[9]} type="dots" />
+        <Loader color={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[9]} type="dots" />
       </Center>
     );
   }
@@ -115,7 +116,7 @@ function SharedContent() {
       <Stack gap={0}>
         {/* Book Badge */}
         <Badge
-          color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
+          color={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[6]}
           mt="md"
           variant="light"
           size="lg"

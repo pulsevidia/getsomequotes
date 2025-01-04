@@ -1,16 +1,4 @@
-import {
-  Card,
-  Text,
-  Badge,
-  Group,
-  Stack,
-  Title,
-  useMantineTheme,
-  useComputedColorScheme,
-  Button,
-  Modal,
-  ActionIcon,
-} from "@mantine/core";
+import { Card, Text, Badge, Group, Stack, Title, useMantineTheme, useComputedColorScheme, Button, Modal, ActionIcon, } from "@mantine/core";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import removeMarkdown from "markdown-to-text";
 import { cardShadows } from "../utils/shadows";
@@ -41,7 +29,6 @@ function BlogCard({ blog }) {
 
   // Parse markdown content
   const content = useMemo(() => removeMarkdown(blog.blog_markdown), [blog.blog_markdown]);
-
   // Pre-memoize styles
   const cardBackground = colorScheme === "dark" ? dark_theme.nav_link_dark_color : theme.colors.gray[0];
   const textColor = colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[9];
@@ -68,6 +55,7 @@ function BlogCard({ blog }) {
   const {
     user: { id, imageUrl, fullName },
   } = useUser();
+
   const document_id = ID.unique();
   return (
     <>
@@ -148,7 +136,7 @@ function BlogCard({ blog }) {
                   className={afacad_flux.className}
                   size={"xs"}
                   w={80}
-                  color={colorScheme === "dark" ? "#f2beb5" : theme.colors.gray[6]}
+                  color={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[6]}
                   style={{ boxShadow: cardShadows.xs }}
                 >
                   {blog?.books?.book_name || "Unknown"}
@@ -159,7 +147,7 @@ function BlogCard({ blog }) {
                   w={80}
                   truncate
                   weight={600}
-                  color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
+                  color={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[6]}
                   className={dm_sans.className}
                 >
                   {blog.books?.author || "Unknown"}
@@ -173,7 +161,7 @@ function BlogCard({ blog }) {
           mt={"xs"}
           size="xs"
           fw={500}
-          color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
+          color={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[6]}
           className={dm_sans.className}
         >
           {status !== "success"
@@ -253,7 +241,7 @@ function BlogCard({ blog }) {
                     variant="light"
                     className={afacad_flux.className}
                     size={isSmallScreen ? "xs" : "sm"}
-                    color={colorScheme === "dark" ? "#f2beb5" : theme.colors.gray[6]}
+                    color={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[6]}
                     style={{ boxShadow: cardShadows.xs }}
                     maw={isSmallScreen? 100: 150}
                   >
@@ -280,7 +268,7 @@ function BlogCard({ blog }) {
                 ml={4}
                 size="xs"
                 weight={600}
-                color={colorScheme === "dark" ? "#f1beb5" : theme.colors.gray[6]}
+                color={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[6]}
                 className={dm_sans.className}
               >
                 {blog.books?.author || "Unknown"}
@@ -300,7 +288,7 @@ function BlogCard({ blog }) {
                 {title}
               </Title>
               <Text
-                c={colorScheme === "dark" ? "rgb(182, 141, 133)" : theme.colors.gray[5]}
+                c={colorScheme === "dark" ? dark_theme.secondary_text_color : theme.colors.gray[5]}
                 weight={500}
                 lineClamp={2}
                 size="sm"
@@ -315,5 +303,4 @@ function BlogCard({ blog }) {
     </>
   );
 }
-
 export default BlogCard;

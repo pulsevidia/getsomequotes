@@ -1,3 +1,4 @@
+import { dark_theme } from "@/app/config/theme";
 import { cardShadows } from "@/app/utils/shadows";
 import { Avatar, Card, Group, Stack, Text } from "@mantine/core";
 import { memo } from "react";
@@ -10,7 +11,7 @@ function UserCard({ color, colorScheme, imageUrl, fullName, emailAddress }) {
         <Group wrap="nowrap" gap="md" align="center">
           <Avatar src={imageUrl} alt="User Avatar" />
           <Stack gap={0}>
-            <Text size="sm" c={colorScheme === "dark" ? "#f1beb5" : "dark"}>
+            <Text size="sm" c={colorScheme === "dark" ? dark_theme.main_text_color : "dark"}>
               {fullName}
             </Text>
             <Text size="xs" c="dimmed">

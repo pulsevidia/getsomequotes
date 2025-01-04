@@ -26,7 +26,6 @@ function RightBookSidebar() {
 
   return (
     <ScrollArea
-      // bg={colorScheme == "dark" ? "rgb(11, 9, 28)" : theme.colors.gray[0]}
       scrollbarSize={6}
       h={"100vh"}
       scrollbars="y"
