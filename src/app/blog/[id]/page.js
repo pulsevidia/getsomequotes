@@ -14,7 +14,6 @@ import TitleComponent from "@/app/components/TitleComponent";
 import { useUser } from "@clerk/clerk-react";
 import { afacad_flux, spectral } from "@/app/font";
 import { dark_theme } from "@/app/config/theme";
-import { checkIfAtLeastOneBookIsThere } from "@/appwrite/checkIfAtLeastOneBookIsThere";
 
 const TextMarkdown = ({ children }) => (
   <Text fw={400} py="xs" ta="left" size="lg" className={spectral.className}>
