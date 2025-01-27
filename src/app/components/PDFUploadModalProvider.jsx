@@ -24,6 +24,7 @@ import { useState } from "react";
 import { useModelContext } from "../contexts/ModelProvider";
 import { useUser } from "@clerk/clerk-react";
 import { postPDF } from "../server-functions/postPDF";
+import { useAuth } from "@clerk/nextjs";
 
 function PDFUploadModalProvider() {
   const { user } = useUser();
@@ -39,6 +40,8 @@ function PDFUploadModalProvider() {
   const [book, setBook] = useState(null);
   const [authorName, setAuthorName] = useState(null);
   const [bookTitle, setBookTitle] = useState(null);
+
+  const { getToken } = useAuth()
 
   const { mutateAsync: postThePDF, status } = useMutation({
     mutationFn: postPDF,
@@ -201,6 +204,7 @@ function PDFUploadModalProvider() {
           loading={status === "pending"}
           onClick={async () => {
             await postThePDF({
+              getToken,
               id: user.id,
               file: book,
               authorName,

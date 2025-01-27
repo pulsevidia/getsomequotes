@@ -7,10 +7,12 @@ import toast from "react-hot-toast";
 import { dark_theme } from "../config/theme";
 import { cardShadows } from "../utils/shadows";
 import { memo } from "react";
+import { useAuth } from "@clerk/nextjs";
 
 function BookListDeleteModal({ isOpened, close, bookId }) {
   const queryClient = useQueryClient();
   const theme = useMantineTheme();
+  const { getToken } = useAuth()
 
   // status can be idle, pending, success, error
   const { mutateAsync: deleteBook, status } = useMutation({
@@ -55,6 +57,7 @@ function BookListDeleteModal({ isOpened, close, bookId }) {
       });
     },
   });
+
   const colorScheme = useComputedColorScheme();
   return (
     <Modal
@@ -105,7 +108,7 @@ function BookListDeleteModal({ isOpened, close, bookId }) {
           style={{ boxShadow: cardShadows.md }}
           loading={status == "pending"}
           loaderProps={{ type: "oval" }}
-          onClick={async () => await deleteBook(bookId)}
+          onClick={async () => await deleteBook({ bookId, getToken })}
           color={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "black"}
           c={colorScheme === "dark" ? dark_theme.secondary_text_color : theme.colors.gray[0]}
           size="sm"

@@ -1,17 +1,5 @@
 "use client";
-import {
-  Center,
-  Loader,
-  Text,
-  Image,
-  Badge,
-  Stack,
-  Code,
-  useComputedColorScheme,
-  useMantineTheme,
-  Avatar,
-  Group,
-} from "@mantine/core";
+import { Center, Loader, Text, Image, Badge, Stack, Code, useComputedColorScheme, useMantineTheme, Avatar, Group, } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import Markdown from "markdown-to-jsx";

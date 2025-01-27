@@ -1,20 +1,41 @@
-import { Query } from "appwrite";
-import { databases } from "./appwrite";
 /**
  * Fetches data about the book then fetches associated content number and return book
- * @param {string} user_id
+ * @param {Function} getToken 
  * @returns {Array}
  */
+async function fetchBook(getToken) {
+  try {
+    const token = await getToken({ template: "supabase_2" });
+    const url = `${process.env.NEXT_PUBLIC_NODE_SERVER_URL}client-appwrite-get?slug=GET_FETCH_BOOK`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      const errorMessage = errorData.message || `Error ${response.status}`;
+      throw new Error(errorMessage);
+    }
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error(error);
+    throw new Error(error)
+  }
+}
+/*
 async function fetchBook(user_id) {
   try {
-    /* Fetching all the books*/
     const { documents } = await databases.listDocuments(
       process.env.NEXT_PUBLIC_DATABASE_ID,
       process.env.NEXT_PUBLIC_BOOKS_COLLECTION_ID,
       [Query.equal("user_id", [user_id, '66dbf6d30kewiw04e3ii4'])]
     );
 
-    /* Fetches all associcated blog per book */
     for (let i = 0; i < documents.length; i++) {
       const current_document = documents[i];
       const { documents: blogs } = await databases.listDocuments(
@@ -34,5 +55,5 @@ async function fetchBook(user_id) {
     console.error(e);
   }
 }
-
+*/
 export { fetchBook };

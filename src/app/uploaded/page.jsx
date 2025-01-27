@@ -10,16 +10,14 @@ import BookListSkeleton from "../components/BookListSkeleton";
 import BookListDeleteModal from "../components/BookListDeleteModal";
 import BookListGenerateModal from "../components/BookListGenerateModal";
 import { useState } from "react";
-import { useUser } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import { cardShadows } from "../utils/shadows";
 import { dark_theme } from "../config/theme";
 import { useModelContext } from "../contexts/ModelProvider";
 
 export default function Uploaded() {
   const smallSizeMath = useMediaQuery("(max-width:480px)");
-  const {
-    user: { id },
-  } = useUser();
+  const { getToken } = useAuth()
   const theme = useMantineTheme();
   const colorScheme = useComputedColorScheme();
   const { open } = useModelContext();
@@ -39,7 +37,7 @@ export default function Uploaded() {
     isLoading: isBooksLoading,
   } = useQuery({
     queryKey: ["book"],
-    queryFn: () => fetchBook(id),
+    queryFn: () => fetchBook(getToken),
     staleTime: Infinity,
     cacheTime: Infinity,
   });

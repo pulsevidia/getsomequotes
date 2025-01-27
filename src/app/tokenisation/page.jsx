@@ -7,19 +7,19 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { cardShadows } from "../utils/shadows";
 import { dark_theme } from "../config/theme";
 import { ActionIcon, Badge, Button, Card, Checkbox, CopyButton, Group, Input, Loader, Modal, rem, Stack, Text, Title, Tooltip, useComputedColorScheme, useMantineTheme } from "@mantine/core";
-import { useUser } from "@clerk/clerk-react";
 import { afacad_flux, dm_sans } from "../font";
 import { ArrowsClockwise, Check, Copy, Key, Share, Trash } from "@phosphor-icons/react";
 import { useState } from "react";
 import { createTokenEntry } from "@/appwrite/add/createToken";
 import { formatDate } from "../helpers/helper";
 import toast from "react-hot-toast";
+import { useAuth } from "@clerk/nextjs";
 
 function Tokenisation() {
-    const { user: { id: user_id } } = useUser()
+    const { getToken } = useAuth()
     const { data, isSuccess, isLoading, isError } = useQuery({
         queryKey: ['idk'],
-        queryFn: () => getTokenData({ user_id })
+        queryFn: () => getTokenData({ getToken })
     });
     const [tokenName, setTokenName] = useState('')
     const [tokenItSelf, setTokenItSelf] = useState(null)
@@ -431,7 +431,7 @@ function Tokenisation() {
                     radius={"md"}
                     fullWidth
                     loading={status === "pending"}
-                    onClick={() => createToken({ token_name: tokenName, access: permissionsChecks, user_id })}
+                    onClick={() => createToken({ token_name: tokenName, access: permissionsChecks, getToken })}
                     loaderProps={{ type: "dots" }}
                     style={{
                         boxShadow: `${cardShadows.md}`,
@@ -478,7 +478,7 @@ function Tokenisation() {
                                         <Title order={4}>{el.token_name}</Title>
                                         <Text>Created at: {formatDate(el.$createdAt)}</Text>
                                     </Stack>
-                                    <ActionIcon color="gray" onClick={async () => await deleteTokenEntry({ document_id: el.$id })} variant="light" size="lg" radius="xl" aria-label="Settings">
+                                    <ActionIcon color="gray" onClick={async () => await deleteTokenEntry({ document_id: el.$id, getToken })} variant="light" size="lg" radius="xl" aria-label="Settings">
                                         <Trash style={{ width: '70%', height: '70%' }} stroke={1.5} />
                                     </ActionIcon>
                                 </Group>

@@ -10,10 +10,10 @@ import { fetchBook } from "@/appwrite/fetchBook";
 import LoadingSkeleton from "./bottom-bar/Skeleton";
 import BookCards from "./bottom-bar/BookCards";
 import { useQuery } from "@tanstack/react-query";
-import { useUser } from "@clerk/clerk-react";
 import ActiveBookCard from "./bottom-bar/ActiveBookCard";
 import Link from "next/link";
 import NoContentAdded from "./NoContentAdded";
+import { useAuth } from "@clerk/nextjs";
 
 const BottomBar = () => {
   const [isExpanded, toggleExpanded] = useToggle();
@@ -21,9 +21,8 @@ const BottomBar = () => {
   const colorScheme = useComputedColorScheme();
   const [ref] = useResizeObserver();
   const theme = useMantineTheme();
-  const {
-    user: { id },
-  } = useUser();
+
+  const { getToken } = useAuth()
 
   const {
     data: books,
@@ -31,7 +30,7 @@ const BottomBar = () => {
     isLoading,
   } = useQuery({
     queryKey: ["book"],
-    queryFn: () => fetchBook(id),
+    queryFn: () => fetchBook(getToken),
     cacheTime: Infinity,
   });
 
