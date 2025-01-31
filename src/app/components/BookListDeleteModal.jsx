@@ -119,4 +119,5 @@ function BookListDeleteModal({ isOpened, close, bookId }) {
     </Modal>
   );
 }
+
 export default memo(BookListDeleteModal);

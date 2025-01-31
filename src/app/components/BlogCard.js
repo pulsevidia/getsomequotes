@@ -8,16 +8,18 @@ import Image from "next/image";
 import { dark_theme } from "../config/theme";
 import { afacad_flux, dm_sans } from "../font";
 import { Check, Checks, Share, ShareNetwork } from "@phosphor-icons/react";
-import { useMutation } from "@tanstack/react-query";
+import { QueryClient, useMutation } from "@tanstack/react-query";
 import { shareBlogPublicly } from "@/appwrite/add/addShareBlog";
 import { ID } from "appwrite";
 import CopyButton from "./CopyButton";
 import { useAuth, useUser } from "@clerk/nextjs";
+import toast from "react-hot-toast";
 
 function BlogCard({ blog }) {
   const theme = useMantineTheme();
   const colorScheme = useComputedColorScheme();
   const isSmallScreen = useMediaQuery("(max-width: 480px)");
+  const queryClient = new QueryClient();
 
   // Extract title logic
   const title = useMemo(() => {
