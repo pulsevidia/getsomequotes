@@ -7,17 +7,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { dark_theme } from "../config/theme";
 import { afacad_flux, dm_sans } from "../font";
-import { Check,  Checks, Share, ShareNetwork } from "@phosphor-icons/react";
-import { useMutation } from "@tanstack/react-query";
+import { Check, Checks, Share, ShareNetwork } from "@phosphor-icons/react";
+import { QueryClient, useMutation } from "@tanstack/react-query";
 import { shareBlogPublicly } from "@/appwrite/add/addShareBlog";
-import { useUser } from "@clerk/clerk-react";
 import { ID } from "appwrite";
 import CopyButton from "./CopyButton";
+import { useAuth, useUser } from "@clerk/nextjs";
+import toast from "react-hot-toast";
 
 function BlogCard({ blog }) {
   const theme = useMantineTheme();
   const colorScheme = useComputedColorScheme();
   const isSmallScreen = useMediaQuery("(max-width: 480px)");
+  const queryClient = new QueryClient();
 
   // Extract title logic
   const title = useMemo(() => {
@@ -34,6 +36,7 @@ function BlogCard({ blog }) {
   const textColor = colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[9];
 
   const [opened, { open, close }] = useDisclosure(false);
+  const { getToken } = useAuth()
   // status can be idle, pending, success, error
   const {
     mutateAsync: shareBlog,
@@ -53,7 +56,7 @@ function BlogCard({ blog }) {
   });
 
   const {
-    user: { id, imageUrl, fullName },
+    user: { imageUrl, fullName },
   } = useUser();
 
   const document_id = ID.unique();
@@ -191,7 +194,7 @@ function BlogCard({ blog }) {
           }}
           onClick={async () =>
             await shareBlog({
-              user_id: id,
+              getToken,
               user_name: fullName,
               user_avatar: imageUrl,
               blog_markdown: blog.blog_markdown,
@@ -243,7 +246,7 @@ function BlogCard({ blog }) {
                     size={isSmallScreen ? "xs" : "sm"}
                     color={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[6]}
                     style={{ boxShadow: cardShadows.xs }}
-                    maw={isSmallScreen? 100: 150}
+                    maw={isSmallScreen ? 100 : 150}
                   >
                     {blog?.books?.book_name || "Unknown"}
                   </Badge>

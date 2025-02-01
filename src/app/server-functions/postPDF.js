@@ -1,8 +1,7 @@
-export async function postPDF({ id, file, authorName, bookTitle, currentImage: book_image }) {
-
-  const currentImage = `https://purplenight.hyperingenious.tech/${book_image}`;
-
+export async function postPDF({ getToken, id, file, authorName, bookTitle, currentImage: book_image }) {
   try {
+    const currentImage = `https://purplenight.hyperingenious.tech/${book_image}`;
+
     if (!file || file.length === 0) {
       throw new Error("No file provided.");
     }
@@ -14,9 +13,14 @@ export async function postPDF({ id, file, authorName, bookTitle, currentImage: b
     formData.append("imageUrl", currentImage);
     formData.append("user_id", id);
 
+    const token = await getToken({template : "supabase_2"})
+
     const response = await fetch(`${process.env.NEXT_PUBLIC_NODE_SERVER_URL}upload`, {
       method: "POST",
       body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
     });
 
     if (!response.ok) {

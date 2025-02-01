@@ -1,6 +1,6 @@
 import { Center, Stack, useComputedColorScheme } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-import { useUser } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import { fetchBlogs } from "@/appwrite/fetchBlogs";
 import BlogSkeleton from "../BlogSkeleton";
 import BlogCard from "../BlogCard";
@@ -9,9 +9,7 @@ import { useInViewport } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
 function AllBlogCards() {
-  const {
-    user: { id },
-  } = useUser();
+  const { getToken } = useAuth()
 
   const colorScheme = useComputedColorScheme();
   const { ref, inViewport } = useInViewport();
@@ -24,13 +22,13 @@ function AllBlogCards() {
     isSuccess: isBlogsSuccess,
     refetch
   } = useQuery({
-    queryFn: () => fetchBlogs(id, offsetIndex),
+    queryFn: () => fetchBlogs(getToken),
     queryKey: ["blogs", offsetIndex],
   });
 
   useEffect(() => {
     if (blogsData) allBlogsData ? setAllBlogsData(oldData => [...oldData, ...blogsData]) : setAllBlogsData(() => [...blogsData])
-  }, [isBlogsSuccess, blogsData ])
+  }, [isBlogsSuccess, blogsData])
 
   useEffect(() => { if (isBlogsSuccess && !isBlogsLoading && inViewport) setOffsetIndex(i => i + 1) }, [inViewport])
 
@@ -49,7 +47,7 @@ function AllBlogCards() {
       )}
 
       <Stack pb={"100"}>
-        {allBlogsData && allBlogsData?.map((blog) => <BlogCard blog={blog} key={blog.$id} />)}
+        {allBlogsData && allBlogsData?.map((blog, i) => <BlogCard blog={blog} key={`${blog.$id}${i}`} />)}
         {isBlogsLoading && offsetIndex == 0 && <BlogSkeleton colorScheme={colorScheme} instances={7} />}
         <div ref={ref} style={{ margin: '1rem 0' }}></div>
       </Stack>

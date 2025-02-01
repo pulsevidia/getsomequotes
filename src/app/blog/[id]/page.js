@@ -11,9 +11,9 @@ import { useMediaQuery, useResizeObserver } from "@mantine/hooks";
 import { cardShadows } from "../../utils/shadows";
 import SmallBlogCard from "@/app/components/SmallBlogCard";
 import TitleComponent from "@/app/components/TitleComponent";
-import { useUser } from "@clerk/clerk-react";
 import { afacad_flux, spectral } from "@/app/font";
 import { dark_theme } from "@/app/config/theme";
+import { useAuth } from "@clerk/nextjs";
 
 const TextMarkdown = ({ children }) => (
   <Text fw={400} py="xs" ta="left" size="lg" className={spectral.className}>
@@ -51,17 +51,14 @@ function ReadBlog() {
   const [ref, rect] = useResizeObserver();
   const theme = useMantineTheme();
   const { id: blog_id } = useParams();
-  const {
-    user: { id: user_id },
-  } = useUser();
-
   const colorScheme = useComputedColorScheme();
   const isSmallScreen = useMediaQuery("(max-width:480px)");
   const isBigScreen = useMediaQuery("(min-width:1200px)")
+  const { getToken } = useAuth()
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["blog", blog_id],
-    queryFn: () => getBlogAndSuggestedBlogs(blog_id, user_id),
+    queryFn: () => getBlogAndSuggestedBlogs(blog_id, getToken),
   });
 
   if (isLoading) {
@@ -83,7 +80,7 @@ function ReadBlog() {
     <Stack ref={ref} w={"100%"} miw={300} align="start" maw={800} px="md" mx="auto" gap="lg" mb={isSmallScreen ? 100 : 0}
     >
       {/* Blog Image */}
-      <Image w="100%" miw={300} maw={800} src={blogData?.blog_image || `/images_4_blogs/1.jpg`} alt="JUST a shthetic image" style={{ boxShadow: cardShadows.xs }} radius="md" mih={300} mah={300} />
+      <Image w="100%" miw={300} maw={800} src={blogData?.blog_image || `/images_4_blogs/1.jpg`} style={{ boxShadow: cardShadows.xs }} radius="md" mih={300} mah={300} />
 
       <Stack gap={0}>
         {/* Book Badge */}

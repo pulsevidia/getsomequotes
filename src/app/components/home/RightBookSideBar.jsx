@@ -1,18 +1,16 @@
 import { fetchBook } from "@/appwrite/fetchBook";
-import { useUser } from "@clerk/clerk-react";
 import { useQuery } from "@tanstack/react-query";
 import BookCards from "../bottom-bar/BookCards";
 import LoadingSkeleton from "../bottom-bar/Skeleton";
 import { ScrollArea, Stack, useComputedColorScheme } from "@mantine/core";
 import { memo, useState } from "react";
 import ActiveBookCard from "../bottom-bar/ActiveBookCard";
+import { useAuth } from "@clerk/nextjs";
 
 function RightBookSidebar() {
   const colorScheme = useComputedColorScheme();
   const [activeBook, setActiveBook] = useState(null);
-  const {
-    user: { id },
-  } = useUser();
+  const { getToken } = useAuth()
 
   const {
     data: books,
@@ -20,7 +18,7 @@ function RightBookSidebar() {
     isLoading,
   } = useQuery({
     queryKey: ["book"],
-    queryFn: () => fetchBook(id),
+    queryFn: () => fetchBook(getToken),
     cacheTime: Infinity,
   });
 

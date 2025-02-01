@@ -3,7 +3,7 @@ import { ArrowCircleUp } from "@phosphor-icons/react";
 import { generateContent } from "../server-functions/generateContent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { useUser } from "@clerk/clerk-react";
+import { useAuth, useUser } from "@clerk/clerk-react";
 import { dark_theme } from "../config/theme";
 import { cardShadows } from "../utils/shadows";
 import { memo } from "react";
@@ -13,6 +13,7 @@ function BookListGenerateModal({ isOpened, close, bookId, setIsGeneratingBook })
   const {
     user: { id },
   } = useUser();
+  const { getToken } = useAuth()
 
   const { mutateAsync: generateMoreBookContent } = useMutation({
     mutationFn: generateContent,
@@ -93,7 +94,7 @@ function BookListGenerateModal({ isOpened, close, bookId, setIsGeneratingBook })
           onClick={async () => {
             close();
             setIsGeneratingBook({ isGenerating: true, bookId });
-            await generateMoreBookContent({ book_id: bookId, user_id: id });
+            await generateMoreBookContent({ getToken, book_id: bookId, user_id: id });
           }}
           style={{ boxShadow: cardShadows.md }}
           variant="light"
