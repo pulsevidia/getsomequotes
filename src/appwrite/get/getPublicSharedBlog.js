@@ -1,16 +1,3 @@
-/*
-async function getPubliclySharedBlogWithID(id) {
-  try {
-    const blog = await databases.getDocument(databaseID, publiclySharedBlogsCollectionId, id);
-
-    return blog;
-  } catch (error) {
-    console.error("Error fetching blog:", error);
-    throw error;
-  }
-}
-  */
-
 /* No token needed for this one */
 async function getPubliclySharedBlogWithID(id) {
   try {

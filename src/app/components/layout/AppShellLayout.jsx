@@ -18,6 +18,7 @@ import PDFUploadModalProvider from "../PDFUploadModalProvider";
 import OnSignedOutLayout from "./OnSignedOutLayout";
 import CheckDesktopScreen from "./CheckDesktopScreen";
 import SharedContent from "@/app/shared/blogs/public/[id]/page";
+import SubscriptionCard from "./SubscriptionCard";
 
 function AppShellLayout({ children }) {
   const { user } = useUser();
@@ -74,30 +75,36 @@ function AppShellLayout({ children }) {
                 />
                 <NavigationRoutes toggle={toggleNavbar} colorScheme={colorScheme} />
               </Stack>
-              <Group mb={"md"} justify="space-between" gap={0}>
-                <SignOutButton>
-                  <Group
-                    gap="xs"
-                    align="center"
-                    p="sm"
-                    justify="center"
-                    style={{
-                      cursor: "pointer",
-                    }}
-                  >
-                    <Text size="sm" c={colorScheme === "dark" ? dark_theme.main_text_color : "red"} fontWeight={500}>
-                      Sign out
-                    </Text>
-                    <SignOut
-                      weight="bold"
-                      color={colorScheme === "dark" ? dark_theme.main_text_color : "#fa5252"}
-                      size={16}
-                    />
-                  </Group>
-                </SignOutButton>
-                {!isSmallScreen && <ThemeSwitcher />}
-                {isSmallScreen && <FeedbackButton />}
-              </Group>
+              <Stack gap={0}>
+                <SubscriptionCard
+                  colorScheme={colorScheme}
+                  color={colorScheme === "dark" ? "rgb(19, 27, 46)" : mantineTheme.colors.gray[0]} />
+
+                <Group mb={"md"} justify="space-between" gap={0}>
+                  <SignOutButton>
+                    <Group
+                      gap="xs"
+                      align="center"
+                      p="sm"
+                      justify="center"
+                      style={{
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Text size="sm" c={colorScheme === "dark" ? dark_theme.main_text_color : "red"} fontWeight={500}>
+                        Sign out
+                      </Text>
+                      <SignOut
+                        weight="bold"
+                        color={colorScheme === "dark" ? dark_theme.main_text_color : "#fa5252"}
+                        size={16}
+                      />
+                    </Group>
+                  </SignOutButton>
+                  {!isSmallScreen && <ThemeSwitcher />}
+                  {isSmallScreen && <FeedbackButton />}
+                </Group>
+              </Stack>
             </Stack>
           </AppShell.Navbar>
           <AppShell.Main style={{ paddingInline: isCompactScreen ? 0 : undefined }}>
