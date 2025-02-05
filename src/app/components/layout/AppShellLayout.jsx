@@ -19,6 +19,7 @@ import OnSignedOutLayout from "./OnSignedOutLayout";
 import CheckDesktopScreen from "./CheckDesktopScreen";
 import SharedContent from "@/app/shared/blogs/public/[id]/page";
 import SubscriptionCard from "./SubscriptionCard";
+import SubscriptionModal from "../SubscriptionModal";
 
 function AppShellLayout({ children }) {
   const { user } = useUser();
@@ -44,12 +45,15 @@ function AppShellLayout({ children }) {
 
   AppShellHeader.displayName = "AppShellHeader";
 
+  // Abstraction for subscriptoin model
+  const [opened, { open, close }] = useDisclosure(false);
   return (
     <>
       <OnSignedOutLayout>
         <SharedContent />
       </OnSignedOutLayout>
       <SignedIn>
+        <SubscriptionModal opened={opened} close={close} />
         <PDFUploadModalProvider />
         <AppShell
           bg={colorScheme === "dark" ? "#0f1523" : mantineTheme.colors.gray[0]}
@@ -77,6 +81,7 @@ function AppShellLayout({ children }) {
               </Stack>
               <Stack gap={0}>
                 <SubscriptionCard
+                  open={open}
                   colorScheme={colorScheme}
                   color={colorScheme === "dark" ? "rgb(19, 27, 46)" : mantineTheme.colors.gray[0]} />
 

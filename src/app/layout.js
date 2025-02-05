@@ -1,6 +1,8 @@
 "use client";
 import "@mantine/core/styles.css";
 import "@mantine/dropzone/styles.css";
+import '@mantine/carousel/styles.css';
+
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createTheme, MantineProvider } from "@mantine/core";
