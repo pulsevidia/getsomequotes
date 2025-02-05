@@ -1,15 +1,49 @@
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { useMediaQuery } from '@mantine/hooks';
 import { Modal, Button, useMantineTheme, useComputedColorScheme, Title, Stack, Text, Card, Group, List, Center, ScrollArea } from '@mantine/core';
 import { dark_theme } from '../config/theme';
 import { cardShadows } from '../utils/shadows';
 import { Check, Crown, CrownCross, CrownSimple } from '@phosphor-icons/react';
 import { afacad_flux, dm_sans, poppins } from '../font';
 import { Carousel } from '@mantine/carousel';
+import toast from 'react-hot-toast';
+import { useState } from 'react';
+import { useAuth } from '@clerk/nextjs';
 
 function SubscriptionModal({ opened, close }) {
     const theme = useMantineTheme();
     const colorScheme = useComputedColorScheme();
     const isBigEnoughScreen = useMediaQuery('(min-width: 1150px)');
+    /*
+        async function initiateSubscription({ subscription_type, getToken, setIsLoading }) {
+            try {
+                if (subscription_type === 'free') return;
+                setIsLoading(true)
+                const token = await getToken({ template: "supabase_2" })
+                const url = `${process.env.NEXT_PUBLIC_NODE_SERVER_URL}initiate-transaction?subscription_type=${subscription_type}`
+    
+                const response = await fetch(url, {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                })
+    
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw error
+                }
+    
+                const responseData = await response.json()
+                setIsLoading(false)
+                window.location.href = responseData.payment_link;
+                return
+            } catch (error) {
+                console.error(error)
+                toast.error(error.message)
+            }
+        }
+    */
+
     return (
         <Modal size={isBigEnoughScreen ? '70em' : '21em'} opened={opened} radius={"xl"}
             styles={{
@@ -35,7 +69,7 @@ function SubscriptionModal({ opened, close }) {
                 ) : (
                     <Carousel style={{ cursor: 'grab' }} align={'center'} controlsOffset="0" withControls>
                         {plans.map(plan => (
-                            <SubscriptionCard key={plan.title} {...plan} isBigEnoughScreen={isBigEnoughScreen} />
+                            <SubscriptionCard subscription_type={plan.subscription_type} key={plan.title} {...plan} isBigEnoughScreen={isBigEnoughScreen} />
                         ))}
                     </Carousel>
                 )}
@@ -44,70 +78,44 @@ function SubscriptionModal({ opened, close }) {
     );
 }
 
-const plans = [
-    {
-        title: 'Limited',
-        price: 'FREE',
-        icon: <CrownSimple size={28} color="#a25915" weight="fill" />,
-        bg: '#af6f321c',
-        features: [
-            '12/month blog generation',
-            'Limited to 2 books',
-            '5MB upload limit per book',
-            'Supported formats: PDF',
-            'Free content sharing',
-            'Access to dark poimandres theme',
-        ],
-        button: {
-            text: 'Default Active',
-            disabled: true,
-            variant: 'outline',
-        },
-    },
-    {
-        title: 'Reader',
-        price: '₹199/month',
-        icon: <Crown size={32} color="#9c9c9c" weight="fill" />,
-        bg: '#9c9c9c29',
-        features: [
-            '300 blog generation',
-            '50 book upload limit',
-            '10Mb upload limit per book',
-            'Formats: PDF, EPUB, TXT, DOCX',
-            'Listen to your blogs',
-            'Unlimited content sharing',
-            'Lifetime access to upcoming themes',
-        ],
-        button: {
-            text: 'Choose a plan',
-            disabled: false,
-            variant: 'filled',
-        },
-    },
-    {
-        title: 'Avid Reader',
-        price: '₹499/month',
-        icon: <CrownCross size={36} color="#edbd0c" weight="fill" />,
-        bg: '#edbd0c2e',
-        features: [
-            '1000 blog generation',
-            '>250 books upload limit',
-            '20Mb upload limit per book',
-            'Formats: PDF, EPUB, TXT, DOCX',
-            'Listen to your blogs',
-            'Unlimited content sharing',
-            'Lifetime access to upcoming themes',
-        ],
-        button: {
-            text: 'Choose a plan',
-            disabled: false,
-            variant: 'filled',
-        },
-    },
-];
+const plans = [{ title: 'Limited', price: 'FREE', subscription_type: 'free', icon: <CrownSimple size={28} color="#a25915" weight="fill" />, bg: '#af6f321c', features: ['12/month blog generation', 'Limited to 2 books', '5MB upload limit per book', 'Supported formats: PDF', 'Free content sharing', 'Access to dark poimandres theme',], button: { text: 'Default Active', disabled: true, variant: 'outline', }, }, { title: 'Reader', subscription_type: 'reader', icon: <CrownSimple size={28} color="#a25915" weight="fill" />, price: '₹199/month', icon: <Crown size={32} color="#9c9c9c" weight="fill" />, bg: '#9c9c9c29', features: ['300 blog generation', '50 book upload limit', '10Mb upload limit per book', 'Formats: PDF, EPUB, TXT, DOCX', 'Listen to your blogs', 'Unlimited content sharing', 'Lifetime access to upcoming themes',], button: { text: 'Choose a plan', disabled: false, variant: 'filled', }, }, { title: 'Avid Reader', subscription_type: 'avid_reader', price: '₹499/month', icon: <CrownCross size={36} color="#edbd0c" weight="fill" />, bg: '#edbd0c2e', features: ['1000 blog generation', '>250 books upload limit', '20Mb upload limit per book', 'Formats: PDF, EPUB, TXT, DOCX', 'Listen to your blogs', 'Unlimited content sharing', 'Lifetime access to upcoming themes',], button: { text: 'Choose a plan', disabled: false, variant: 'filled', }, },];
 
-function SubscriptionCard({ title, price, icon, bg, features, button, isBigEnoughScreen }) {
+function SubscriptionCard({ subscription_type, title, price, icon, bg, features, button, isBigEnoughScreen }) {
     const colorScheme = useComputedColorScheme()
+    const [isLoading, setIsLoading] = useState(false)
+    const { getToken } = useAuth()
+
+    async function initiateSubscription({ subscription_type, getToken, setIsLoading }) {
+        try {
+            if (subscription_type === 'free') return;
+            setIsLoading(true)
+            const token = await getToken({ template: "supabase_2" })
+            const url = `${process.env.NEXT_PUBLIC_NODE_SERVER_URL}initiate-transaction?subscription_type=${subscription_type}`
+
+            const response = await fetch(url, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            })
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw error
+            }
+
+            const responseData = await response.json()
+            setIsLoading(false)
+            window.location.href = responseData.payment_link;
+            return
+        } catch (error) {
+            console.error(error)
+            if (!error) { toast.error(error.message) }
+            setIsLoading(false)
+        }
+    }
+
+
     return (
         <Card miw={isBigEnoughScreen ? 300 : 295} ml={isBigEnoughScreen ? 'sm' : 0} mr={!isBigEnoughScreen && 'xs'} mt={'lg'} p={isBigEnoughScreen ? 'xl' : 'sm'} radius={'lg'} bg={bg}>
             <Group gap={'lg'}>
@@ -123,14 +131,25 @@ function SubscriptionCard({ title, price, icon, bg, features, button, isBigEnoug
                     </Group>
                 </Stack>
             </Group>
-            <List mt={'md'} size="sm" className={dm_sans.className} center icon={<Check size={18}  color={colorScheme === 'dark' ? 'gray' : 'black'} weight="bold" />}>
+            <List mt={'md'} size="sm" className={dm_sans.className} center icon={<Check size={18} color={colorScheme === 'dark' ? 'gray' : 'black'} weight="bold" />}>
                 <ScrollArea w={300} h={250} scrollbars="y">
                     {features.map((feature, index) => (
                         <List.Item key={index} pb={'xs'}>{feature}</List.Item>
                     ))}
                 </ScrollArea>
             </List>
-            <Button {...button} mt={'md'} size='lg' fz={'md'} color={'black'} style={button.variant === 'filled' ? { boxShadow: cardShadows.xs } : {}} className={dm_sans.className} fw={900} radius={'xl'}>{button.text}</Button>
+            <Button
+                loading={isLoading}
+                loaderProps={{ type: 'dots' }}
+                onClick={async () => await initiateSubscription({ getToken, subscription_type, setIsLoading })}
+                {...button}
+                mt={'md'}
+                size='lg'
+                fz={'md'}
+                color={'black'}
+                style={button.variant === 'filled' ? { boxShadow: cardShadows.xs } : {}} className={dm_sans.className} fw={900} radius={'xl'}>
+                {button.text}
+            </Button>
         </Card>
     );
 }
