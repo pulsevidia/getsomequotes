@@ -77,8 +77,70 @@ function SubscriptionModal({ opened, close }) {
         </Modal>
     );
 }
-
-const plans = [{ title: 'Limited', price: 'FREE', subscription_type: 'free', icon: <CrownSimple size={28} color="#a25915" weight="fill" />, bg: '#af6f321c', features: ['12/month blog generation', 'Limited to 2 books', '5MB upload limit per book', 'Supported formats: PDF', 'Free content sharing', 'Access to dark poimandres theme',], button: { text: 'Default Active', disabled: true, variant: 'outline', }, }, { title: 'Reader', subscription_type: 'reader', icon: <CrownSimple size={28} color="#a25915" weight="fill" />, price: '₹199/month', icon: <Crown size={32} color="#9c9c9c" weight="fill" />, bg: '#9c9c9c29', features: ['300 blog generation', '50 book upload limit', '10Mb upload limit per book', 'Formats: PDF, EPUB, TXT, DOCX', 'Listen to your blogs', 'Unlimited content sharing', 'Lifetime access to upcoming themes',], button: { text: 'Choose a plan', disabled: false, variant: 'filled', }, }, { title: 'Avid Reader', subscription_type: 'avid_reader', price: '₹499/month', icon: <CrownCross size={36} color="#edbd0c" weight="fill" />, bg: '#edbd0c2e', features: ['1000 blog generation', '>250 books upload limit', '20Mb upload limit per book', 'Formats: PDF, EPUB, TXT, DOCX', 'Listen to your blogs', 'Unlimited content sharing', 'Lifetime access to upcoming themes',], button: { text: 'Choose a plan', disabled: false, variant: 'filled', }, },];
+const plans = [
+    {
+        title: "Limited",
+        price: "FREE",
+        subscription_type: "free",
+        icon: <CrownSimple size={28} color="#a25915" weight="fill" />,
+        bg: "#af6f329c",
+        features: [
+            "12/month blog generation",
+            "Limited to 2 books",
+            "5MB upload limit per book",
+            "Supported formats: PDF",
+            "Free content sharing",
+            "Access to dark poimandres theme",
+        ],
+        button: {
+            text: "Default Active",
+            disabled: true,
+            variant: "outline",
+        },
+    },
+    {
+        title: "Reader",
+        subscription_type: "reader",
+        price: "₹199/month",
+        icon: <Crown size={32} color="#9c9c9c" weight="fill" />,
+        bg: "#9c9c9c29",
+        features: [
+            "300 blog generation",
+            "50 book upload limit",
+            "10MB upload limit per book",
+            "Formats: PDF, EPUB, TXT, DOCX",
+            "Listen to your blogs",
+            "Unlimited content sharing",
+            "Lifetime access to upcoming themes",
+        ],
+        button: {
+            text: "Choose a plan",
+            disabled: false,
+            variant: "filled",
+        },
+    },
+    {
+        title: "Avid Reader",
+        subscription_type: "avid_reader",
+        price: "₹499/month",
+        icon: <CrownCross size={36} color="#edbd0c" weight="fill" />,
+        bg: "#edbd0c2e",
+        features: [
+            "1000 blog generation",
+            ">250 books upload limit",
+            "20MB upload limit per book",
+            "Formats: PDF, EPUB, TXT, DOCX",
+            "Listen to your blogs",
+            "Unlimited content sharing",
+            "Lifetime access to upcoming themes",
+        ],
+        button: {
+            text: "Choose a plan",
+            disabled: false,
+            variant: "filled",
+        },
+    },
+];
 
 function SubscriptionCard({ subscription_type, title, price, icon, bg, features, button, isBigEnoughScreen }) {
     const colorScheme = useComputedColorScheme()
@@ -105,12 +167,12 @@ function SubscriptionCard({ subscription_type, title, price, icon, bg, features,
             }
 
             const responseData = await response.json()
-            setIsLoading(false)
             window.location.href = responseData.payment_link;
+            setIsLoading(false)
             return
         } catch (error) {
+            toast.error(error.message)
             console.error(error)
-            if (!error) { toast.error(error.message) }
             setIsLoading(false)
         }
     }
