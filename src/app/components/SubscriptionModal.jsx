@@ -49,7 +49,6 @@ function SubscriptionCard({ setIsAnythingLoading, subscription_type, title, pric
             }
 
             setIsLoading(false)
-
             return
         } catch (error) {
             toast.error(error.message)
@@ -62,7 +61,7 @@ function SubscriptionCard({ setIsAnythingLoading, subscription_type, title, pric
 
 
     return (
-        <Card miw={isBigEnoughScreen ? 300 : 295} ml={isBigEnoughScreen ? 'sm' : 0} mr={!isBigEnoughScreen && 'xs'} mt={'lg'} p={isBigEnoughScreen ? 'xl' : 'sm'} radius={'lg'} bg={bg}>
+        <Card miw={isBigEnoughScreen ? 300 : 265} ml={isBigEnoughScreen ? 'sm' : 0} mr={!isBigEnoughScreen && 'xs'} mt={'lg'} p={isBigEnoughScreen ? 'xl' : 'sm'} radius={'lg'} bg={bg}>
             <Group gap={'lg'}>
                 <Card w={60} h={60} p={0} bg={'white'} shadow={cardShadows.xs} radius={'lg'}>
                     <Center h={'60'}>
