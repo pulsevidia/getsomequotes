@@ -1,36 +1,43 @@
 export async function postPDF({ getToken, id, file, authorName, bookTitle, currentImage: book_image }) {
   try {
-    const currentImage = `https://purplenight.hyperingenious.tech/${book_image}`;
+    const currentImageURL = `https://purplenight.hyperingenious.tech/${book_image}`;
 
     if (!file || file.length === 0) {
       throw new Error("No file provided.");
+    }
+
+    if (!authorName || !bookTitle || !book_image) {
+      throw new Error("Missing required fields (authorName, bookTitle, book_image)")
     }
 
     const formData = new FormData();
     formData.append("pdf", file[0]); // Attach the file with the key "pdf"
     formData.append("authorName", authorName); // Add authorName
     formData.append("bookTitle", bookTitle); // Add bookTitle
-    formData.append("imageUrl", currentImage);
+    formData.append("imageUrl", currentImageURL);
     formData.append("user_id", id);
 
-    const token = await getToken({template : "supabase_2"})
+    const token = await getToken({ template: "supabase_2" });
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_NODE_SERVER_URL}upload`, {
       method: "POST",
       body: formData,
       headers: {
         Authorization: `Bearer ${token}`,
-      }
+      },
     });
 
     if (!response.ok) {
-      const errorResponse = await response.json();
-      throw new Error(`Error ${response.status}: ${errorResponse.message}`);
+      const errorData = await response.json();
+      console.error("Error uploading PDF:", errorData);
+      throw new Error(errorData.message);
     }
 
-    return null;
+    const responseData = await response.json(); // Parse the response
+    return responseData; // Return the response data
+
   } catch (error) {
-    console.error("Error in postPDF:", error.message);
-    throw new Error(`postPDF failed: ${error.message}`);
+    console.error("Error in postPDF:", error); // Log the full error object
+    throw error; // Re-throw the error for handling further up the call stack
   }
 }
