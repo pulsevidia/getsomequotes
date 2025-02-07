@@ -22,7 +22,7 @@ function AllBlogCards() {
     isSuccess: isBlogsSuccess,
     refetch
   } = useQuery({
-    queryFn: () => fetchBlogs(getToken),
+    queryFn: () => fetchBlogs(getToken, offsetIndex),
     queryKey: ["blogs", offsetIndex],
   });
 

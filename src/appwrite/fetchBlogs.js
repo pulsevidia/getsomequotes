@@ -15,11 +15,11 @@ async function fetchBlogsWithIdArray({ idsArray, getToken }) {
   }
 }
 
-async function fetchBlogs(getToken) {
+async function fetchBlogs(getToken, offset) {
   try {
     const token = await getToken({ template: "supabase_2" });
 
-    const url = `${process.env.NEXT_PUBLIC_NODE_SERVER_URL}client-appwrite-get?slug=GET_FETCH_BLOGS`;
+    const url = `${process.env.NEXT_PUBLIC_NODE_SERVER_URL}client-appwrite-get?slug=GET_FETCH_BLOGS&offset=${offset}`;
 
     const response = await fetch(url, {
       method: "GET",
