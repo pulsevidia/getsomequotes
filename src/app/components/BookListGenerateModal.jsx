@@ -29,9 +29,9 @@ function BookListGenerateModal({ isOpened, close, bookId, setIsGeneratingBook })
 
       queryClient.invalidateQueries({ queryKey: ["book"] });
     },
-    onError: () => {
+    onError: (err) => {
       setIsGeneratingBook({ isGenerating: false, bookId: null });
-      toast.error("Something went wrong", {
+      toast.error(err.message, {
         style: {
           backgroundColor: "black",
           color: "white",
