@@ -66,7 +66,7 @@ function SubscriptionCard({ open, colorScheme }) {
                                 {
                                     data.isActiveSubscription &&
                                     <Text fw={500} ml={'lg'} size="xs" c="dimmed">
-                                        ends: {formatDate(data.end_dTate)}
+                                        ends: {formatDate(data.end_date)}
                                     </Text>
                                 }
                             </Group>
