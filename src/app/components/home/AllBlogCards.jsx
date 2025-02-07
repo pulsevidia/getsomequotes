@@ -1,4 +1,4 @@
-import { Center, Stack, useComputedColorScheme } from "@mantine/core";
+import { Card, Center, Loader, Stack, useComputedColorScheme } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@clerk/nextjs";
 import { fetchBlogs } from "@/appwrite/fetchBlogs";
@@ -7,6 +7,7 @@ import BlogCard from "../BlogCard";
 import NoContentAdded from "../NoContentAdded";
 import { useInViewport } from "@mantine/hooks";
 import { useEffect, useState } from "react";
+import { dark_theme } from "@/app/config/theme";
 
 function AllBlogCards() {
   const { getToken } = useAuth()
@@ -45,11 +46,16 @@ function AllBlogCards() {
           <NoContentAdded />
         </Center>
       )}
-
-      <Stack pb={"100"}>
+      <Stack pb={"0"}>
         {allBlogsData && allBlogsData?.map((blog, i) => <BlogCard blog={blog} key={`${blog.$id}${i}`} />)}
         {isBlogsLoading && offsetIndex == 0 && <BlogSkeleton colorScheme={colorScheme} instances={7} />}
         <div ref={ref} style={{ margin: '1rem 0' }}></div>
+        {isBlogsLoading &&
+          <Card bg={'transparent'} m={0} w={'100%'}>
+            <Center>
+              <Loader size={'sm'} color={colorScheme === 'dark' ? dark_theme.main_text_color : 'dark'} />
+            </Center>
+          </Card>}
       </Stack>
     </>
   );
