@@ -6,7 +6,6 @@ export async function deleteBookAndDataCompletely({ bookId, getToken }) {
     }
 
     const token = await getToken({ template: "supabase_2" });
-    console.log(token);
 
     const body = { bookId, slug: "POST_DELETE_BOOK_AND_DATA_COMPLETELY" };
 
