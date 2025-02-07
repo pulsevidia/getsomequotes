@@ -52,12 +52,12 @@ function PDFUploadModalProvider() {
       setAuthorName(null);
       setBookTitle(null);
     },
-    onError: () => {
+    onError: (err) => {
       close();
       setBook(null);
       setAuthorName(null);
       setBookTitle(null);
-      toast.error("Your book is too short, try bigger one!");
+      toast.error(err.message);
     },
   });
   const colorScheme = useComputedColorScheme();

@@ -14,16 +14,12 @@ export async function generateContent({ getToken, book_id, user_id }) {
     const res = await response.json();
 
     if (!response.ok) {
-      if (response.status === 404) {
-        throw new Error("No chunks found for this book.");
-      } else {
-        throw new Error(`Request failed with status ${response.status}`);
-      }
+      throw res;
     }
-    // const data = await response.json();
+
     return null;
   } catch (error) {
-    console.error("Error fetching content:", error.message);
+    console.error(error.message);
     throw error; // Optionally rethrow the error if it needs to be handled further up
   }
 }
