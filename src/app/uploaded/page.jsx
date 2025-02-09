@@ -55,7 +55,7 @@ export default function Uploaded() {
           leftSection={<Book size={16} />}
           onClick={open}
           color={colorScheme === "dark" ? dark_theme.secondary_text_color : theme.colors.gray[2]}
-          c={colorScheme === "dark" ? dark_theme.nav_link_dark_color : theme.colors.dark[9]}
+          c={colorScheme === "dark" ? dark_theme.nav_link_dark_color : theme.colors.dark[1]}
           radius={"md"}
           fullWidth={smallSizeMath}
           mx={"md"}

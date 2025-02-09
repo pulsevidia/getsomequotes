@@ -54,7 +54,7 @@ function AllBlogCards() {
         {isBlogsLoading &&
           <Card pos={'relative'} bottom={'9rem'} style={{ zIndex: 2038 }} bg={'transparent'}>
             <Center>
-              <Box p={0} w={32} h={32} style={{ borderRadius: '238px', boxShadow: cardShadows.md, display: 'flex', justifyContent: 'center', alignItems: "center" }} bg={colorScheme === 'dark' ? dark_theme.card_bg_dark_color : 'white'} >
+              <Box p={0} w={32} h={32} style={{ borderRadius: '238px', boxShadow: cardShadows.xl, display: 'flex', justifyContent: 'center', alignItems: "center" }} bg={colorScheme === 'dark' ? dark_theme.nav_link_dark_color : 'white'} >
                 <Loader m={0} size={'xs'} color={colorScheme === 'dark' ? dark_theme.main_text_color : 'dark'} />
               </Box>
             </Center>
