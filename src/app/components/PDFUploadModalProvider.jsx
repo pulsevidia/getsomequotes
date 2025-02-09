@@ -9,8 +9,8 @@ import {
   BackgroundImage,
   Text,
   ActionIcon,
-  useComputedColorScheme,
   useMantineTheme,
+  useComputedColorScheme,
 } from "@mantine/core";
 import { FileArrowUp, Sparkle, Trash } from "@phosphor-icons/react";
 import { dark_theme } from "@/app/config/theme";
@@ -19,12 +19,13 @@ import { Dropzone, PDF_MIME_TYPE } from "@mantine/dropzone";
 import toast from "react-hot-toast";
 import { cardShadows } from "@/app/utils/shadows";
 import { afacad_flux } from "@/app/font";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useAuth } from "@clerk/nextjs";
 import { useState } from "react";
 import { useModelContext } from "../contexts/ModelProvider";
 import { useUser } from "@clerk/clerk-react";
 import { postPDF } from "../server-functions/postPDF";
-import { useAuth } from "@clerk/nextjs";
+import { getSubscription } from "@/appwrite/get/getSubscription";
 
 function PDFUploadModalProvider() {
   const { user } = useUser();
@@ -40,6 +41,7 @@ function PDFUploadModalProvider() {
   const [book, setBook] = useState(null);
   const [authorName, setAuthorName] = useState(null);
   const [bookTitle, setBookTitle] = useState(null);
+  const colorScheme = useComputedColorScheme()
 
   const { getToken } = useAuth()
 
@@ -60,7 +62,16 @@ function PDFUploadModalProvider() {
       toast.error(err.message);
     },
   });
-  const colorScheme = useComputedColorScheme();
+
+  const { data, isLoading, isSuccess } = useQuery({
+    queryKey: ["blog"],
+    queryFn: () => getSubscription({ getToken }),
+  })
+
+
+  const calcPDFSize = (subscription_type, isActiveSubscription) => isActiveSubscription ? subscription_type == 'avid_reader' ? 20 * 1024 ** 2 : 10 * 1024 ** 2 : 5 * 1024 ** 2
+
+
   return (
     <Modal
       radius={"xl"}
@@ -146,7 +157,6 @@ function PDFUploadModalProvider() {
           </Group>
         </Card>
       )}
-      {/* {authorName && bookTitle && !book ? ( */}
       <Dropzone
         styles={{
           root: {
@@ -160,9 +170,9 @@ function PDFUploadModalProvider() {
           chooseRandomImage();
         }}
         onReject={() => {
-          toast.error("Should not exceed 5MB");
+          toast.error(`Should not exceed ${isSuccess && Math.floor(calcPDFSize(data.subscription_type, data.isActiveSubscription) / 1000000)}MB`);
         }}
-        maxSize={6 * 1024 ** 2}
+        maxSize={isSuccess && calcPDFSize(data.subscription_type, data.isActiveSubscription)}
         accept={PDF_MIME_TYPE}
       >
         {!book && (
@@ -185,38 +195,40 @@ function PDFUploadModalProvider() {
         )}
       </Dropzone>
       {/* ) : null} */}
-      {book && (
-        <Button
-          variant="filled"
-          mt={"md"}
-          styles={{ section: { marginInlineEnd: "5px" } }}
-          style={{ boxShadow: cardShadows.md }}
-          leftSection={
-            <Sparkle color={colorScheme === "dark" ? dark_theme.main_text_color : "white"} size={18} weight="fill" />
-          }
-          size="sm"
-          fullWidth
-          fw={400}
-          c={colorScheme === "dark" ? dark_theme.main_text_color : "white"}
-          bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "black"}
-          radius="md"
-          loaderProps={{ type: "dots", color: colorScheme === "dark" ? dark_theme.secondary_text_color : "dark" }}
-          loading={status === "pending"}
-          onClick={async () => {
-            await postThePDF({
-              getToken,
-              id: user.id,
-              file: book,
-              authorName,
-              bookTitle,
-              currentImage,
-            });
-          }}
-        >
-          Generate
-        </Button>
-      )}
-    </Modal>
+      {
+        book && (
+          <Button
+            variant="filled"
+            mt={"md"}
+            styles={{ section: { marginInlineEnd: "5px" } }}
+            style={{ boxShadow: cardShadows.md }}
+            leftSection={
+              <Sparkle color={colorScheme === "dark" ? dark_theme.main_text_color : "white"} size={18} weight="fill" />
+            }
+            size="sm"
+            fullWidth
+            fw={400}
+            c={colorScheme === "dark" ? dark_theme.main_text_color : "white"}
+            bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "black"}
+            radius="md"
+            loaderProps={{ type: "dots", color: colorScheme === "dark" ? dark_theme.secondary_text_color : "dark" }}
+            loading={status === "pending"}
+            onClick={async () => {
+              await postThePDF({
+                getToken,
+                id: user.id,
+                file: book,
+                authorName,
+                bookTitle,
+                currentImage,
+              });
+            }}
+          >
+            Generate
+          </Button>
+        )
+      }
+    </Modal >
   );
 }
 export default PDFUploadModalProvider;
