@@ -1,4 +1,4 @@
-import { Center, Stack, useComputedColorScheme } from "@mantine/core";
+import { Box, Card, Center, Loader, Stack, useComputedColorScheme } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@clerk/nextjs";
 import { fetchBlogs } from "@/appwrite/fetchBlogs";
@@ -7,6 +7,8 @@ import BlogCard from "../BlogCard";
 import NoContentAdded from "../NoContentAdded";
 import { useInViewport } from "@mantine/hooks";
 import { useEffect, useState } from "react";
+import { dark_theme } from "@/app/config/theme";
+import { cardShadows } from "@/app/utils/shadows";
 
 function AllBlogCards() {
   const { getToken } = useAuth()
@@ -22,7 +24,7 @@ function AllBlogCards() {
     isSuccess: isBlogsSuccess,
     refetch
   } = useQuery({
-    queryFn: () => fetchBlogs(getToken),
+    queryFn: () => fetchBlogs(getToken, offsetIndex),
     queryKey: ["blogs", offsetIndex],
   });
 
@@ -45,11 +47,18 @@ function AllBlogCards() {
           <NoContentAdded />
         </Center>
       )}
-
-      <Stack pb={"100"}>
+      <Stack pb={"0"}>
         {allBlogsData && allBlogsData?.map((blog, i) => <BlogCard blog={blog} key={`${blog.$id}${i}`} />)}
         {isBlogsLoading && offsetIndex == 0 && <BlogSkeleton colorScheme={colorScheme} instances={7} />}
         <div ref={ref} style={{ margin: '1rem 0' }}></div>
+        {isBlogsLoading &&
+          <Card pos={'relative'} bottom={'9rem'} style={{ zIndex: 2038 }} bg={'transparent'}>
+            <Center>
+              <Box p={0} w={32} h={32} style={{ borderRadius: '238px', boxShadow: cardShadows.xl, display: 'flex', justifyContent: 'center', alignItems: "center" }} bg={colorScheme === 'dark' ? dark_theme.nav_link_dark_color : 'white'} >
+                <Loader m={0} size={'xs'} color={colorScheme === 'dark' ? dark_theme.main_text_color : 'dark'} />
+              </Box>
+            </Center>
+          </Card>}
       </Stack>
     </>
   );

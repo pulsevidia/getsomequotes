@@ -21,7 +21,7 @@ function SubscriptionCard({ open, colorScheme }) {
     }
 
     return (
-        <Card withBorder bg={data?.isActiveSubscription ? data.subscription_type == 'reader' ? '#9c9c9c29' : '#edbd0c2e' : '#af6f321c'} shadow={cardShadows.md} radius="lg" py="xs" px="sm" mb="md">
+        <Card bg={colorScheme === 'dark' ? dark_theme.nav_link_dark_color: ''} shadow={cardShadows.xs} radius="md" py="xs" px="sm" mb="md">
             {
                 isLoading &&
                 <Loader size={'xs'} color={colorScheme === 'dark' ? dark_theme.main_text_color : 'dark'} type="dots" mx={'auto'} />
@@ -50,23 +50,21 @@ function SubscriptionCard({ open, colorScheme }) {
                         </Card>
                         <Stack gap={0}>
                             <Text size="sm" c={colorScheme === "dark" ? dark_theme.main_text_color : "dark"}>
-                                {data.isActiveSubscription && data.subscription_type === 'avid_reader' && 'AVID READER'}
-                                {data.isActiveSubscription && data.subscription_type == 'reader' && "READER"}
+                                {data.isActiveSubscription && data.subscription_type === 'avid_reader' && 'Avid Reader'}
+                                {data.isActiveSubscription && data.subscription_type == 'reader' && "Reader"}
                             </Text>
-                            <Group w={'100%'} justify="space-between">
+                            <Group w={'100%'} justify="flex-start" wrap="nowrap">
                                 {!data.isActiveSubscription &&
                                     <Button
                                         leftSection={<Crown weight="duotone" size={22} />}
                                         size='sm' gradient={{ from: 'violet', to: 'grape', deg: 90 }} variant="gradient" className={dm_sans.className} radius={'xl'} onClick={open}>Get Plan</Button>}
-
                                 <Text size="xs" c="dimmed">
                                     {data.isActiveSubscription && `blogs: ${data.quota.blogs_generated}/${data.quota.allocated_blog_quota}`}
                                 </Text>
-
                                 {
                                     data.isActiveSubscription &&
-                                    <Text fw={500} ml={'lg'} size="xs" c="dimmed">
-                                        ends: {formatDate(data.end_dTate)}
+                                    <Text fw={500} size="xs" c="dimmed">
+                                        ends: {formatDate(data.end_date)}
                                     </Text>
                                 }
                             </Group>

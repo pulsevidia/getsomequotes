@@ -20,7 +20,7 @@ function BookListGenerateModal({ isOpened, close, bookId, setIsGeneratingBook })
     onSuccess: () => {
       setIsGeneratingBook({ isGenerating: false, bookId: null });
       close();
-      toast.success("6 blogs generated", {
+      toast.success("Content generation Started!!",{
         style: {
           backgroundColor: "black",
           color: "white",
