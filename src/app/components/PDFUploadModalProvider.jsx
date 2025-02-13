@@ -15,7 +15,7 @@ import {
 import { FileArrowUp, Sparkle, Trash } from "@phosphor-icons/react";
 import { dark_theme } from "@/app/config/theme";
 import "./Uploaded.css";
-import { Dropzone, PDF_MIME_TYPE } from "@mantine/dropzone";
+import { Dropzone, MIME_TYPES, PDF_MIME_TYPE } from "@mantine/dropzone";
 import toast from "react-hot-toast";
 import { cardShadows } from "@/app/utils/shadows";
 import { afacad_flux } from "@/app/font";
@@ -67,6 +67,7 @@ function PDFUploadModalProvider() {
     queryKey: ["blog"],
     queryFn: () => getSubscription({ getToken }),
   })
+
 
 
   const calcPDFSize = (subscription_type, isActiveSubscription) => isActiveSubscription ? subscription_type == 'avid_reader' ? 20 * 1024 ** 2 : 10 * 1024 ** 2 : 5 * 1024 ** 2
@@ -122,6 +123,7 @@ function PDFUploadModalProvider() {
 
       {book && (
         <Card
+          withBorder
           shadow={cardShadows.md}
           bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "#f1f3f5"}
           mt={"sm"}
@@ -173,25 +175,31 @@ function PDFUploadModalProvider() {
           toast.error(`Should not exceed ${isSuccess && Math.floor(calcPDFSize(data.subscription_type, data.isActiveSubscription) / 1000000)}MB`);
         }}
         maxSize={isSuccess && calcPDFSize(data.subscription_type, data.isActiveSubscription)}
-        accept={PDF_MIME_TYPE}
+        accept={isSuccess && data.isActiveSubscription ? [PDF_MIME_TYPE, MIME_TYPES.docx, MIME_TYPES.doc, 'text/plain', 'application/epub+zip'] : PDF_MIME_TYPE}
       >
         {!book && (
-          <Group mt={"md"} justify="center" gap="xl" style={{ pointerEvents: "none" }}>
+          <Stack mt={"md"} justify="center" style={{ pointerEvents: "none" }}>
             <Dropzone.Idle>
               <Button
                 style={{ boxShadow: cardShadows.md }}
                 variant="light"
                 leftSection={<FileArrowUp size={18} />}
                 size="sm"
-                c={colorScheme === "dark" ? dark_theme.secondary_text_color : "black"}
-                bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : theme.colors.gray[2]}
+                c={colorScheme === "dark" ? 'black' : "black"}
+                bg={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[2]}
                 fullWidth
                 radius="md"
               >
                 Upload
               </Button>
+              {isSuccess && data.isActiveSubscription &&
+                <Text mt={'05'} c={colorScheme === 'dark' ? dark_theme.secondary_text_color : 'gray'} size="xs">Formats: PDF, EPUB, TXT, DOCX</Text>
+              }
+              {isSuccess && !data.isActiveSubscription &&
+                <Text mt={'05'} c={colorScheme === 'dark' ? dark_theme.secondary_text_color : 'gray'} size="xs">Format: PDF</Text>
+              }
             </Dropzone.Idle>
-          </Group>
+          </Stack>
         )}
       </Dropzone>
       {/* ) : null} */}
@@ -203,13 +211,14 @@ function PDFUploadModalProvider() {
             styles={{ section: { marginInlineEnd: "5px" } }}
             style={{ boxShadow: cardShadows.md }}
             leftSection={
-              <Sparkle color={colorScheme === "dark" ? dark_theme.main_text_color : "white"} size={18} weight="fill" />
+              <Sparkle color={colorScheme === "dark" ? 'dark' : "white"} size={18} weight="fill" />
             }
             size="sm"
             fullWidth
             fw={400}
-            c={colorScheme === "dark" ? dark_theme.main_text_color : "white"}
-            bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "black"}
+            c={colorScheme === "dark" ? 'black' : "black"}
+            bg={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[2]}
+
             radius="md"
             loaderProps={{ type: "dots", color: colorScheme === "dark" ? dark_theme.secondary_text_color : "white" }}
             loading={status === "pending"}
