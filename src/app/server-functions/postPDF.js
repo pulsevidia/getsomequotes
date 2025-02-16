@@ -1,4 +1,4 @@
-export async function postPDF({ getToken, id, file, authorName, bookTitle, currentImage: book_image }) {
+export async function postPDF({ getToken, id, file, authorName, bookTitle, currentImage: book_image, mimetype }) {
   try {
     const currentImageURL = `https://purplenight.hyperingenious.tech/${book_image}`;
 
@@ -12,10 +12,12 @@ export async function postPDF({ getToken, id, file, authorName, bookTitle, curre
 
     const formData = new FormData();
     formData.append("pdf", file[0]); // Attach the file with the key "pdf"
+    console.log(file)
     formData.append("authorName", authorName); // Add authorName
     formData.append("bookTitle", bookTitle); // Add bookTitle
     formData.append("imageUrl", currentImageURL);
     formData.append("user_id", id);
+    formData.append("mimetype", file[0].type);
 
     const token = await getToken({ template: "supabase_2" });
 

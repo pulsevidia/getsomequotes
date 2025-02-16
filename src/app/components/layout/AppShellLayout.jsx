@@ -20,6 +20,7 @@ import CheckDesktopScreen from "./CheckDesktopScreen";
 import SharedContent from "@/app/shared/blogs/public/[id]/page";
 import SubscriptionCard from "./SubscriptionCard";
 import SubscriptionModal from "../SubscriptionModal";
+import FeedbackModalProvider from "../FeedbackModalProvider";
 
 function AppShellLayout({ children }) {
   const { user } = useUser();
@@ -38,7 +39,7 @@ function AppShellLayout({ children }) {
         {isTabletScreen && <Avatar src={user?.imageUrl} onClick={toggleNavbar} alt={user?.fullName} size={32} />}
         <BrandLogo />
         {isTabletScreen && <ThemeSwitcher />}
-        {!isTabletScreen && <FeedbackButton />}
+        {!isTabletScreen && <FeedbackButton open={openFBM} />}
       </Group>
     </AppShell.Header>
   ));
@@ -47,14 +48,19 @@ function AppShellLayout({ children }) {
 
   // Abstraction for subscriptoin model
   const [opened, { open, close }] = useDisclosure(false);
+  // abs for feedback modal 
+  const [openedFBM, { open: openFBM, close: closeFBM }] = useDisclosure(false);
   return (
     <>
       <OnSignedOutLayout>
         <SharedContent />
       </OnSignedOutLayout>
       <SignedIn>
+
         <SubscriptionModal opened={opened} close={close} />
         <PDFUploadModalProvider />
+        <FeedbackModalProvider opened={openedFBM} close={closeFBM} />
+
         <AppShell
           bg={colorScheme === "dark" ? "#0f1523" : mantineTheme.colors.gray[0]}
           padding="md"
@@ -107,7 +113,7 @@ function AppShellLayout({ children }) {
                     </Group>
                   </SignOutButton>
                   {!isSmallScreen && <ThemeSwitcher />}
-                  {isSmallScreen && <FeedbackButton />}
+                  {isSmallScreen && <FeedbackButton open={openFBM} />}
                 </Group>
               </Stack>
             </Stack>
