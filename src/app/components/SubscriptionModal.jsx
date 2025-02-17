@@ -44,7 +44,8 @@ function SubscriptionCard({ setIsAnythingLoading, subscription_type, title, pric
 
             const responseData = await response.json()
             const payment_link = responseData.payment_link
-            if (payment_link.startsWith('https://rzp.io/rzp/') && payment_link.length === 26) {
+
+            if (payment_link.startsWith('https://rzp.io/rzp/')) {
                 window.location.href = responseData.payment_link;
             }
 
