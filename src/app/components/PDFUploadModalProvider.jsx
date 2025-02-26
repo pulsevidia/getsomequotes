@@ -1,31 +1,20 @@
 'use client'
-import {
-  Group,
-  Stack,
-  Modal,
-  Button,
-  Input,
-  Card,
-  BackgroundImage,
-  Text,
-  ActionIcon,
-  useMantineTheme,
-  useComputedColorScheme,
-} from "@mantine/core";
-import { FileArrowUp, Sparkle, Trash } from "@phosphor-icons/react";
+import { Group, Stack, Modal, Button, Input, Card, BackgroundImage, Text, ActionIcon, useMantineTheme, useComputedColorScheme, Loader, Slider, Badge, } from "@mantine/core";
+import { Book, FileArrowUp, Sparkle, Trash } from "@phosphor-icons/react";
 import { dark_theme } from "@/app/config/theme";
 import "./Uploaded.css";
 import { Dropzone, MIME_TYPES, PDF_MIME_TYPE } from "@mantine/dropzone";
 import toast from "react-hot-toast";
 import { cardShadows } from "@/app/utils/shadows";
-import { afacad_flux } from "@/app/font";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { afacad_flux, } from "@/app/font";
+import { useMutation, useQuery, } from "@tanstack/react-query";
 import { useAuth } from "@clerk/nextjs";
 import { useState } from "react";
 import { useModelContext } from "../contexts/ModelProvider";
 import { useUser } from "@clerk/clerk-react";
 import { postPDF } from "../server-functions/postPDF";
 import { getSubscription } from "@/appwrite/get/getSubscription";
+import { getTokenPlan } from "../server-functions/getTokenPlan";
 
 function PDFUploadModalProvider() {
   const { user } = useUser();
@@ -33,15 +22,29 @@ function PDFUploadModalProvider() {
   const { opened, close } = useModelContext();
   const [currentImage, setCurrentImage] = useState(null);
   const imageArray = Array.from({ length: 100 }, (_, i) => `${i + 1}.jpg`);
+  const [sliderState, setSliderState] = useState(null)
+  const [sliderVal, setSliderVal] = useState(0)
+
+  // const queryClient = useQueryClient();
+  // const { } = queryClient.getQueryData(["blog"]);
 
   function chooseRandomImage() {
     setCurrentImage(`/compress-cats/${imageArray[Math.floor(Math.random() * imageArray.length)]}`);
   }
 
+  function roundToClosestFactorOf100(num) {
+    const factors = [1, 2, 4, 5, 10, 20, 25, 50, 100];
+    return factors.reduce((closest, factor) =>
+      Math.abs(num - factor) < Math.abs(num - closest) ? factor : closest
+    );
+  }
+
   const [book, setBook] = useState(null);
   const [authorName, setAuthorName] = useState(null);
   const [bookTitle, setBookTitle] = useState(null);
+  const [plan, setPlan] = useState(null)
   const colorScheme = useComputedColorScheme()
+  // const [count, handlers] = useCounter(plan?.possiblePercentageJump, { min: plan?.possiblePercentageJump, max: 100 });
 
   const { getToken } = useAuth()
 
@@ -63,15 +66,39 @@ function PDFUploadModalProvider() {
     },
   });
 
+  function tokenPlanOnSuccess({ possiblePercentangeJump }) {
+    const closestTo100 = roundToClosestFactorOf100(possiblePercentangeJump);
+
+    const marks = Array.from({
+      length: Math.floor(100 / closestTo100) + 1
+    }).map((_, index) => ({
+      value: (index + 1) * closestTo100
+    }))
+
+    setSliderVal(closestTo100)
+
+    setSliderState({
+      defaultValue: closestTo100,
+      marks,
+      min: closestTo100,
+    });
+
+    return;
+  }
+
+  const { data: tokenPlanData, mutateAsync: getTheTokenPlan, status: tokenPlanStatus } = useMutation({
+    mutationFn: getTokenPlan,
+    onSuccess: tokenPlanOnSuccess,
+    onError: (err) => {
+      toast.error('Something gone wrong our side');
+    },
+  });
+
   const { data, isLoading, isSuccess } = useQuery({
     queryKey: ["blog"],
     queryFn: () => getSubscription({ getToken }),
   })
-
-
-
-  const calcPDFSize = (subscription_type, isActiveSubscription) => isActiveSubscription ? subscription_type == 'avid_reader' ? 20 * 1024 ** 2 : 10 * 1024 ** 2 : 5 * 1024 ** 2
-
+  const calcPDFSize = (subscription_type, isActiveSubscription) => isActiveSubscription && subscription_type === 'reader' ? 20 * 1024 ** 2 : 10 * 1024 ** 2
 
   return (
     <Modal
@@ -124,11 +151,10 @@ function PDFUploadModalProvider() {
       {book && (
         <Card
           withBorder
-          shadow={cardShadows.md}
           bg={colorScheme === "dark" ? dark_theme.nav_link_dark_color : "#f1f3f5"}
           mt={"sm"}
           padding="xs"
-          radius="xl"
+          radius="md"
         >
           <Group wrap="nowrap" justify="space-between">
             <Group wrap="nowrap" gap={"xs"}>
@@ -143,20 +169,51 @@ function PDFUploadModalProvider() {
                   {authorName}
                 </Text>
               </Stack>
-            </Group>
-            <ActionIcon
-              disabled={status === "pending"}
-              onClick={() => setBook(null)}
-              mr={"xs"}
-              size={"lg"}
-              radius={"xl"}
-              variant="light"
-              color="red"
-              aria-label="Settings"
-            >
-              <Trash size={19} color="#ed333b" />
-            </ActionIcon>
+            </Group>{
+            }
+            {
+              tokenPlanStatus === 'success' &&
+              <ActionIcon
+                disabled={status === "pending"}
+                onClick={() => setBook(null)}
+                mr={"xs"}
+                size={"lg"}
+                radius={"xl"}
+                variant="light"
+                color="red"
+                aria-label="Settings"
+              >
+                <Trash size={19} color="#ed333b" />
+              </ActionIcon>
+            }
+            {
+              tokenPlanStatus === 'pending' && <Loader color={colorScheme == 'dark' ? dark_theme.main_text_color : 'dark'} size={'xs'} />
+            }
           </Group>
+          {
+            tokenPlanStatus === 'success' &&
+
+            <Stack gap={'xs'} mt={'xs'}>
+              <Slider
+                onChange={setSliderVal}
+                restrictToMarks
+                value={sliderVal}
+                color={colorScheme === 'dark' ? dark_theme.main_text_color : 'dark'}
+                thumbChildren={<Book size={16} color={colorScheme === 'dark' && dark_theme.main_text_color} />}
+                defaultValue={sliderState.defaultValue}
+                thumbSize={28}
+                display={sliderState.defaultValue === 100 && 'none'}
+                label={null}
+                max={100}
+                min={sliderState.min}
+                marks={sliderState.marks}
+              />
+              <Group gap={'xs'}>
+                <Badge size="sm" variant="light" c={colorScheme === 'dark' ? dark_theme.main_text_color : 'dark'}>Covered: {sliderVal}%</Badge>
+                <Badge size="md" variant="light" c={colorScheme === 'dark' ? dark_theme.main_text_color : 'dark'}>Blogs: {(sliderVal / sliderState.defaultValue) * 6}</Badge>
+              </Group>
+            </Stack>
+          }
         </Card>
       )}
       <Dropzone
@@ -167,9 +224,14 @@ function PDFUploadModalProvider() {
             background: "none",
           },
         }}
+
         onDrop={async (file) => {
           setBook(file);
           chooseRandomImage();
+          await getTheTokenPlan({ getToken, file })
+          if (tokenPlanStatus === 'success') {
+            setPlan(tokenPlanData)
+          }
         }}
         onReject={() => {
           toast.error(`Should not exceed ${isSuccess && Math.floor(calcPDFSize(data.subscription_type, data.isActiveSubscription) / 1000000)}MB`);
@@ -202,25 +264,24 @@ function PDFUploadModalProvider() {
           </Stack>
         )}
       </Dropzone>
-      {/* ) : null} */}
+
       {
         book && (
           <Button
             variant="filled"
             mt={"md"}
             styles={{ section: { marginInlineEnd: "5px" } }}
-            style={{ boxShadow: cardShadows.md }}
             leftSection={
-              <Sparkle color={colorScheme === "dark" ? 'dark' : "white"} size={18} weight="fill" />
+              <Sparkle color={'black'} size={18} weight="fill" />
             }
             size="sm"
             fullWidth
             fw={400}
-            c={colorScheme === "dark" ? 'black' : "black"}
+            c={'dark'}
             bg={colorScheme === "dark" ? dark_theme.main_text_color : theme.colors.gray[2]}
 
             radius="md"
-            loaderProps={{ type: "dots", color: colorScheme === "dark" ? dark_theme.secondary_text_color : "white" }}
+            loaderProps={{ type: "dots", color: 'dark' }}
             loading={status === "pending"}
             onClick={async () => {
               await postThePDF({
@@ -230,6 +291,7 @@ function PDFUploadModalProvider() {
                 authorName,
                 bookTitle,
                 currentImage,
+                blogCount: (sliderVal / sliderState.defaultValue)*6
               });
             }}
           >
