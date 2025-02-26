@@ -23,7 +23,6 @@ export async function getSubscription({ getToken }) {
         }
 
         const responseData = await response.json();
-        console.log(responseData);
         
         return responseData;
     } catch (error) {
