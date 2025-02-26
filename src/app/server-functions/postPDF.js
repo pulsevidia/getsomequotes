@@ -1,4 +1,4 @@
-export async function postPDF({ getToken, id, file, authorName, bookTitle, currentImage: book_image, mimetype }) {
+export async function postPDF({ getToken, id, file, authorName, bookTitle, currentImage: book_image, blogCount}) {
   try {
     const currentImageURL = `https://purplenight.hyperingenious.tech/${book_image}`;
 
@@ -12,16 +12,16 @@ export async function postPDF({ getToken, id, file, authorName, bookTitle, curre
 
     const formData = new FormData();
     formData.append("pdf", file[0]); // Attach the file with the key "pdf"
-    console.log(file)
     formData.append("authorName", authorName); // Add authorName
     formData.append("bookTitle", bookTitle); // Add bookTitle
     formData.append("imageUrl", currentImageURL);
     formData.append("user_id", id);
     formData.append("mimetype", file[0].type);
+    formData.append("blogCount", blogCount);
 
     const token = await getToken({ template: "supabase_2" });
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_NODE_SERVER_URL}upload`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_NODE_SERVER_URL}new-upload`, {
       method: "POST",
       body: formData,
       headers: {

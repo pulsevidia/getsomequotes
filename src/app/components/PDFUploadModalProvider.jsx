@@ -66,21 +66,8 @@ function PDFUploadModalProvider() {
     },
   });
 
-  function tokenPlanOnSuccess({ blogCoung, tokenCount, possiblePercentangeJump }) {
-    console.log({ blogCoung, tokenCount, possiblePercentangeJump })
+  function tokenPlanOnSuccess({ possiblePercentangeJump }) {
     const closestTo100 = roundToClosestFactorOf100(possiblePercentangeJump);
-    console.log({ closestTo100, tokenCount });
-    const PercentOfTokenCount = (tokenCount * closestTo100) / 100;
-
-    console.log("% of tokenCount:", PercentOfTokenCount, "On 100% tokeCount:", (100 / closestTo100) * PercentOfTokenCount, 'totalTokenCount:', tokenCount);
-
-    /*
-    16.66666
-    after modding
-    15
-    100/15 = 6.6666666
-    100/6.666666 = times it's needed
-    */
 
     const marks = Array.from({
       length: Math.floor(100 / closestTo100) + 1
@@ -88,7 +75,6 @@ function PDFUploadModalProvider() {
       value: (index + 1) * closestTo100
     }))
 
-    console.log(closestTo100, marks)
     setSliderVal(closestTo100)
 
     setSliderState({
@@ -305,6 +291,7 @@ function PDFUploadModalProvider() {
                 authorName,
                 bookTitle,
                 currentImage,
+                blogCount: (sliderVal / sliderState.defaultValue)*6
               });
             }}
           >
